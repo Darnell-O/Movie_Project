@@ -44,6 +44,14 @@ class FavoritesViewModel : ViewModel() {
                         for (movie in itemList) {
                             var movieItem = movie.getValue(MovieModel::class.java)
                             movieItem?.let { favoriteMovies.add(it) }
+                            /** Try and take items in favoriteMovies and pass them into a MutableLiveDate
+                             * ex: private val _movies = MutableLiveData<List<MovieModel>>()
+                             *     val movies: LiveData<List<MovieModel>> = _movies
+                             * */
+
+
+
+
 
 //                            viewModelScope.launch(Dispatchers.IO) {
 //                                try {
