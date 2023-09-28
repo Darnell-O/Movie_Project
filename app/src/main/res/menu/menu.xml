@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:drawable="@drawable/icon"
+        android:icon="@drawable/outline_home"
+        android:title="@string/home" />
+
+
+    <item
+        android:id="@+id/search_Fragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:drawable="@drawable/icon"
+        android:icon="@drawable/outline_search"
+        android:title="@string/search" />
+
+    <item
+        android:id="@+id/leaderboard_Fragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:icon="@drawable/outline_leaderboard"
+        android:drawable="@drawable/icon"
+        android:title="@string/leaderboard" />
+
+    <item
+        android:id="@+id/favoritesFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:icon="@drawable/favorite_border"
+        android:drawable="@drawable/icon"
+        android:title="@string/favorite" />
+
+    <item
+        android:id="@+id/forumFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:icon="@drawable/outline_forum"
+        android:drawable="@drawable/icon"
+        android:title="@string/forum" />
+
+
+</menu>

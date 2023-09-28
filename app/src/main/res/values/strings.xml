@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Movie_Project</string>
+    <string name="movie_project">Movie Project</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="confirm_hint_password">Confirm Password</string>
+    <string name="button_next">Next</string>
+    <string name="button_login">Login</string>
+    <string name="button_continue">Continue</string>
+    <string name="button_signup">Sign Up</string>
+    <string name="google_signup_button">Sign Up w/ Google</string>
+    <string name="dont_have_an_account">Don\'t have an Account?</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="favorite">Favorite</string>
+    <string name="forum">Forum</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Logout</string>
+    <string name="email">Email</string>
+</resources>
