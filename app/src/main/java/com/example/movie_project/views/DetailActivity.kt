@@ -55,7 +55,7 @@ class DetailActivity : AppCompatActivity() {
         binding.tvOverviewDetailActivity.text = movieOverview
         binding.tvTitleDetailActivity.text = movieTitle
         binding.tvReleaseDateDetailActivity.text = movieReleaseDate
-       // binding.tvVoteAverageDetailActivity.text = movieVoteAverage.toString()
+//        binding.tvVoteAverageDetailActivity.text = movieVoteAverage.toString()
 
 
         binding.heartButton.setOnClickListener {
@@ -84,7 +84,6 @@ class DetailActivity : AppCompatActivity() {
                 if (unFavUserId != null) {
                     val unFavMovie_Id = movieTitle.toString()
                     val databaseReference = FirebaseDatabase.getInstance().reference
-                    //Update the database
                     databaseReference.child(unFavUserId).child("favorites")
                         .child(unFavMovie_Id).removeValue().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
