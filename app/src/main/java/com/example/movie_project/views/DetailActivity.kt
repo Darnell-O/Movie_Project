@@ -1,5 +1,6 @@
 package com.example.movie_project.views
 
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +20,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var isFavorite = false
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
     private val BUTTON_STATE_KEY = "button_state"
     private val userId = FirebaseAuth.getInstance().currentUser?.uid
     private val firebaseDatabaseReference = FirebaseDatabase.getInstance().getReference("favorites")
@@ -32,6 +34,11 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbarDetailActivity.setNavigationOnClickListener { onBackPressed() }
+        //Shared Preferences
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+        isFavorite = sharedPreferences.getBoolean("is_favorite", false)
+        updateLikeButton()
 
         val movieId = intent.getIntExtra("itemId", 0)
         val movieTitle = intent.getStringExtra("itemTitle")
@@ -60,8 +67,13 @@ class DetailActivity : AppCompatActivity() {
 
         binding.heartButton.setOnClickListener {
             isFavorite = !isFavorite
+            // Save the like button state in shared preferences
+            editor.putBoolean("is_favorite", isFavorite)
+            editor.apply()
+            // Update the like button image
+            updateLikeButton()
             if (isFavorite) {
-                binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
+                //binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
                 if (userId != null && movieKey != null) {
                     databaseReference.child(movieKey).setValue(movie).addOnCompleteListener { task ->
                             if (task.isSuccessful) {
@@ -79,7 +91,7 @@ class DetailActivity : AppCompatActivity() {
 
                 }
             } else {
-                binding.heartButton.setImageResource(R.drawable.heart_button)
+                //binding.heartButton.setImageResource(R.drawable.heart_button)
                 val unFavUserId = FirebaseAuth.getInstance().currentUser?.uid
                 if (unFavUserId != null) {
                     val unFavMovie_Id = movieTitle.toString()
@@ -104,6 +116,14 @@ class DetailActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun updateLikeButton() {
+        if (isFavorite) {
+            binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
+        } else {
+            binding.heartButton.setImageResource(R.drawable.heart_button)
+        }
     }
 
 
