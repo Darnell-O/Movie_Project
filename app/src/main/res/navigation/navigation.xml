@@ -44,9 +44,9 @@
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/forumFragment"
-        android:name="com.example.movie_project.views.ForumFragment"
+        android:name="com.example.movie_project.views.MessagingFragment"
         android:label="fragment_forum"
-        tools:layout="@layout/fragment_forum" />
+        tools:layout="@layout/fragment_messaging" />
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.movie_project.views.DetailFragment"

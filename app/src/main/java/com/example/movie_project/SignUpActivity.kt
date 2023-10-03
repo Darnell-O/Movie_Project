@@ -58,6 +58,7 @@ class SignUpActivity : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(userName, password)
                         .addOnCompleteListener { it ->
                             if (it.isSuccessful) {
+                                /**Add hashmap for storage later*/
                                 val intent = Intent(this, Login_Activity::class.java)
                                 startActivity(intent)
 //                                intent.putExtra("userName", userName)

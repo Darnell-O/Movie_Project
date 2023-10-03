@@ -59,7 +59,7 @@
         android:layout_alignParentBottom="true"
         android:icon="@drawable/outline_forum"
         android:drawable="@drawable/icon"
-        android:title="@string/forum" />
+        android:title="@string/messaging" />
 
 
 </menu>
