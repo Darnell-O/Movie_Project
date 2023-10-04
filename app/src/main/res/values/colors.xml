@@ -6,5 +6,6 @@
     <color name="very_light_purple">#f3f0fb</color>
     <color name="icon_text_color">#49454F</color>
     <color name="colorLightGray">#b4b4b4</color>
+    <color name="colorBlue">#2962FF</color>
 
 </resources>

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Movie_Project"
         tools:targetApi="31">
         <activity
+            android:name=".views.MessagingActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.DetailActivity"
             android:exported="false" />
         <activity
