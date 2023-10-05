@@ -25,6 +25,7 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this,"Good bye!!", Toast.LENGTH_LONG)
                 .show()
             val intent = Intent(this, Login_Activity::class.java)
+            finish()
             startActivity(intent)
         }
     }

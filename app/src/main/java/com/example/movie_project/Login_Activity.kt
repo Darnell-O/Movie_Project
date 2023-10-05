@@ -39,6 +39,7 @@ class Login_Activity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val intent = Intent(this, MainActivity::class.java)
+                            finish()
                             startActivity(intent)
                             Toast.makeText(this, "Welcome back $loginUserName", Toast.LENGTH_LONG)
                                 .show()

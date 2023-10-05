@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.movie_project.databinding.FragmentHomeBinding
 import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.UsersModel
 
 
 class HomeFragment : Fragment(), MovieClickListener {
@@ -62,6 +63,8 @@ class HomeFragment : Fragment(), MovieClickListener {
         intent.putExtras(bundle)
         startActivity(intent)
     }
+
+
 
 
 }

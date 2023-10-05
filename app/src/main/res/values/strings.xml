@@ -14,9 +14,12 @@
     <string name="search">Search</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="favorite">Favorite</string>
-    <string name="forum">Forum</string>
+    <string name="messages">Messages</string>
+    <string name="sent_messages">Sent Messages</string>
+    <string name="received_messages">Received Messages</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">Logout</string>
     <string name="email">Email</string>
+    <string name="holder_username">holder username</string>
 </resources>
