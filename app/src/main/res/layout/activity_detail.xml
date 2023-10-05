@@ -32,11 +32,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:titleTextAppearance="@style/headline"
-            android:fontFamily = "@font/shrikhand"
+            android:textColor="@color/iris"
             android:textAppearance="@style/headline"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+            <!-- Profile image to the right with padding -->
+            <ImageView
+                android:id="@+id/toolbar_profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/round_account_circle_24"/>
         </androidx.appcompat.widget.Toolbar>
 
             <androidx.cardview.widget.CardView

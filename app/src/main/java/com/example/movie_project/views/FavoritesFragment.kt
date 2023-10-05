@@ -31,6 +31,11 @@ class FavoritesFragment : Fragment(), MovieClickListener {
         val binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.favoritesRecyclerView.adapter = favMovieListAdapter
+        binding.toolbarFavoriteActivity.title = "Favorites"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(activity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
         favMovieListAdapter.setClickListener(this)
         favViewModel.favorites.observe(viewLifecycleOwner) { favorites ->
             favMovieListAdapter.updateMovieList(favorites)

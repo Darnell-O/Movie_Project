@@ -28,7 +28,11 @@ class HomeFragment : Fragment(), MovieClickListener {
 
         binding.lifecycleOwner = this
         viewModel.fetchMovies()
-        binding.toolbar.title = "Popular Movies"
+        binding.toolbarHomeActivity.title = "Popular Movies"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(activity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 //        val activity = activity as AppCompatActivity?
 //        activity?.setSupportActionBar(binding.toolbar)
 //        activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)

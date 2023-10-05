@@ -37,7 +37,7 @@ class UsersAdapter(
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
         val users = userList[position]
         users?.let {
-            holder.view.users.email = it.email
+            holder.view.users?.email = it.email
         }
 
         holder.view.cardView.setOnClickListener {

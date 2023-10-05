@@ -18,6 +18,10 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbarProfileActivity.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbarProfileActivity.title = "Profile"
+
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.logoutButton.setOnClickListener {

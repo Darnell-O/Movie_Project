@@ -1,5 +1,6 @@
 package com.example.movie_project.views
 
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -32,6 +33,11 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbarDetailActivity.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbarDetailActivity.title = "Movie Details"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         val movieId = intent.getIntExtra("itemId", 0)
         val movieTitle = intent.getStringExtra("itemTitle")

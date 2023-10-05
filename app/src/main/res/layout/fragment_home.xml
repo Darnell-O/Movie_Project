@@ -18,18 +18,32 @@
         tools:context=".views.HomeFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="398dp"
-            android:layout_height="54dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/shrikhand"
-            android:gravity="center"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+            android:id="@+id/toolbar_home_activity"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:titleTextAppearance="@style/headline" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="@style/headline"
+                android:textColor="@color/iris"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <!-- Profile image to the right with padding -->
+            <ImageView
+                android:id="@+id/toolbar_profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/round_account_circle_24" />
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -44,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_home_activity"
             app:spanCount="2"
             tools:listitem="@layout/item_movie_card" />
     </androidx.constraintlayout.widget.ConstraintLayout>
