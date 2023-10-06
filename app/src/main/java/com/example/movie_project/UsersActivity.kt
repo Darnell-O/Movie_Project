@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.databinding.ActivityUsersBinding
 import com.example.movie_project.models.UsersModel
 import com.example.movie_project.views.MessagesActivity
+import com.example.movie_project.views.ProfileActivity
 import com.example.movie_project.views.UserClickListener
 import com.example.movie_project.views.UsersAdapter
 import com.google.firebase.auth.FirebaseAuth
@@ -31,6 +32,13 @@ class UsersActivity : AppCompatActivity(), UserClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbarUserActivity.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbarUserActivity.title = "Users"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         firebaseAuth = FirebaseAuth.getInstance()
         usersDatabase = FirebaseDatabase.getInstance().getReference()

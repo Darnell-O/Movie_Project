@@ -100,6 +100,31 @@
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
             android:textSize="18sp" />
+
+<!--        <Button-->
+<!--            android:id="@+id/textButton"-->
+<!--            style="@style/Widget.Material3.Button.TextButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="12dp"-->
+<!--            android:layout_marginRight="12dp"-->
+<!--            android:text="@string/already_have_an_account_login"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/iris" />-->
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/textButton"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/already_have_an_account_login"
+        android:textAlignment="center"
+        android:textColor="@color/iris"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,10 @@ class FavoritesFragment : Fragment(), MovieClickListener {
         val binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.favoritesRecyclerView.adapter = favMovieListAdapter
-        binding.toolbarFavoriteActivity.title = "Favorites"
+        binding.toolbarFavoritesActivity.title = "Favorites"
+        binding.toolbarFavoritesActivity?.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
         binding.toolbarProfileImage.setOnClickListener {
             val intent = Intent(activity, ProfileActivity::class.java)
             startActivity(intent)

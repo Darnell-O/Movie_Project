@@ -15,37 +15,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".views.DetailActivity">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_detail_activity"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="?attr/homeAsUpIndicator" >
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/iris"
-            android:textAppearance="@style/headline"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            tools:context=".views.DetailActivity">
 
-            <!-- Profile image to the right with padding -->
-            <ImageView
-                android:id="@+id/toolbar_profile_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/round_account_circle_24"/>
-        </androidx.appcompat.widget.Toolbar>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_detail_activity"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="?attr/homeAsUpIndicator">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAppearance="@style/headline"
+                    android:textColor="@color/iris"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:titleCentered="true" />
+
+                <ImageView
+                    android:id="@+id/toolbar_profile_image"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/round_account_circle_24" />
+            </com.google.android.material.appbar.MaterialToolbar>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -81,34 +81,28 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-        <ImageView
-            android:id="@+id/heartButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/heart_button"
-            android:contentDescription="Favorite Button" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/tv_vote_average_detail_activity"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="8dp"-->
-<!--                android:textColor="@android:color/black"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textStyle="bold" />-->
+            <ImageView
+                android:id="@+id/heartButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Favorite Button"
+                android:src="@drawable/heart_button" />
 
             <TextView
                 android:id="@+id/tv_overview_detail_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-    </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </layout>

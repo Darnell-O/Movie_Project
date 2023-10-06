@@ -49,6 +49,11 @@ class SignUpActivity : AppCompatActivity() {
             signInGoogle()
         }
 
+        binding.textButton.setOnClickListener {
+            val intent = Intent(this, Login_Activity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     fun signUp() {

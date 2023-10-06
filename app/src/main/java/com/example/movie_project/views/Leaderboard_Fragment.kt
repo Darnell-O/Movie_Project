@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.movie_project.R
+import com.example.movie_project.databinding.FragmentLeaderboardBinding
 
 
 class Leaderboard_Fragment : Fragment() {
@@ -15,6 +15,10 @@ class Leaderboard_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboard_, container, false)
+        val binding = FragmentLeaderboardBinding.inflate(inflater, container, false)
+
+        binding.toolbarLeaderboardActivity.title = "Leader Board"
+
+        return binding.root
     }
 }

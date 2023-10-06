@@ -22,4 +22,5 @@
     <string name="logout">Logout</string>
     <string name="email">Email</string>
     <string name="holder_username">holder username</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
 </resources>
