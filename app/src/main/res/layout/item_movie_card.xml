@@ -27,8 +27,8 @@
 
             <ImageView
                 android:id="@+id/posterImageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="181dp"
+                android:layout_height="171dp"
                 android:scaleType="fitXY"
                 android:imageUrl="@{movie.poster_path}"
                 android:src="@drawable/movie_placeholder" />

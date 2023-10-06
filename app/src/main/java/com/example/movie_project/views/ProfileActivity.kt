@@ -18,6 +18,10 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolbarProfileActivity.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbarProfileActivity.title = "Profile"
+
+
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.logoutButton.setOnClickListener {
@@ -25,6 +29,7 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this,"Good bye!!", Toast.LENGTH_LONG)
                 .show()
             val intent = Intent(this, Login_Activity::class.java)
+            finish()
             startActivity(intent)
         }
     }

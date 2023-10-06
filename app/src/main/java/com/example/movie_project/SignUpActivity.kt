@@ -7,6 +7,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.movie_project.databinding.ActivitySignUpBinding
+import com.example.movie_project.models.UsersModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -14,11 +15,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var db: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +49,11 @@ class SignUpActivity : AppCompatActivity() {
             signInGoogle()
         }
 
+        binding.textButton.setOnClickListener {
+            val intent = Intent(this, Login_Activity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     fun signUp() {
@@ -58,11 +69,12 @@ class SignUpActivity : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(userName, password)
                         .addOnCompleteListener { it ->
                             if (it.isSuccessful) {
+                                addUserToDatabase(userName, firebaseAuth.uid.toString())
                                 val intent = Intent(this, Login_Activity::class.java)
                                 startActivity(intent)
-//                                intent.putExtra("userName", userName)
+                                intent.putExtra("userName", userName)
 //                                intent.putExtra("password", password)
-//                                setResult(RESULT_OK, intent)
+                                setResult(RESULT_OK, intent)
                                 finish()
                             } else {
                                 Toast.makeText(
@@ -104,6 +116,11 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun addUserToDatabase(email: String, uid: String) {
+        db = FirebaseDatabase.getInstance().getReference("users")
+        val user = UsersModel(email, uid)
+        db.child("user").child(uid).setValue(user)
+    }
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->

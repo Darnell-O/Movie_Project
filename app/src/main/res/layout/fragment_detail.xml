@@ -33,12 +33,12 @@
 
         <TextView
             android:id="@+id/tv_detailTitle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="@{movie.title}"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <TextView
@@ -61,7 +61,7 @@
             android:paddingBottom="8dp"
             android:text="@{movie.overview}"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="24sp" />
 
     </LinearLayout>
 

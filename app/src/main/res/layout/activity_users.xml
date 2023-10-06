@@ -3,28 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="response"
-            type="com.example.movie_project.models.MovieResponse" />
-    </data>
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        tools:context=".views.Search_Fragment">
+        tools:context=".UserActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_search_activity"
+            android:id="@+id/toolbar_user_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintBottom_toTopOf="@id/searchView"
+            app:layout_constraintBottom_toTopOf="@id/users_recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="?attr/homeAsUpIndicator">
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -43,39 +37,25 @@
                 android:layout_height="40dp"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/round_account_circle_24"
-                />
+                android:src="@drawable/round_account_circle_24" />
         </com.google.android.material.appbar.MaterialToolbar>
 
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:background="@color/white"
-            android:focusable="false"
-            app:layout_constraintBottom_toTopOf="@+id/search_recyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_search_activity"  />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_recyclerView"
-            android:layout_width="0dp"
+            android:id="@+id/users_recyclerView"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:clipToPadding="false"
             android:padding="8dp"
             android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView"
-            app:spanCount="2"
-            tools:listitem="@layout/item_movie_card" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar_user_activity"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/users_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

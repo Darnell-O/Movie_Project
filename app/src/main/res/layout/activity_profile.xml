@@ -6,18 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".views.ProfileActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_profile_activity"
+        android:layout_width="411dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/headline"
+            android:textColor="@color/iris"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/logout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/logoutButton"
+        android:layout_width="371dp"
+        android:layout_height="64dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_toStartOf="@id/logout_button"
-        android:layout_toLeftOf="@id/logout_button"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/custome_background"
+        android:backgroundTint="@color/iris"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:text="@string/logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

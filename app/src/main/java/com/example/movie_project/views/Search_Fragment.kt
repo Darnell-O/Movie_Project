@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
+import com.example.movie_project.MainActivity
 import com.example.movie_project.R
 import com.example.movie_project.databinding.FragmentSearchBinding
 import com.example.movie_project.models.MovieModel
@@ -27,6 +28,12 @@ class Search_Fragment : Fragment(), MovieClickListener {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        binding.toolbarSearchActivity.title = "Search"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(activity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.lifecycleOwner = this
         binding.searchRecyclerView.adapter = searchAdapter
