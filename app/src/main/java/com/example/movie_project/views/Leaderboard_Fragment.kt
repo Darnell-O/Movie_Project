@@ -1,5 +1,6 @@
 package com.example.movie_project.views
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,8 +17,11 @@ class Leaderboard_Fragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentLeaderboardBinding.inflate(inflater, container, false)
-
         binding.toolbarLeaderboardActivity.title = "Leader Board"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(activity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         return binding.root
     }

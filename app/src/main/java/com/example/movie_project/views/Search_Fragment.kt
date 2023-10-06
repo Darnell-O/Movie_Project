@@ -30,6 +30,10 @@ class Search_Fragment : Fragment(), MovieClickListener {
         val binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         binding.toolbarSearchActivity.title = "Search"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(activity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.lifecycleOwner = this
         binding.searchRecyclerView.adapter = searchAdapter
