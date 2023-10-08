@@ -9,11 +9,16 @@ import com.example.movie_project.models.MovieModel
 
 
 class FavoritesAdapter(
-    private val movieList: ArrayList<MovieModel>,
+    val movieList: ArrayList<MovieModel>,
     private var clickListener: MovieClickListener? = null
 
 ) :
     RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>() {
+
+    fun removeItem(position: Int) {
+        movieList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     fun setClickListener(clickListener: MovieClickListener) {
         this.clickListener = clickListener

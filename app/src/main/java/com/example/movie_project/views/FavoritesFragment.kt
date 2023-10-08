@@ -42,6 +42,12 @@ class FavoritesFragment : Fragment(), MovieClickListener {
         favMovieListAdapter.setClickListener(this)
         favViewModel.favorites.observe(viewLifecycleOwner) { favorites ->
             favMovieListAdapter.updateMovieList(favorites)
+            favMovieListAdapter.removeItem(findPositionToRemove(favorites[0]))
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            favViewModel.fetchFavorites()
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
         return binding.root
@@ -65,6 +71,24 @@ class FavoritesFragment : Fragment(), MovieClickListener {
         movie?.release_date?.let { bundle.putString("itemReleaseDate", it) }
         intent.putExtras(bundle)
         startActivity(intent)
+
+
+    }
+
+
+
+
+    private fun findPositionToRemove(movie: MovieModel): Int {
+        // Find the position of the movie in the list based on some unique identifier
+        // You need to implement this logic based on how your items are uniquely identified.
+        // If you're using movie IDs, you can iterate through the list and find the position.
+        val movieIdToRemove = movie.id
+        for ((position, item) in favMovieListAdapter.movieList.withIndex()) {
+            if (item.id == movieIdToRemove) {
+                return position
+            }
+        }
+        return -1 // Return -1 if not found (handle this case accordingly)
     }
 
 }
