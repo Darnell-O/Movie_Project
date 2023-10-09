@@ -71,9 +71,10 @@ class SignUpActivity : AppCompatActivity() {
                             if (it.isSuccessful) {
                                 addUserToDatabase(userName, firebaseAuth.uid.toString())
                                 val intent = Intent(this, Login_Activity::class.java)
-                                startActivity(intent)
+//                                startActivity(intent)
                                 intent.putExtra("userName", userName)
-//                                intent.putExtra("password", password)
+                                intent.putExtra("password", password)
+                                startActivity(intent)
                                 setResult(RESULT_OK, intent)
                                 finish()
                             } else {

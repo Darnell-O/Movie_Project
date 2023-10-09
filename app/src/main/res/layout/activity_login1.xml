@@ -19,12 +19,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="132dp"
-            android:text="@string/movie_project" />
+            android:src="@drawable/movie_icon"  />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_username_container"
@@ -38,7 +38,6 @@
                 android:id="@+id/login_user_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custome_background"
                 android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -57,7 +56,6 @@
                 android:id="@+id/login_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/custome_background"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,7 +75,6 @@
                 android:layout_toStartOf="@id/login_button"
                 android:layout_toLeftOf="@id/login_button"
                 android:backgroundTint="@color/iris"
-                android:background="@drawable/custome_background"
                 android:text="@string/button_login" />
 
             <com.google.android.material.button.MaterialButton
@@ -89,7 +86,7 @@
                 android:layout_marginRight="12dp"
                 android:layout_toStartOf="@id/login_button"
                 android:layout_toLeftOf="@id/login_button"
-                android:background="@drawable/custome_background"
+                android:textColor="@color/iris"
                 android:text="@string/button_signup" />
 
         </LinearLayout>
