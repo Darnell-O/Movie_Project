@@ -87,16 +87,33 @@
             android:layout_marginRight="12dp"
             android:text="@string/button_signup" />
 
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/google_signup_button"
+        <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="Text"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:textSize="18sp" />
+            android:backgroundTint="@color/white"
+            android:text="@string/sign_in_with_google"
+            android:textColor="@color/black"
+            android:id="@+id/google_signup_button"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            app:iconTint="@color/black"
+            app:icon="@drawable/google_logo"
+            app:iconSize="20dp"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+
+
+            />
+
+<!--        <com.google.android.gms.common.SignInButton-->
+<!--            android:id="@+id/google_signup_button"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:text="Text"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:textSize="18sp" />-->
 
     </LinearLayout>
 
