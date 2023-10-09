@@ -31,7 +31,7 @@
                 android:layout_height="171dp"
                 android:scaleType="fitXY"
                 android:imageUrl="@{movie.poster_path}"
-                android:src="@drawable/movie_placeholder" />
+                android:src="@drawable/movie_icon" />
 
             <TextView
                 android:id="@+id/titleTextView"
