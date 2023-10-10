@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import com.example.movie_project.databinding.ActivityLogin1Binding
-import com.example.movie_project.views.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class Login_Activity : AppCompatActivity() {

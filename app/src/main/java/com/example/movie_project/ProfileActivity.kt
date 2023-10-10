@@ -1,10 +1,9 @@
-package com.example.movie_project.views
+package com.example.movie_project
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.movie_project.Login_Activity
 import com.example.movie_project.databinding.ActivityProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -18,8 +17,7 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbarProfileActivity.setNavigationOnClickListener { onBackPressed() }
-        binding.toolbarProfileActivity.title = "Profile"
+        binding.profileBackButton.setOnClickListener { onBackPressed() }
 
 
         firebaseAuth = FirebaseAuth.getInstance()

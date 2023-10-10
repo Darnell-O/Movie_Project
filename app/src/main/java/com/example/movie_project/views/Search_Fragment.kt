@@ -2,7 +2,6 @@ package com.example.movie_project.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,8 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
-import com.example.movie_project.MainActivity
-import com.example.movie_project.R
+import com.example.movie_project.ProfileActivity
 import com.example.movie_project.databinding.FragmentSearchBinding
 import com.example.movie_project.models.MovieModel
 
