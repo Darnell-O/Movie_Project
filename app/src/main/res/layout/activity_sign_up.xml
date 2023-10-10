@@ -82,9 +82,7 @@
             android:id="@+id/signup_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
             android:backgroundTint="@color/iris"
-            android:layout_marginRight="12dp"
             android:text="@string/button_signup" />
 
         <com.google.android.material.button.MaterialButton
