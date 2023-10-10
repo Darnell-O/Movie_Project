@@ -5,15 +5,14 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.movie_project.ProfileActivity
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityDetailBinding
-import com.example.movie_project.databinding.ActivityMainBinding
 import com.example.movie_project.models.MovieModel
 import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseReference
 
 class DetailActivity : AppCompatActivity() {
 

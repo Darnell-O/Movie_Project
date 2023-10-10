@@ -2,22 +2,15 @@ package com.example.movie_project.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import com.example.movie_project.R
+import com.example.movie_project.ProfileActivity
 import com.example.movie_project.databinding.FragmentFavoritesBinding
 import com.example.movie_project.models.MovieModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 class FavoritesFragment : Fragment(), MovieClickListener {
 

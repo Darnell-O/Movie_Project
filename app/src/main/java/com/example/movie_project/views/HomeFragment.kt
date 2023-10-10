@@ -8,11 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import com.example.movie_project.ProfileActivity
 import com.example.movie_project.databinding.FragmentHomeBinding
 import com.example.movie_project.models.MovieModel
-import com.example.movie_project.models.UsersModel
 
 
 class HomeFragment : Fragment(), MovieClickListener {

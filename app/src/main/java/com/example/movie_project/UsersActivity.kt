@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.databinding.ActivityUsersBinding
 import com.example.movie_project.models.UsersModel
 import com.example.movie_project.views.MessagesActivity
-import com.example.movie_project.views.ProfileActivity
 import com.example.movie_project.views.UserClickListener
 import com.example.movie_project.views.UsersAdapter
 import com.google.firebase.auth.FirebaseAuth
