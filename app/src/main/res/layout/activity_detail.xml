@@ -38,7 +38,7 @@
                     android:textStyle="bold"
                     app:titleCentered="true" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/toolbar_profile_image"
                     android:layout_width="40dp"
                     android:layout_height="40dp"

@@ -55,7 +55,7 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    
+
                     <TextView
                         android:layout_weight="1"
                         android:text="info"
@@ -108,8 +108,9 @@
 
     </RelativeLayout>
     <com.google.android.material.imageview.ShapeableImageView
-        android:src="@drawable/round_account_circle_24"
+        android:src="@drawable/bw_stockphoto3"
         app:shapeAppearanceOverlay="@style/Circular"
+        android:scaleType="fitXY"
         android:elevation="15dp"
         android:padding="5dp"
         android:layout_centerHorizontal="true"
