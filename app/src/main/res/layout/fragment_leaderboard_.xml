@@ -13,12 +13,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/light_white"
         tools:context=".views.FavoritesFragment" >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_leaderboard_activity"
         android:layout_width="match_parent"
+        android:background="@color/light_white"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,5 +46,18 @@
             />
     </com.google.android.material.appbar.MaterialToolbar>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Leaderboard Coming Soon!"
+            android:textSize="32sp"
+            android:textColor="@color/dark_grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard_activity" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </layout>

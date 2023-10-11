@@ -10,42 +10,45 @@
     card_view:cardCornerRadius="5dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/light_white"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:padding="3dp"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
             <ImageView
-                android:padding="2dp"
-                android:src="@drawable/ic_phone"
                 android:layout_width="30dp"
-                android:layout_height="30dp"/>
+                android:layout_height="30dp"
+                android:padding="2dp"
+                android:src="@drawable/ic_phone" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
                 android:text="Mobile"
+                android:textColor="@color/dark_grey"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1234567890"
-            android:textSize="18sp"
             android:layout_marginStart="25dp"
             android:layout_marginBottom="15dp"
+            android:text="1234567890"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
 
             >
 

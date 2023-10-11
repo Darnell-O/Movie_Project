@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/light_white"
         tools:context=".views.Search_Fragment">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -53,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_margin="8dp"
-            android:background="@color/white"
+            android:background="@color/light_white"
             android:focusable="false"
             app:layout_constraintBottom_toTopOf="@+id/search_recyclerView"
             app:layout_constraintEnd_toEndOf="parent"

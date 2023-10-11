@@ -23,7 +23,7 @@
         android:fontFamily="@font/shrikhand"
         android:textStyle="italic"
         android:textSize="28sp"
-        android:textColor="#1C1B1F"
+        android:textColor="@color/dark_grey"
         android:gravity="top"
         android:lineSpacingExtra="-20sp"
 

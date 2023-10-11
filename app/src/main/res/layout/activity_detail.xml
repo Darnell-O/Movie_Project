@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/dark_grey"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/dark_grey"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -99,7 +99,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/dark_grey"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

@@ -20,6 +20,7 @@
         app:cardCornerRadius="8dp">
 
         <LinearLayout
+            android:background="@color/light_white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -33,6 +34,7 @@
                 android:layout_marginStart="16dp"
                 android:text="@{users.email}"
                 android:fontFamily="@font/shrikhand"
+                android:textColor="@color/dark_grey"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
