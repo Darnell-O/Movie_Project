@@ -97,6 +97,8 @@
             android:text="@string/sign_in_with_google"
             app:iconGravity="textStart"
             app:iconTint="@null"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/iris"
             />
 
     </LinearLayout>
