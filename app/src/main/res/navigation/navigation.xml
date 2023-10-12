@@ -10,50 +10,50 @@
         android:name="com.example.movie_project.views.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_search_Fragment"
-            app:destination="@id/search_Fragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_leaderboard_Fragment"
-            app:destination="@id/leaderboard_Fragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_favoritesFragment"
-            app:destination="@id/favoritesFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_forumFragment"
-            app:destination="@id/forumFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_search_Fragment"-->
+<!--            app:destination="@id/search_Fragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_leaderboard_Fragment"-->
+<!--            app:destination="@id/leaderboard_Fragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_favoritesFragment"-->
+<!--            app:destination="@id/favoritesFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_forumFragment"-->
+<!--            app:destination="@id/forumFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_detailFragment"-->
+<!--            app:destination="@id/detailFragment" />-->
     </fragment>
 
-    <fragment
-        android:id="@+id/search_Fragment"
-        android:name="com.example.movie_project.views.Search_Fragment"
-        android:label="fragment_search_"
-        tools:layout="@layout/fragment_search_" />
-    <fragment
-        android:id="@+id/leaderboard_Fragment"
-        android:name="com.example.movie_project.views.Leaderboard_Fragment"
-        android:label="fragment_leaderboard_"
-        tools:layout="@layout/fragment_leaderboard_" />
-    <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.example.movie_project.views.FavoritesFragment"
-        android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
-    <fragment
-        android:id="@+id/forumFragment"
-        android:name="com.example.movie_project.views.ForumFragment"
-        android:label="fragment_forum"
-        tools:layout="@layout/fragment_forum" />
-    <fragment
-        android:id="@+id/detailFragment"
-        android:name="com.example.movie_project.views.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
-        <action
-            android:id="@+id/action_detailFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/search_Fragment"-->
+<!--        android:name="com.example.movie_project.views.Search_Fragment"-->
+<!--        android:label="fragment_search_"-->
+<!--        tools:layout="@layout/fragment_search_" />-->
+<!--    <fragment-->
+<!--        android:id="@+id/leaderboard_Fragment"-->
+<!--        android:name="com.example.movie_project.views.Leaderboard_Fragment"-->
+<!--        android:label="fragment_leaderboard_"-->
+<!--        tools:layout="@layout/fragment_leaderboard_" />-->
+<!--    <fragment-->
+<!--        android:id="@+id/favoritesFragment"-->
+<!--        android:name="com.example.movie_project.views.FavoritesFragment"-->
+<!--        android:label="fragment_favorites"-->
+<!--        tools:layout="@layout/fragment_favorites" />-->
+<!--    <fragment-->
+<!--        android:id="@+id/forumFragment"-->
+<!--        android:name="com.example.movie_project.views.ForumFragment"-->
+<!--        android:label="fragment_forum"-->
+<!--        tools:layout="@layout/fragment_forum" />-->
+<!--    <fragment-->
+<!--        android:id="@+id/detailFragment"-->
+<!--        android:name="com.example.movie_project.views.DetailFragment"-->
+<!--        android:label="fragment_detail"-->
+<!--        tools:layout="@layout/fragment_detail" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_detailFragment_to_homeFragment"-->
+<!--            app:destination="@id/homeFragment" />-->
+<!--    </fragment>-->
 </navigation>
