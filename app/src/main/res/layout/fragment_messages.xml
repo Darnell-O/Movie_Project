@@ -11,22 +11,15 @@
         tools:context=".views.MessagesFragment">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/users_recyclerView"
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_marginTop="@dimen/dp_8"
-            android:clipToPadding="false"
-            android:background="@color/light_white"
-            android:padding="@dimen/dp_8"
-            android:scrollbars="vertical"
+            android:layout_height="wrap_content"
+            android:background="@drawable/leaderboard_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/users_item" />
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

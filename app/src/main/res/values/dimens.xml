@@ -33,7 +33,7 @@
     <dimen name="activity_login1_padding_top">16dp</dimen>
     <dimen name="activity_login1_material_layout_margin_right">12dp</dimen>
     <dimen name="activity_login1_material_layout_margin_end">12dp</dimen>
-    <dimen name="activity_login1_material_layout_margin_bottom">132dp</dimen>
+    <dimen name="activity_login1_material_layout_margin_bottom">24dp</dimen>
     <dimen name="activity_login1_material_layout_height">496dp</dimen>
 
     <!--    MainActivity dimens-->
@@ -64,7 +64,7 @@
     <dimen name="activity_profile_material_button_layout_paddingRight">16dp</dimen>
 
     <!--    Sign Activity dimens-->
-    <dimen name="activity_sign_material_button_layout_stroke_width">2dp</dimen>
+    <dimen name="activity_sign_material_button_layout_stroke_width">1dp</dimen>
     <dimen name="activity_sign_layout_padding">24dp</dimen>
     <dimen name="activity_sign_layout_padding_top">16dp</dimen>
 
@@ -131,9 +131,7 @@
     <dimen name="location_image_width">25dp</dimen>
     <dimen name="location_image_height">25dp</dimen>
     <dimen name="location_image_margin_start">5dp</dimen>
-
-
-
+    <dimen name="dp_150">150dp</dimen>
 
 
 </resources>

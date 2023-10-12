@@ -48,11 +48,13 @@ class Search_Fragment : Fragment(), MovieClickListener {
             movies?.let {
                 searchAdapter.updateMovieList(it)
             }
+//
         }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
+                    binding.noResultsBackground.visibility = View.GONE
                     searchViewModel.searchMovies(query)
                 } else {
                     Toast.makeText(context, "Please enter a search query", Toast.LENGTH_SHORT)

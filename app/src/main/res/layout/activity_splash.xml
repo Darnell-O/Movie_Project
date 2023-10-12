@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@android:color/white"
     tools:context=".SplashActivity">
 
     <ImageView
         android:id="@+id/splash_image"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/splash_logo"
+        android:src="@drawable/movie_majic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

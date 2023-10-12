@@ -23,7 +23,7 @@ fun ImageView.loadImage(url: String?, progressDrawable: CircularProgressDrawable
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .override(600, 600)
         .placeholder(progressDrawable)
-        .error(R.drawable.movie_icon)
+        .error(R.drawable.placeholder2)
     Glide.with(context)
         .setDefaultRequestOptions(options)
         .load("https://image.tmdb.org/t/p/w500$url")

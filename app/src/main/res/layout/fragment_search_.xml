@@ -10,75 +10,107 @@
             type="com.example.movie_project.models.MovieResponse" />
     </data>
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:background="@color/light_white"
         tools:context=".views.Search_Fragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_search_activity"
+        <!-- TODO: Update blank fragment layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintBottom_toTopOf="@id/searchView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_search_activity"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintBottom_toTopOf="@id/searchView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textAppearance="@style/headline"
+                    android:textColor="@color/iris"
+                    android:textSize="@dimen/search_title_text_size"
+                    android:textStyle="bold"
+                    app:titleCentered="true" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/toolbar_profile_image"
+                    android:layout_width="@dimen/search_shape_layout_width"
+                    android:layout_height="@dimen/search_shape_layout_height"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bw_stockphoto3"
+                    app:shapeAppearanceOverlay="@style/Circular" />
+            </com.google.android.material.appbar.MaterialToolbar>
+
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/search_search_height"
+                android:layout_margin="@dimen/search_search_margin"
+                android:background="@color/light_white"
+                android:focusable="false"
+                app:layout_constraintBottom_toTopOf="@+id/search_recyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar_search_activity"
+                app:queryHint="Search Movies" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_recyclerView"
+                android:layout_width="@dimen/search_recyclerview_layout_width"
+                android:layout_height="@dimen/search_recyclerview_layout_height"
+                android:layout_marginTop="@dimen/search_recyclerview_margin_top"
+                android:layout_marginBottom="@dimen/search_recyclerview_margin_bottom"
+                android:clipToPadding="false"
+                android:padding="@dimen/search_recyclerview_padding"
+                android:scrollbars="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchView"
+                app:spanCount="2"
+                tools:listitem="@layout/item_movie_card" />
 
             <TextView
-                android:id="@+id/toolbar_title"
-                android:fontFamily="@font/montserrat_regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAppearance="@style/headline"
-                android:textColor="@color/iris"
-                android:textSize="@dimen/search_title_text_size"
-                android:textStyle="bold"
-                app:titleCentered="true" />
+                android:id="@+id/noResultsBackground"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/light_white"
+                android:gravity="center"
+                android:text="@string/begin_movie_search"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/sp_18"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/search_recyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/search_recyclerView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:src="@drawable/bw_stockphoto3"
-                app:shapeAppearanceOverlay="@style/Circular"
-                android:scaleType="centerCrop"
-                android:id="@+id/toolbar_profile_image"
-                android:layout_width="@dimen/search_shape_layout_width"
-                android:layout_height="@dimen/search_shape_layout_height"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp"
-                />
-        </com.google.android.material.appbar.MaterialToolbar>
-
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/search_search_height"
-            android:layout_margin="@dimen/search_search_margin"
-            android:background="@color/light_white"
-            android:focusable="false"
-            app:layout_constraintBottom_toTopOf="@+id/search_recyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_search_activity"  />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_recyclerView"
-            android:layout_width="@dimen/search_recyclerview_layout_width"
-            android:layout_height="@dimen/search_recyclerview_layout_height"
-            android:layout_marginTop="@dimen/search_recyclerview_margin_top"
-            android:layout_marginBottom="@dimen/search_recyclerview_margin_bottom"
-            android:clipToPadding="false"
-            android:padding="@dimen/search_recyclerview_padding"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView"
-            app:spanCount="2"
-            tools:listitem="@layout/item_movie_card" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/noResultsBackground"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:background="@color/light_white"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/begin_movie_search"-->
+<!--            android:textColor="@color/dark_grey"-->
+<!--            android:textSize="@dimen/sp_18"-->
+<!--            android:visibility="visible" />-->
+    </FrameLayout>
 
 </layout>

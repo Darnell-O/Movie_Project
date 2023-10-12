@@ -35,7 +35,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:imageUrl="@{movie.poster_path}"
-                android:src="@drawable/movie_icon" />
+                android:src="@drawable/placeholder2" />
 
             <TextView
                 android:id="@+id/titleTextView"

@@ -19,9 +19,6 @@ class MessagesFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding = FragmentMessagesBinding.inflate(inflater, container, false)
 
-        val intent = Intent(activity, UsersActivity::class.java)
-        startActivity(intent)
-
         return binding.root
 
 

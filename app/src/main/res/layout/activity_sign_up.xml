@@ -19,6 +19,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_150"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/activity_login1_material_layout_margin_bottom"
+            android:src="@drawable/movie_majic_app_logo"  />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/username_container"

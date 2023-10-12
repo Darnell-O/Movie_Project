@@ -1,7 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Movie_Project" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/off_white</item>
+
+            <item name="android:fontFamily">@font/montserrat_bold</item>
+            <item name="android:textColor">@color/dark_grey</item>
+            <item name="android:textSize">@dimen/sp_18</item>
+            <item name="android:windowBackground">@color/light_white</item>
+            <item name="android:colorPrimary">@color/iris</item>
+
+
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>

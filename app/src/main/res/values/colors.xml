@@ -8,9 +8,12 @@
     <color name="iris">#5D3FD3</color>
     <color name="dark_grey">#979797</color>
     <color name="light_white">#FCFCFF</color>
-    <color name="colorPrimary">#682b93</color>
+    <!--    <color name="colorPrimary">#682b93</color>-->
     <color name="alert_red">#FF0000</color>
-
+    <color name="colorPrimary">#682b93</color>
+    <color name="colorPrimaryDark">#5D3FD3</color>
+    <color name="windowBackground">#FCFCFF</color>
+    <color name="colorAccent">#9b75d0</color>
 
 
 </resources>
