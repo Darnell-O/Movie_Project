@@ -7,8 +7,9 @@
     android:layout_centerInParent="true"
     android:gravity="center">
     <RelativeLayout
+        android:background="@drawable/project_background"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="240dp"
         android:layout_centerInParent="true"
         >
         <androidx.cardview.widget.CardView
@@ -21,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="240dp">
             <LinearLayout
+                android:background="@color/light_white"
                 android:orientation="vertical"
                 android:layout_marginTop="23dp"
                 android:layout_width="match_parent"
@@ -28,6 +30,7 @@
                 <TextView
                     android:layout_marginTop="15dp"
                     android:text="Name"
+                    android:fontFamily="@font/montserrat_regular"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -37,6 +40,7 @@
                 <TextView
                     android:layout_marginTop="2dp"
                     android:text="User name"
+                    android:fontFamily="@font/montserrat_italics"
                     android:textSize="13sp"
                     android:textStyle="normal"
                     android:gravity="center"
@@ -59,8 +63,8 @@
                     <TextView
                         android:layout_weight="1"
                         android:text="info"
+                        android:fontFamily="@font/montserrat_bold"
                         android:gravity="center"
-                        android:textStyle="bold"
                         android:textSize="14sp"
                         android:textColor="@color/dark_grey"
                         android:layout_width="0dp"
@@ -72,8 +76,8 @@
                     <TextView
                         android:layout_weight="1"
                         android:text="Twitter"
+                        android:fontFamily="@font/montserrat_bold"
                         android:gravity="center"
-                        android:textStyle="bold"
                         android:textSize="14sp"
                         android:textColor="@color/dark_grey"
                         android:layout_width="0dp"
@@ -85,8 +89,8 @@
                     <TextView
                         android:layout_weight="1"
                         android:text="Instagram"
+                        android:fontFamily="@font/montserrat_bold"
                         android:gravity="center"
-                        android:textStyle="bold"
                         android:textSize="14sp"
                         android:textColor="@color/dark_grey"
                         android:layout_width="0dp"
@@ -110,11 +114,11 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:src="@drawable/bw_stockphoto3"
         app:shapeAppearanceOverlay="@style/Circular"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:elevation="15dp"
         android:padding="5dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="98dp"
-        android:layout_height="98dp"/>
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
 
 </RelativeLayout>

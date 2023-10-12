@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><!-- res/layout/item_movie_card.xml -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
 
     <data>
         <variable
@@ -28,8 +30,9 @@
 
             <ImageView
                 android:id="@+id/posterImageView"
-                android:layout_width="181dp"
-                android:layout_height="171dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:imageUrl="@{movie.poster_path}"
                 android:src="@drawable/movie_icon" />
@@ -39,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="@{movie.title}"
                 android:textAppearance="@style/title"
                 android:textColor="@color/dark_grey"
@@ -47,6 +51,7 @@
 
             <TextView
                 android:id="@+id/releaseDateTextView"
+                android:fontFamily="@font/montserrat_italics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"

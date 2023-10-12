@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:padding="@dimen/activity_profile_linear_padding"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
             <RelativeLayout
@@ -23,24 +23,24 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/profile_back_button"
-                    android:padding="5dp"
+                    android:padding="@dimen/activity_profile_image_padding"
                     android:layout_alignParentStart="true"
                     android:src="@drawable/ic_arrow_back"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"/>
+                    android:layout_width="@dimen/activity_profile_image_layout_width"
+                    android:layout_height="@dimen/activity_profile_image_layout_height"/>
                 <ImageView
                     android:padding="5dp"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_notification"
-                    android:layout_margin="5dp"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"/>
+                    android:layout_margin="@dimen/activity_profile_image_padding"
+                    android:layout_width="@dimen/activity_profile_image_layout_width"
+                    android:layout_height="@dimen/activity_profile_image_layout_height"/>
 
             </RelativeLayout>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/activity_profile_image_layout_margin_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -54,8 +54,8 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginRight="@dimen/activity_profile_image_layout_margin_top"
+        android:layout_marginLeft="@dimen/activity_profile_material_button_layout_marginRight"
         layout="@layout/item_image"
         />
 
@@ -73,13 +73,14 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/logoutButton"
                 android:layout_width="371dp"
-                android:layout_height="64dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_profile_material_button_layout_marginLeft"
+                android:layout_marginRight="@dimen/activity_profile_material_button_layout_marginRight"
+                android:layout_marginBottom="@dimen/activity_profile_material_button_layout_marginBottom"
                 android:backgroundTint="@color/iris"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingLeft="@dimen/activity_profile_material_button_layout_paddingLeft"
+                android:paddingRight="@dimen/activity_profile_material_button_layout_paddingRight"
                 android:text="@string/logout" />
 
         </LinearLayout>

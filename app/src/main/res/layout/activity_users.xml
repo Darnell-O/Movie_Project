@@ -27,17 +27,20 @@
                 android:layout_gravity="center"
                 android:textAppearance="@style/headline"
                 android:textColor="@color/iris"
-                android:textSize="18sp"
+                android:textSize="@dimen/activity_users_text_size"
                 android:textStyle="bold"
                 app:titleCentered="true" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/toolbar_profile_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:src="@drawable/bw_stockphoto3"
+                app:shapeAppearanceOverlay="@style/Circular"
+                android:scaleType="centerCrop"
+                android:layout_width="@dimen/activity_users_shape_layout_width"
+                android:layout_height="@dimen/activity_users_shape_layout_height"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/round_account_circle_24" />
+                android:layout_marginEnd="@dimen/activity_users_shape_layout_margin_end"
+                />
         </com.google.android.material.appbar.MaterialToolbar>
 
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Movie_Project</string>
+    <string name="app_name">Movie Magic</string>
     <string name="movie_project">Movie Project</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
@@ -24,4 +24,10 @@
     <string name="holder_username">holder username</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="sign_in_with_google">Sign in With Google</string>
+    <string name="say_something">Say Something</string>
+    <string name="bio">Bio</string>
+    <string name="new_york_usa">New York, USA</string>
+    <string name="update_info">Update Info</string>
+    <string name="info_email_com">info@Email.com</string>
+    <string name="email_item">Email</string>
 </resources>

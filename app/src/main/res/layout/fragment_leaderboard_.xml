@@ -27,38 +27,38 @@
 
         <TextView
             android:id="@+id/toolbar_title"
+            android:fontFamily="@font/montserrat_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAppearance="@style/headline"
             android:textColor="@color/iris"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="@dimen/activity_toolbar_title_text_size"
             app:titleCentered="true" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:src="@drawable/bw_stockphoto3"
             app:shapeAppearanceOverlay="@style/Circular"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:id="@+id/toolbar_profile_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/activity_leaderboard_shape_image_width"
+            android:layout_height="@dimen/activity_leaderboard_shape_image_height"
             android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/activity_leaderboard_shape_margin_end"
             />
     </com.google.android.material.appbar.MaterialToolbar>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Leaderboard Coming Soon!"
-            android:textSize="32sp"
-            android:textColor="@color/dark_grey"
+            android:background="@drawable/leaderboard_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard_activity" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_leaderboard_activity">
+
+
+        </androidx.constraintlayout.utils.widget.ImageFilterButton>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

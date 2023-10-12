@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="dp_0">0dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_3">2dp</dimen>
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_25">25dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+
+    <dimen name="sp_0">0sp</dimen>
+    <dimen name="sp_2">2sp</dimen>
+    <dimen name="sp_5">5sp</dimen>
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_15">15sp</dimen>
+    <dimen name="sp_16">16sp</dimen>
+    <dimen name="sp_18">18sp</dimen>
+
+    <!--    leaderboard-->
+    <dimen name="activity_toolbar_title_text_size">18sp</dimen>
+
+    <dimen name="activity_leaderboard_shape_image_width">40dp</dimen>
+    <dimen name="activity_leaderboard_shape_image_height">40dp</dimen>
+    <dimen name="activity_leaderboard_shape_margin_end">16dp</dimen>
+
+    <!--    Login dimens-->
+    <dimen name="activity_login1_padding">24dp</dimen>
+    <dimen name="activity_login1_padding_top">16dp</dimen>
+    <dimen name="activity_login1_material_layout_margin_right">12dp</dimen>
+    <dimen name="activity_login1_material_layout_margin_end">12dp</dimen>
+    <dimen name="activity_login1_material_layout_margin_bottom">132dp</dimen>
+    <dimen name="activity_login1_material_layout_height">496dp</dimen>
+
+    <!--    MainActivity dimens-->
+    <dimen name="activity_main_layout_height">0dp</dimen>
+    <dimen name="activity_main_layout_width">0dp</dimen>
+
+    <!--    MessagesActivity dimens-->
+    <dimen name="activity_messages_image_layout_width">50dp</dimen>
+    <dimen name="activity_messages_image_layout_height">50dp</dimen>
+    <dimen name="activity_messages_image_layout_weight">20</dimen>
+    <dimen name="activity_messages_message_input_layout_margin_bottom">5dp</dimen>
+    <dimen name="activity_messages_message_input_layout_weight_sum">100</dimen>
+    <dimen name="activity_messages_message_input_layout_margin_left">10dp</dimen>
+    <dimen name="activity_messages_message_input_layout_padding_left">10dp</dimen>
+    <dimen name="activity_messages_message_input_layout_weight">85</dimen>
+
+
+    <!--    Profile Activity dimens-->
+    <dimen name="activity_profile_linear_padding">8dp</dimen>
+    <dimen name="activity_profile_image_padding">5dp</dimen>
+    <dimen name="activity_profile_image_layout_width">44dp</dimen>
+    <dimen name="activity_profile_image_layout_height">44dp</dimen>
+    <dimen name="activity_profile_image_layout_margin_top">16dp</dimen>
+    <dimen name="activity_profile_material_button_layout_marginLeft">16dp</dimen>
+    <dimen name="activity_profile_material_button_layout_marginRight">16dp</dimen>
+    <dimen name="activity_profile_material_button_layout_marginBottom">16dp</dimen>
+    <dimen name="activity_profile_material_button_layout_paddingLeft">16dp</dimen>
+    <dimen name="activity_profile_material_button_layout_paddingRight">16dp</dimen>
+
+    <!--    Sign Activity dimens-->
+    <dimen name="activity_sign_material_button_layout_stroke_width">2dp</dimen>
+    <dimen name="activity_sign_layout_padding">24dp</dimen>
+    <dimen name="activity_sign_layout_padding_top">16dp</dimen>
+
+    <!--    User Activity dimens-->
+    <dimen name="activity_users_shape_layout_width">40dp</dimen>
+    <dimen name="activity_users_shape_layout_height">40dp</dimen>
+    <dimen name="activity_users_shape_layout_margin_end">16dp</dimen>
+    <dimen name="activity_users_text_size">18sp</dimen>
+
+    <!--    Detail Activity dimens-->
+    <dimen name="activity_detail_title_text_size">32sp</dimen>
+    <dimen name="activity_detail_detail_text_size">24sp</dimen>
+    <dimen name="activity_detail_padding_start">8dp</dimen>
+    <dimen name="activity_detail_padding_end">8dp</dimen>
+    <dimen name="activity_detail_padding_bottom">8dp</dimen>
+    <dimen name="activity_detail_padding">8dp</dimen>
+    <dimen name="activity_detail_layout_height">375dp</dimen>
+    <dimen name="activity_detail_layout_margin">8dp</dimen>
+
+    <!--    Favorites Fragment dimens-->
+    <dimen name="favorites_recyclerview_layout_width">0dp</dimen>
+    <dimen name="favorites_recyclerview_layout_height">0dp</dimen>
+    <dimen name="favorites_recyclerview_padding">8dp</dimen>
+    <dimen name="favorites_recyclerview_margin_bottom">8dp</dimen>
+    <dimen name="favorites_recyclerview_margin_top">8dp</dimen>
+    <dimen name="favorites_shape_layout_width">40dp</dimen>
+    <dimen name="favorites_shape_layout_height">40dp</dimen>
+    <dimen name="favorites_shape_layout_margin_end">16dp</dimen>
+    <dimen name="favorites_title_text_size">32sp</dimen>
+
+    <!--    Home Fragment dimens-->
+    <dimen name="popular_recyclerview_layout_width">0dp</dimen>
+    <dimen name="popular_recyclerview_layout_height">0dp</dimen>
+    <dimen name="popular_recyclerview_padding">8dp</dimen>
+    <dimen name="popular_recyclerview_margin_bottom">8dp</dimen>
+    <dimen name="popular_recyclerview_margin_top">8dp</dimen>
+    <dimen name="popular_shape_layout_width">40dp</dimen>
+    <dimen name="popular_shape_layout_height">40dp</dimen>
+    <dimen name="popular_shape_layout_margin_end">16dp</dimen>
+    <dimen name="popular_title_text_size">32sp</dimen>
+
+    <!--    Search Fragment dimens-->
+
+    <dimen name="search_recyclerview_layout_width">0dp</dimen>
+    <dimen name="search_recyclerview_layout_height">0dp</dimen>
+    <dimen name="search_recyclerview_padding">8dp</dimen>
+    <dimen name="search_recyclerview_margin_bottom">8dp</dimen>
+    <dimen name="search_recyclerview_margin_top">8dp</dimen>
+    <dimen name="search_shape_layout_width">40dp</dimen>
+    <dimen name="search_shape_layout_height">40dp</dimen>
+    <dimen name="search_shape_layout_margin_end">16dp</dimen>
+    <dimen name="search_title_text_size">18sp</dimen>
+    <dimen name="search_search_height">50dp</dimen>
+    <dimen name="search_search_margin">8dp</dimen>
+
+    <!--    Add item to dimens.xml-->
+    <dimen name="image_layout_width_margin">35dp</dimen>
+    <dimen name="image_layout_height_margin">35dp</dimen>
+    <dimen name="image_padding">5dp</dimen>
+    <dimen name="image_text_size">16sp</dimen>
+    <dimen name="image_text_margin">16sp</dimen>
+    <dimen name="location_image_padding">2dp</dimen>
+    <dimen name="location_image_text_size">18sp</dimen>
+    <dimen name="location_image_width">25dp</dimen>
+    <dimen name="location_image_height">25dp</dimen>
+    <dimen name="location_image_margin_start">5dp</dimen>
+
+
+
+
+
+</resources>

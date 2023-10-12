@@ -19,26 +19,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
-        android:weightSum="100">
+        android:layout_marginBottom="@dimen/activity_messages_message_input_layout_margin_bottom"
+        android:weightSum="@dimen/activity_messages_message_input_layout_weight_sum">
 
         <EditText
             android:id="@+id/message_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="85"
-            android:hint="Say Something"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
+            android:layout_weight="@dimen/activity_messages_message_input_layout_weight"
+            android:hint="@string/say_something"
+            android:layout_marginLeft="@dimen/activity_messages_message_input_layout_margin_left"
+            android:paddingLeft="@dimen/activity_messages_message_input_layout_padding_left"
             android:background="@drawable/message_input_background"
             android:inputType="text"
             android:padding="10dp" />
 
         <ImageView
             android:id="@+id/send_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="20"
+            android:layout_width="@dimen/activity_messages_image_layout_width"
+            android:layout_height="@dimen/activity_messages_image_layout_height"
+            android:layout_weight="@dimen/activity_messages_image_layout_weight"
             android:src="@drawable/round_send_24" />
 
     </LinearLayout>

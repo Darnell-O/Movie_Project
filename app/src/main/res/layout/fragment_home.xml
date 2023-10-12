@@ -28,34 +28,35 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAppearance="@style/headline"
                 android:textColor="@color/iris"
-                android:textSize="36sp"
+                android:textSize="@dimen/popular_title_text_size"
                 android:textStyle="bold" />
 
             <!-- Profile image to the right with padding -->
             <com.google.android.material.imageview.ShapeableImageView
                 android:src="@drawable/bw_stockphoto3"
                 app:shapeAppearanceOverlay="@style/Circular"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:id="@+id/toolbar_profile_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/popular_shape_layout_width"
+                android:layout_height="@dimen/popular_shape_layout_height"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="@dimen/popular_shape_layout_margin_end" />
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="@dimen/popular_recyclerview_layout_width"
+            android:layout_height="@dimen/popular_recyclerview_layout_height"
+            android:layout_marginTop="@dimen/popular_recyclerview_margin_top"
+            android:layout_marginBottom="@dimen/popular_recyclerview_margin_bottom"
             android:clipToPadding="false"
-            android:padding="8dp"
+            android:padding="@dimen/popular_recyclerview_padding"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

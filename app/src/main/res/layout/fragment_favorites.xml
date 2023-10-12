@@ -27,35 +27,35 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
+                android:fontFamily="@font/montserrat_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAppearance="@style/headline"
                 android:textColor="@color/iris"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="@dimen/favorites_title_text_size"
                 app:titleCentered="true" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:src="@drawable/bw_stockphoto3"
                 app:shapeAppearanceOverlay="@style/Circular"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:id="@+id/toolbar_profile_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/favorites_shape_layout_width"
+                android:layout_height="@dimen/favorites_shape_layout_height"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/favorites_shape_layout_margin_end"
                 />
         </com.google.android.material.appbar.MaterialToolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favorites_recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="@dimen/favorites_recyclerview_layout_width"
+            android:layout_height="@dimen/favorites_recyclerview_layout_height"
+            android:layout_marginTop="@dimen/favorites_recyclerview_margin_top"
+            android:layout_marginBottom="@dimen/favorites_recyclerview_margin_bottom"
             android:clipToPadding="false"
-            android:padding="8dp"
+            android:padding="@dimen/favorites_recyclerview_padding"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

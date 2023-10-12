@@ -31,20 +31,22 @@
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
                     android:layout_gravity="center"
                     android:textAppearance="@style/headline"
                     android:textColor="@color/iris"
                     android:textSize="18sp"
-                    android:textStyle="bold"
                     app:titleCentered="true" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/toolbar_profile_image"
+                    android:src="@drawable/bw_stockphoto3"
+                    app:shapeAppearanceOverlay="@style/Circular"
+                    android:scaleType="centerCrop"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="end|center_vertical"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/round_account_circle_24" />
+                    android:layout_marginEnd="16dp" />
             </com.google.android.material.appbar.MaterialToolbar>
 
             <androidx.cardview.widget.CardView
@@ -59,6 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="500dp"
                     android:padding="0dp"
+                    android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/movie_placeholder" />
             </androidx.cardview.widget.CardView>

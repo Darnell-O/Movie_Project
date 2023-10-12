@@ -8,12 +8,12 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="406dp"
-        android:layout_height="496dp"
+        android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:paddingTop="16dp"
+        android:padding="@dimen/activity_sign_layout_padding"
+        android:paddingTop="@dimen/activity_sign_layout_padding_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,14 +24,16 @@
             android:id="@+id/username_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:hint="@string/email"
             app:helperText=""
-            app:helperTextTextColor="#FF0000">
+            app:helperTextTextColor="@color/alert_red">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/username_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
                 android:hint="@string/email"
                 android:inputType="text"
                 android:maxLines="1" />
@@ -41,13 +43,14 @@
             android:id="@+id/password_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:hint="@string/hint_password"
             android:inputType="text"
             app:counterEnabled="true"
             app:counterMaxLength="8"
             app:errorEnabled="true"
             app:helperText=""
-            app:helperTextTextColor="#FF0000"
+            app:helperTextTextColor="@color/alert_red"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -62,12 +65,13 @@
             android:id="@+id/Confirm_password_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:hint="@string/confirm_hint_password"
             app:counterEnabled="true"
             app:counterMaxLength="8"
             app:errorEnabled="true"
             app:helperText=""
-            app:helperTextTextColor="#FF0000"
+            app:helperTextTextColor="@color/alert_red"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -83,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/iris"
+            android:fontFamily="@font/montserrat_bold"
             android:text="@string/button_signup" />
 
         <com.google.android.material.button.MaterialButton
@@ -94,10 +99,11 @@
             android:textAllCaps="false"
             android:backgroundTint="@color/white"
             android:textColor="@color/iris"
+            android:fontFamily="@font/montserrat_regular"
             android:text="@string/sign_in_with_google"
             app:iconGravity="textStart"
             app:iconTint="@null"
-            app:strokeWidth="2dp"
+            app:strokeWidth="@dimen/activity_sign_material_button_layout_stroke_width"
             app:strokeColor="@color/iris"
             />
 
@@ -108,6 +114,7 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_regular"
         android:text="@string/already_have_an_account_login"
         android:textAlignment="center"
         android:textColor="@color/iris"
