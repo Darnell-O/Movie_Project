@@ -13,3 +13,14 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Gradle build artifacts that should never be in repo
+.tmp/
+app/.idea/
+caches/
+daemon/
+kotlin-profile/
+/wrapper/
+/native/
+/jdks/
+/workers/

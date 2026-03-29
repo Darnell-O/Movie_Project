@@ -19,7 +19,6 @@ import com.example.movie_project.views.Search_Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
 
@@ -73,8 +72,3 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
-
-
-
-
-

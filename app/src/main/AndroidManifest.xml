@@ -30,14 +30,14 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="true" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true" />-->
         <activity
             android:name=".SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
             <intent-filter>
