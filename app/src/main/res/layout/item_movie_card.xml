@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!-- res/layout/item_movie_card.xml -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <data>
+
         <variable
             name="movie"
             type="com.example.movie_project.models.MovieModel" />
+
         <variable
             name="clickListener"
             type="com.example.movie_project.views.MovieClickListener" />
@@ -33,34 +34,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
                 android:imageUrl="@{movie.poster_path}"
+                android:scaleType="fitXY"
                 android:src="@drawable/placeholder2" />
-
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@{movie.title}"
-                android:textAppearance="@style/title"
-                android:textColor="@color/dark_grey"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/releaseDateTextView"
-                android:fontFamily="@font/montserrat_italics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
-                android:text="@{movie.release_date}"
-                android:textColor="@color/dark_grey"
-                android:textSize="14sp" />
-
 
         </LinearLayout>
 
