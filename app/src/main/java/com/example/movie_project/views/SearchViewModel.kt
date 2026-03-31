@@ -13,6 +13,7 @@ import com.example.movie_project.databinding.FragmentSearchBinding
 import com.example.movie_project.models.MovieModel
 import com.example.movie_project.networking.ApiUtil
 import com.example.movie_project.networking.ApiUtil.apiService
+import com.example.movie_project.util.ApiKeyProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -31,7 +32,7 @@ class SearchViewModel : ViewModel() {
      fun searchMovies(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = searchApiService.searchMovies("1dd5fc6831acffaa5cb5999a57c389c7", query)
+                val response = searchApiService.searchMovies(ApiKeyProvider.getApiKey(), query)
                 if (response.isSuccessful) {
                     _searchMovies.postValue(response.body()?.results)
                     Log.i("SearchViewModel", "Success: ${response.body()?.results}")
