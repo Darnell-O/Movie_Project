@@ -9,9 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiUtil {
     const val BASE_URL = "https://api.themoviedb.org/3/"
 
-    private val Api_KEY = "1dd5fc6831acffaa5cb5999a57c389c7"
-
-
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
