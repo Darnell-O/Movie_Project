@@ -1,8 +1,5 @@
 package com.example.movie_project.networking
 
-import com.example.movie_project.models.MovieResponse
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
