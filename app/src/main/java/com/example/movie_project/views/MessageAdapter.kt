@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.movie_project.R
 import com.example.movie_project.models.MessageModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
+
 
 class MessageAdapter(val context: Context, val messageList: ArrayList<MessageModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

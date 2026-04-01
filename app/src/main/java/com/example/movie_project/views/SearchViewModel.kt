@@ -16,6 +16,8 @@ import com.example.movie_project.networking.ApiUtil.apiService
 import com.example.movie_project.util.ApiKeyProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Locale
+import java.util.Locale.getDefault
 
 class SearchViewModel : ViewModel() {
     private val _searchMovies = MutableLiveData<List<MovieModel>>()
@@ -52,7 +54,7 @@ class SearchViewModel : ViewModel() {
     fun filterList(text: String) {
         val filteredList = ArrayList<MovieModel>()
         for (item in searchMovies.value!!) {
-            if (item.title?.toLowerCase()?.contains(text.toLowerCase()) == true) {
+            if (item.title?.lowercase(getDefault())?.contains(text.lowercase(getDefault())) == true) {
                 filteredList.add(item)
             }
         }
