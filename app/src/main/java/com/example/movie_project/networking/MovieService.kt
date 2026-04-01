@@ -7,9 +7,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieService {
-    companion object {
-        const val BASE_URL = "https://api.themoviedb.org/3/"
-    }
 
     @GET("movie/popular")
     suspend fun getPopularMovies(@Query("api_key") apiKey: String?): Response<MovieResponse>
