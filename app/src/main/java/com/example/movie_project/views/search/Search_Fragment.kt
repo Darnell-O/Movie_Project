@@ -52,7 +52,12 @@ class Search_Fragment : Fragment(), MovieClickListener {
             movies?.let {
                 searchAdapter.updateMovieList(it)
             }
-//
+        }
+
+        searchViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -19,9 +19,13 @@ class SearchViewModel : ViewModel() {
     private val _filteredMovies = MutableLiveData<List<MovieModel>>()
     val filteredMovies: LiveData<List<MovieModel>> = _filteredMovies
 
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
+
     private val searchApiService = ApiUtil.apiService
 
      fun searchMovies(query: String) {
+        _errorMessage.postValue(null) // Clear previous error
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = searchApiService.searchMovies(ApiKeyProvider.getApiKey(), query)
@@ -30,8 +34,8 @@ class SearchViewModel : ViewModel() {
                     Log.i("SearchViewModel", "Success: ${response.body()?.results}")
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
                 Log.e("SearchViewModel", "Error: ${e.message}")
+                _errorMessage.postValue(e.message ?: "An unknown error occurred")
             }
 
         }
