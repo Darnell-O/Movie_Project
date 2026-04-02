@@ -21,10 +21,6 @@ class SearchViewModel : ViewModel() {
 
     private val searchApiService = ApiUtil.apiService
 
-    init {
-        searchMovies("")
-    }
-
      fun searchMovies(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
