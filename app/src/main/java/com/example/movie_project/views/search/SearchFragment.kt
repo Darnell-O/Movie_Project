@@ -29,7 +29,7 @@ class SearchFragment : Fragment(), MovieClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSearchBinding.inflate(inflater, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         binding.toolbarSearchActivity.title = "Search"
         binding.toolbarProfileImage.setOnClickListener {
