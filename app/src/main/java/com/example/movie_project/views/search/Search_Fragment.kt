@@ -60,6 +60,10 @@ class Search_Fragment : Fragment(), MovieClickListener {
             }
         }
 
+        searchViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.searchProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
