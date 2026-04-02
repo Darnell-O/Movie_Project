@@ -46,7 +46,6 @@ class SearchFragment : Fragment(), MovieClickListener {
 
         searchViewModel.searchMovies.observe(viewLifecycleOwner) { movies ->
             movies.forEach {
-                println(it.title)
                 Log.i("SearchFragment", "Movie: ${it.title}")
             }
             movies?.let {
@@ -123,16 +122,9 @@ class SearchFragment : Fragment(), MovieClickListener {
 //    }
 
     override fun onMovieClicked(movie: MovieModel) {
-        Toast.makeText(context, "${movie?.title}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, movie.title, Toast.LENGTH_SHORT).show()
         val intent = Intent(activity, DetailActivity::class.java)
-        val bundle = Bundle()
-        movie?.title?.let { bundle.putString("itemTitle", it) }
-        movie?.poster?.let { bundle.putString("itemPoster", it) }
-        movie?.poster_path?.let { bundle.putString("itemPosterPath", it) }
-        movie?.overview?.let { bundle.putString("itemOverview", it) }
-        movie?.voteAverage?.let { bundle.putFloat("itemVoteAverage", it) }
-        movie?.release_date?.let { bundle.putString("itemReleaseDate", it) }
-        intent.putExtras(bundle)
+        intent.putExtra("movie", movie)
         startActivity(intent)
     }
 
