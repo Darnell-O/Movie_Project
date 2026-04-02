@@ -46,40 +46,11 @@ class SearchViewModel : ViewModel() {
         }
     }
 
-
-
-
-
     fun filterList(text: String) {
         val filteredList = searchMovies.value.orEmpty().filter { item ->
             item.title?.lowercase(Locale.getDefault())
                 ?.contains(text.lowercase(Locale.getDefault())) == true
         }
         _filteredMovies.postValue(filteredList)
-
-//        if (filteredList.isEmpty()) {
-//            Toast.makeText(this, "No Results Found", Toast.LENGTH_SHORT).show()
-//        } else {
-//            Toast.makeText(this, "Results Found", Toast.LENGTH_SHORT).show()
-//        }
     }
-
-//  fun query(text:String):String {
-//      binding.searchView.setOnQueryTextListener(object :
-//          SearchView.OnQueryTextListener {
-//          override fun onQueryTextSubmit(query: String?): Boolean {
-//              filterList(query.toString())
-//              return false
-//          }
-//
-//          override fun onQueryTextChange(newText: String?): Boolean {
-//              filterList(newText.toString())
-//              return false
-//          }
-//      })
-//
-//      return binding.searchView.query.toString()
-//
-//  }
-
 }
