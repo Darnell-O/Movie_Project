@@ -42,11 +42,9 @@ class SearchViewModel : ViewModel() {
 
 
     fun filterList(text: String) {
-        val filteredList = ArrayList<MovieModel>()
-        for (item in searchMovies.value!!) {
-            if (item.title?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true) {
-                filteredList.add(item)
-            }
+        val filteredList = searchMovies.value.orEmpty().filter { item ->
+            item.title?.lowercase(Locale.getDefault())
+                ?.contains(text.lowercase(Locale.getDefault())) == true
         }
         _filteredMovies.postValue(filteredList)
 
