@@ -18,7 +18,7 @@ import com.example.movie_project.views.MovieClickListener
 import com.example.movie_project.views.search.SearchAdapter
 import com.example.movie_project.views.search.SearchViewModel
 
-class Search_Fragment : Fragment(), MovieClickListener {
+class SearchFragment : Fragment(), MovieClickListener {
 
     private val searchViewModel: SearchViewModel by viewModels()
     private val searchAdapter = SearchAdapter(arrayListOf())
