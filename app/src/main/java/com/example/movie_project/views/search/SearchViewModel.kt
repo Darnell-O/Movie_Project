@@ -1,23 +1,17 @@
-package com.example.movie_project.views
+package com.example.movie_project.views.search
 
 import android.util.Log
-import android.widget.Toast
-import android.widget.Toast.makeText
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_project.databinding.ActivityMainBinding
 import com.example.movie_project.databinding.FragmentSearchBinding
 import com.example.movie_project.models.MovieModel
 import com.example.movie_project.networking.ApiUtil
-import com.example.movie_project.networking.ApiUtil.apiService
 import com.example.movie_project.util.ApiKeyProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
-import java.util.Locale.getDefault
 
 class SearchViewModel : ViewModel() {
     private val _searchMovies = MutableLiveData<List<MovieModel>>()
@@ -54,7 +48,7 @@ class SearchViewModel : ViewModel() {
     fun filterList(text: String) {
         val filteredList = ArrayList<MovieModel>()
         for (item in searchMovies.value!!) {
-            if (item.title?.lowercase(getDefault())?.contains(text.lowercase(getDefault())) == true) {
+            if (item.title?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true) {
                 filteredList.add(item)
             }
         }

@@ -1,12 +1,13 @@
-package com.example.movie_project.views
+package com.example.movie_project.views.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movie_project.R
 import com.example.movie_project.databinding.ItemMovieCardBinding
 import com.example.movie_project.models.MovieModel
-
+import com.example.movie_project.views.MovieClickListener
 
 class SearchAdapter(
     private var searchList: ArrayList<MovieModel>,
@@ -28,7 +29,7 @@ class SearchAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val view: ItemMovieCardBinding = DataBindingUtil.inflate(
             inflater,
-            com.example.movie_project.R.layout.item_movie_card,
+            R.layout.item_movie_card,
             parent,
             false
         )
@@ -63,4 +64,3 @@ class SearchAdapter(
 
     }
 }
-

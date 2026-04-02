@@ -15,7 +15,7 @@ import com.example.movie_project.views.ForumFragment
 import com.example.movie_project.views.HomeFragment
 import com.example.movie_project.views.Leaderboard_Fragment
 import com.example.movie_project.views.MessagesFragment
-import com.example.movie_project.views.Search_Fragment
+import com.example.movie_project.views.search.Search_Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
