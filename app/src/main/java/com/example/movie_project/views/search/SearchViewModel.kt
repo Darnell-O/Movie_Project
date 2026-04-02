@@ -16,7 +16,9 @@ import java.util.Locale
 class SearchViewModel : ViewModel() {
     private val _searchMovies = MutableLiveData<List<MovieModel>>()
     val searchMovies: LiveData<List<MovieModel>> = _searchMovies
-    private val searchAdapter = SearchAdapter(arrayListOf())
+
+    private val _filteredMovies = MutableLiveData<List<MovieModel>>()
+    val filteredMovies: LiveData<List<MovieModel>> = _filteredMovies
 
     private val searchApiService = ApiUtil.apiService
     private lateinit var binding: FragmentSearchBinding
@@ -52,7 +54,7 @@ class SearchViewModel : ViewModel() {
                 filteredList.add(item)
             }
         }
-        searchAdapter.filterList(filteredList)
+        _filteredMovies.postValue(filteredList)
 
 //        if (filteredList.isEmpty()) {
 //            Toast.makeText(this, "No Results Found", Toast.LENGTH_SHORT).show()
