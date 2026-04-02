@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_project.databinding.FragmentSearchBinding
 import com.example.movie_project.models.MovieModel
 import com.example.movie_project.networking.ApiUtil
 import com.example.movie_project.util.ApiKeyProvider
@@ -21,7 +20,6 @@ class SearchViewModel : ViewModel() {
     val filteredMovies: LiveData<List<MovieModel>> = _filteredMovies
 
     private val searchApiService = ApiUtil.apiService
-    private lateinit var binding: FragmentSearchBinding
 
     init {
         searchMovies("")
