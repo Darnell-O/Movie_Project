@@ -140,8 +140,3 @@ class DetailActivity : AppCompatActivity() {
 
 
 }
-enum class Rating {
-    OKAY,
-    GOOD,
-    GREAT
-}
