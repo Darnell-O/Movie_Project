@@ -32,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarDetailActivity.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbarDetailActivity.setNavigationOnClickListener { finish() }
         binding.toolbarDetailActivity.title = "Movie Details"
         binding.toolbarProfileImage.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
