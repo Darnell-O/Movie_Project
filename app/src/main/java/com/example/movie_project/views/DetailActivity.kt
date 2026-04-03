@@ -13,6 +13,8 @@ import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DetailActivity : AppCompatActivity() {
 
@@ -27,7 +29,6 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -54,7 +55,15 @@ class DetailActivity : AppCompatActivity() {
         binding.detailImageView.loadImage(movie.poster_path, getProgressDrawable(this))
         binding.tvOverviewDetailActivity.text = movie.overview
         binding.tvTitleDetailActivity.text = movie.title
-        binding.tvReleaseDateDetailActivity.text = movie.release_date
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
+        val formattedDate = try {
+            val date = inputFormat.parse(movie.release_date ?: "")
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            movie.release_date ?: "N/A"
+        }
+        binding.tvReleaseDateDetailActivity.text = formattedDate
 //        binding.tvVoteAverageDetailActivity.text = movieVoteAverage.toString()
 
         favClickListener(movie.title, movieKey, movie)
