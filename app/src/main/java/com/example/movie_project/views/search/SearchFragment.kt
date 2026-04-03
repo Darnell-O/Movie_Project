@@ -21,7 +21,7 @@ import com.example.movie_project.views.search.SearchViewModel
 class SearchFragment : Fragment(), MovieClickListener {
 
     private val searchViewModel: SearchViewModel by viewModels()
-    private val searchAdapter = SearchAdapter(arrayListOf())
+    private val searchAdapter = SearchAdapter()
     private lateinit var binding: FragmentSearchBinding
 
 
@@ -47,7 +47,7 @@ class SearchFragment : Fragment(), MovieClickListener {
                 Log.i("SearchFragment", "Movie: ${it.title}")
             }
             movies?.let {
-                searchAdapter.updateMovieList(it)
+                searchAdapter.submitList(it)
                 binding.noResultsBackground.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
         }

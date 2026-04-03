@@ -3,29 +3,22 @@ package com.example.movie_project.views.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ItemMovieCardBinding
 import com.example.movie_project.models.MovieModel
 import com.example.movie_project.views.MovieClickListener
 
 class SearchAdapter(
-    private var searchList: ArrayList<MovieModel>,
     private var clickListener: MovieClickListener? = null
-) :
-    RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+) : ListAdapter<MovieModel, SearchAdapter.SearchViewHolder>(MovieDiffCallback()) {
 
     fun setClickListener(clickListener: MovieClickListener) {
         this.clickListener = clickListener
     }
 
-    fun updateMovieList(newMovieList: List<MovieModel>) {
-        searchList.clear()
-        searchList.addAll(newMovieList)
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view: ItemMovieCardBinding = DataBindingUtil.inflate(
             inflater,
@@ -33,34 +26,32 @@ class SearchAdapter(
             parent,
             false
         )
-        return SearchViewHolder(view)
+        val holder = SearchViewHolder(view)
+
+        view.cardView.setOnClickListener {
+            val position = holder.adapterPosition
+            if (position != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
+                clickListener?.onMovieClicked(getItem(position))
+            }
+        }
+
+        return holder
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        val movie =searchList[position]
-        movie?.let {
-            holder.view.movie = it
+        holder.view.movie = getItem(position)
     }
 
+    class SearchViewHolder(var view: ItemMovieCardBinding) :
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(view.root)
 
-
-        holder.view.cardView.setOnClickListener {
-            clickListener?.onMovieClicked(movie)
-
+    class MovieDiffCallback : DiffUtil.ItemCallback<MovieModel>() {
+        override fun areItemsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+            return oldItem.id == newItem.id
         }
 
-    }
-
-    override fun getItemCount(): Int {
-        return searchList.size
-    }
-
-  fun filterList(filteredList: ArrayList<MovieModel>) {
-        searchList = filteredList
-        notifyDataSetChanged()
-    }
-
-    class SearchViewHolder(var view: ItemMovieCardBinding) : RecyclerView.ViewHolder(view.root) {
-
+        override fun areContentsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean {
+            return oldItem == newItem
+        }
     }
 }
