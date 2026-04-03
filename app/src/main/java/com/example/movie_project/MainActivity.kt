@@ -15,7 +15,7 @@ import com.example.movie_project.views.ForumFragment
 import com.example.movie_project.views.HomeFragment
 import com.example.movie_project.views.Leaderboard_Fragment
 import com.example.movie_project.views.MessagesFragment
-import com.example.movie_project.views.Search_Fragment
+import com.example.movie_project.views.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.title) {
                 getString(R.string.home) -> replaceFragment(HomeFragment())
-                getString(R.string.search) -> replaceFragment(Search_Fragment())
+                getString(R.string.search) -> replaceFragment(SearchFragment())
                 getString(R.string.leaderboard) -> replaceFragment(Leaderboard_Fragment())
                 getString(R.string.favorite) -> replaceFragment(FavoritesFragment())
                 getString(R.string.messages) -> replaceFragment(MessagesFragment())

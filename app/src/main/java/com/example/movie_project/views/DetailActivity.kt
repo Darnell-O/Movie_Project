@@ -38,31 +38,26 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val movieId = intent.getIntExtra("itemId", 0)
-        val movieTitle = intent.getStringExtra("itemTitle")
-        val movieOverview = intent.getStringExtra("itemOverview")
-        val moviePosterPath = intent.getStringExtra("itemPosterPath")
-        val movieReleaseDate = intent.getStringExtra("itemReleaseDate")
-        val movieVoteAverage = intent.getFloatExtra("itemVoteAverage", 0.0f)
-
-        val movieKey = movieId.toString()
-        val movie = MovieModel(
-            movieId,
-            movieTitle,
-            movieOverview,
-            moviePosterPath,
-            movieVoteAverage,
-            movieReleaseDate
+        // Support receiving movie as Serializable (preferred) or via individual extras (legacy)
+        val movie = (intent.getSerializableExtra("movie") as? MovieModel) ?: MovieModel(
+            id = intent.getIntExtra("itemId", 0),
+            title = intent.getStringExtra("itemTitle"),
+            overview = intent.getStringExtra("itemOverview"),
+            poster_path = intent.getStringExtra("itemPosterPath"),
+            voteAverage = intent.getFloatExtra("itemVoteAverage", 0.0f),
+            release_date = intent.getStringExtra("itemReleaseDate")
         )
 
-        binding.toolbarDetailActivity.title = movieTitle
-        binding.detailImageView.loadImage(moviePosterPath, getProgressDrawable(this))
-        binding.tvOverviewDetailActivity.text = movieOverview
-        binding.tvTitleDetailActivity.text = movieTitle
-        binding.tvReleaseDateDetailActivity.text = movieReleaseDate
+        val movieKey = movie.id.toString()
+
+        binding.toolbarDetailActivity.title = movie.title
+        binding.detailImageView.loadImage(movie.poster_path, getProgressDrawable(this))
+        binding.tvOverviewDetailActivity.text = movie.overview
+        binding.tvTitleDetailActivity.text = movie.title
+        binding.tvReleaseDateDetailActivity.text = movie.release_date
 //        binding.tvVoteAverageDetailActivity.text = movieVoteAverage.toString()
 
-        favClickListener(movieTitle, movieKey, movie)
+        favClickListener(movie.title, movieKey, movie)
 
     }
 

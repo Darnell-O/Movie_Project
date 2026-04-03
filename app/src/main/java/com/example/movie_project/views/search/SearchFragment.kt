@@ -1,0 +1,91 @@
+package com.example.movie_project.views.search
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.movie_project.ProfileActivity
+import com.example.movie_project.databinding.FragmentSearchBinding
+import com.example.movie_project.models.MovieModel
+import com.example.movie_project.views.DetailActivity
+import com.example.movie_project.views.MovieClickListener
+import com.example.movie_project.views.search.SearchAdapter
+import com.example.movie_project.views.search.SearchViewModel
+
+class SearchFragment : Fragment(), MovieClickListener {
+
+    private val searchViewModel: SearchViewModel by viewModels()
+    private val searchAdapter = SearchAdapter()
+    private lateinit var binding: FragmentSearchBinding
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        binding.toolbarSearchActivity.title = "Search"
+        binding.toolbarProfileImage.setOnClickListener {
+            val intent = Intent(activity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.lifecycleOwner = this
+        binding.searchRecyclerView.adapter = searchAdapter
+        searchAdapter.setClickListener(this)
+        binding.searchView.clearFocus()
+
+        searchViewModel.searchMovies.observe(viewLifecycleOwner) { movies ->
+            movies.forEach {
+                Log.i("SearchFragment", "Movie: ${it.title}")
+            }
+            movies?.let {
+                searchAdapter.submitList(it)
+                binding.noResultsBackground.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            }
+        }
+
+        searchViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        searchViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.searchProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrBlank()) {
+                    binding.noResultsBackground.visibility = View.GONE
+                    searchViewModel.searchMovies(query)
+                } else {
+                    Toast.makeText(context, "Please enter a search query", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
+        return binding.root
+    }
+
+    override fun onMovieClicked(movie: MovieModel) {
+        Toast.makeText(context, movie.title, Toast.LENGTH_SHORT).show()
+        val intent = Intent(activity, DetailActivity::class.java)
+        intent.putExtra("movie", movie)
+        startActivity(intent)
+    }
+}

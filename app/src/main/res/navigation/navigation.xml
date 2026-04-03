@@ -29,7 +29,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/search_Fragment"-->
-<!--        android:name="com.example.movie_project.views.Search_Fragment"-->
+<!--        android:name="com.example.movie_project.views.search.Search_Fragment"-->
 <!--        android:label="fragment_search_"-->
 <!--        tools:layout="@layout/fragment_search_" />-->
 <!--    <fragment-->

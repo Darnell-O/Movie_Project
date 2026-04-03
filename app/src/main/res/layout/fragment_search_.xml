@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:background="@color/light_white"
-        tools:context=".views.Search_Fragment">
+        tools:context=".views.search.SearchFragment">
 
         <!-- TODO: Update blank fragment layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,6 +84,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/searchView"
                 app:spanCount="2"
                 tools:listitem="@layout/item_movie_card" />
+
+            <ProgressBar
+                android:id="@+id/searchProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/search_recyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/search_recyclerView" />
 
             <TextView
                 android:id="@+id/noResultsBackground"
