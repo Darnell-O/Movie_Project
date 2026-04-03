@@ -41,8 +41,6 @@ class SearchFragment : Fragment(), MovieClickListener {
         binding.searchRecyclerView.adapter = searchAdapter
         searchAdapter.setClickListener(this)
         binding.searchView.clearFocus()
-       // searchViewModel.searchMovies(query(binding.searchView.query.toString()))
-
 
         searchViewModel.searchMovies.observe(viewLifecycleOwner) { movies ->
             movies.forEach {
@@ -81,46 +79,8 @@ class SearchFragment : Fragment(), MovieClickListener {
             }
         })
 
-
-
-
         return binding.root
-
     }
-
-//      fun query(text:String):String {
-//      binding.searchView.setOnQueryTextListener(object :
-//          SearchView.OnQueryTextListener {
-//          override fun onQueryTextSubmit(text: String?): Boolean {
-//              filterList(text.toString())
-//              return false
-//          }
-//
-//          override fun onQueryTextChange(newText: String?): Boolean {
-//              filterList(newText.toString())
-//              return false
-//          }
-//      })
-//
-//      return binding.searchView.query.toString()
-
-//  }
-//
-//    fun filterList(text: String) {
-//        val filteredList = ArrayList<MovieModel>()
-//        for (item in searchViewModel.searchMovies.value!!) {
-//            if (item.title?.toLowerCase()?.contains(text.toLowerCase()) == true) {
-//                filteredList.add(item)
-//            }
-//        }
-//        searchAdapter.filterList(filteredList)
-//
-//        if (filteredList.isEmpty()) {
-//            Toast.makeText(context, "No Results Found", Toast.LENGTH_SHORT).show()
-//        } else {
-//            Toast.makeText(context, "Results Found", Toast.LENGTH_SHORT).show()
-//        }
-//    }
 
     override fun onMovieClicked(movie: MovieModel) {
         Toast.makeText(context, movie.title, Toast.LENGTH_SHORT).show()
@@ -128,9 +88,4 @@ class SearchFragment : Fragment(), MovieClickListener {
         intent.putExtra("movie", movie)
         startActivity(intent)
     }
-
-//     fun searchMovies(query: String) {
-//        // Your searchMovies function logic here
-//        viewModel.searchMovies(query)
-//    }
 }
