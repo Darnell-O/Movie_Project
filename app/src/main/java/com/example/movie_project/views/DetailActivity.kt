@@ -2,8 +2,9 @@ package com.example.movie_project.views
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import com.example.movie_project.ProfileActivity
 import com.example.movie_project.R
@@ -40,7 +41,12 @@ class DetailActivity : AppCompatActivity() {
         }
 
         // Support receiving movie as Serializable (preferred) or via individual extras (legacy)
-        val movie = (intent.getSerializableExtra("movie") as? MovieModel) ?: MovieModel(
+        val movie = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("movie", MovieModel::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("movie") as? MovieModel
+        }) ?: MovieModel(
             id = intent.getIntExtra("itemId", 0),
             title = intent.getStringExtra("itemTitle"),
             overview = intent.getStringExtra("itemOverview"),
