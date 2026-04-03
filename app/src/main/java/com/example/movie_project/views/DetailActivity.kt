@@ -70,7 +70,6 @@ class DetailActivity : AppCompatActivity() {
             movie.release_date ?: "N/A"
         }
         binding.tvReleaseDateDetailActivity.text = formattedDate
-//        binding.tvVoteAverageDetailActivity.text = movieVoteAverage.toString()
 
         favClickListener(movie.title, movieKey, movie)
 
