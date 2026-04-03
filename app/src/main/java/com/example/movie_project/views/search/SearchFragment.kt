@@ -50,6 +50,7 @@ class SearchFragment : Fragment(), MovieClickListener {
             }
             movies?.let {
                 searchAdapter.updateMovieList(it)
+                binding.noResultsBackground.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             }
         }
 
