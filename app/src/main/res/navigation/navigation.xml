@@ -22,9 +22,6 @@
 <!--        <action-->
 <!--            android:id="@+id/action_homeFragment_to_forumFragment"-->
 <!--            app:destination="@id/forumFragment" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_homeFragment_to_detailFragment"-->
-<!--            app:destination="@id/detailFragment" />-->
     </fragment>
 
 <!--    <fragment-->
@@ -47,13 +44,4 @@
 <!--        android:name="com.example.movie_project.views.ForumFragment"-->
 <!--        android:label="fragment_forum"-->
 <!--        tools:layout="@layout/fragment_forum" />-->
-<!--    <fragment-->
-<!--        android:id="@+id/detailFragment"-->
-<!--        android:name="com.example.movie_project.views.DetailFragment"-->
-<!--        android:label="fragment_detail"-->
-<!--        tools:layout="@layout/fragment_detail" >-->
-<!--        <action-->
-<!--            android:id="@+id/action_detailFragment_to_homeFragment"-->
-<!--            app:destination="@id/homeFragment" />-->
-<!--    </fragment>-->
 </navigation>

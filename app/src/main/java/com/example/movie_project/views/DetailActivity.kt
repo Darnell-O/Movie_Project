@@ -2,8 +2,9 @@ package com.example.movie_project.views
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import com.example.movie_project.ProfileActivity
 import com.example.movie_project.R
@@ -13,6 +14,8 @@ import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DetailActivity : AppCompatActivity() {
 
@@ -27,11 +30,10 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarDetailActivity.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbarDetailActivity.setNavigationOnClickListener { finish() }
         binding.toolbarDetailActivity.title = "Movie Details"
         binding.toolbarProfileImage.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
@@ -39,7 +41,12 @@ class DetailActivity : AppCompatActivity() {
         }
 
         // Support receiving movie as Serializable (preferred) or via individual extras (legacy)
-        val movie = (intent.getSerializableExtra("movie") as? MovieModel) ?: MovieModel(
+        val movie = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("movie", MovieModel::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("movie") as? MovieModel
+        }) ?: MovieModel(
             id = intent.getIntExtra("itemId", 0),
             title = intent.getStringExtra("itemTitle"),
             overview = intent.getStringExtra("itemOverview"),
@@ -54,8 +61,15 @@ class DetailActivity : AppCompatActivity() {
         binding.detailImageView.loadImage(movie.poster_path, getProgressDrawable(this))
         binding.tvOverviewDetailActivity.text = movie.overview
         binding.tvTitleDetailActivity.text = movie.title
-        binding.tvReleaseDateDetailActivity.text = movie.release_date
-//        binding.tvVoteAverageDetailActivity.text = movieVoteAverage.toString()
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
+        val formattedDate = try {
+            val date = inputFormat.parse(movie.release_date ?: "")
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            movie.release_date ?: "N/A"
+        }
+        binding.tvReleaseDateDetailActivity.text = formattedDate
 
         favClickListener(movie.title, movieKey, movie)
 
@@ -75,14 +89,11 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.heartButton.setOnClickListener {
-            val newState = !binding.heartButton.isSelected
-            binding.heartButton.isSelected = newState
-            sharedPreferences.edit().putBoolean(movieSpecificKey, newState).apply()
-            binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
-            isFavorite = sharedPreferences.getBoolean(BUTTON_STATE_KEY_PREFIX + movieTitle, false)
+            isFavorite = !isFavorite
             binding.heartButton.isSelected = isFavorite
+            sharedPreferences.edit().putBoolean(movieSpecificKey, isFavorite).apply()
 
-            if (newState) {
+            if (isFavorite) {
                 binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
                 saveFavToFirebase(movieKey, movie)
             } else {
@@ -127,9 +138,4 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-}
-enum class Rating {
-    OKAY,
-    GOOD,
-    GREAT
 }
