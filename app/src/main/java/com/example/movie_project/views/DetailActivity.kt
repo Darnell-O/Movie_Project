@@ -90,14 +90,11 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.heartButton.setOnClickListener {
-            val newState = !binding.heartButton.isSelected
-            binding.heartButton.isSelected = newState
-            sharedPreferences.edit().putBoolean(movieSpecificKey, newState).apply()
-            binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
-            isFavorite = sharedPreferences.getBoolean(BUTTON_STATE_KEY_PREFIX + movieTitle, false)
+            isFavorite = !isFavorite
             binding.heartButton.isSelected = isFavorite
+            sharedPreferences.edit().putBoolean(movieSpecificKey, isFavorite).apply()
 
-            if (newState) {
+            if (isFavorite) {
                 binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
                 saveFavToFirebase(movieKey, movie)
             } else {
