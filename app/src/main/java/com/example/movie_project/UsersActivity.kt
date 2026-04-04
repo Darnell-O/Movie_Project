@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.databinding.ActivityUsersBinding
 import com.example.movie_project.models.UsersModel
-import com.example.movie_project.views.MessagesActivity
 import com.example.movie_project.views.UserClickListener
 import com.example.movie_project.views.UsersAdapter
 import com.google.firebase.auth.FirebaseAuth
@@ -73,11 +72,5 @@ class UsersActivity : AppCompatActivity(), UserClickListener {
 
     override fun onUserClicked(user: UsersModel) {
         Toast.makeText(this, "${user?.email}", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this@UsersActivity, MessagesActivity::class.java)
-        val bundle = Bundle()
-        user.email?.let { bundle.putString("email", firebaseAuth.currentUser?.email) }
-        user.uid?.let { bundle.putString("uid", firebaseAuth.currentUser?.uid) }
-        intent.putExtras(bundle)
-        startActivity(intent)
     }
 }
