@@ -13,7 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.movie_project.views.FavoritesFragment
 import com.example.movie_project.views.ForumFragment
 import com.example.movie_project.views.HomeFragment
-import com.example.movie_project.views.Leaderboard_Fragment
 import com.example.movie_project.views.MessagesFragment
 import com.example.movie_project.views.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -56,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             when (it.title) {
                 getString(R.string.home) -> replaceFragment(HomeFragment())
                 getString(R.string.search) -> replaceFragment(SearchFragment())
-                getString(R.string.leaderboard) -> replaceFragment(Leaderboard_Fragment())
                 getString(R.string.favorite) -> replaceFragment(FavoritesFragment())
                 getString(R.string.messages) -> replaceFragment(MessagesFragment())
                 else -> {

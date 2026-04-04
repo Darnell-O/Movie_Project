@@ -14,9 +14,6 @@
 <!--            android:id="@+id/action_homeFragment_to_search_Fragment"-->
 <!--            app:destination="@id/search_Fragment" />-->
 <!--        <action-->
-<!--            android:id="@+id/action_homeFragment_to_leaderboard_Fragment"-->
-<!--            app:destination="@id/leaderboard_Fragment" />-->
-<!--        <action-->
 <!--            android:id="@+id/action_homeFragment_to_favoritesFragment"-->
 <!--            app:destination="@id/favoritesFragment" />-->
 <!--        <action-->
@@ -29,11 +26,6 @@
 <!--        android:name="com.example.movie_project.views.search.Search_Fragment"-->
 <!--        android:label="fragment_search_"-->
 <!--        tools:layout="@layout/fragment_search_" />-->
-<!--    <fragment-->
-<!--        android:id="@+id/leaderboard_Fragment"-->
-<!--        android:name="com.example.movie_project.views.Leaderboard_Fragment"-->
-<!--        android:label="fragment_leaderboard_"-->
-<!--        tools:layout="@layout/fragment_leaderboard_" />-->
 <!--    <fragment-->
 <!--        android:id="@+id/favoritesFragment"-->
 <!--        android:name="com.example.movie_project.views.FavoritesFragment"-->
