@@ -21,12 +21,7 @@
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_18">18sp</dimen>
 
-    <!--    leaderboard-->
     <dimen name="activity_toolbar_title_text_size">18sp</dimen>
-
-    <dimen name="activity_leaderboard_shape_image_width">40dp</dimen>
-    <dimen name="activity_leaderboard_shape_image_height">40dp</dimen>
-    <dimen name="activity_leaderboard_shape_margin_end">16dp</dimen>
 
     <!--    Login dimens-->
     <dimen name="activity_login1_padding">24dp</dimen>
