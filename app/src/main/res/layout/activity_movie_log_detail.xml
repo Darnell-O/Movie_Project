@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_white"
+        android:fillViewport="true"
+        tools:context=".views.movielog.MovieLogDetailActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/movie_log_detail_padding">
+
+            <!-- Toolbar -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_movie_log_detail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="@string/movie_log"
+                app:titleTextColor="@color/iris" />
+
+            <!-- Star Rating Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_section_margin_top"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/movie_log_rating"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/movie_log_detail_section_title_size" />
+
+            <LinearLayout
+                android:id="@+id/star_rating_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_margin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/star_1"
+                    android:layout_width="@dimen/movie_log_detail_star_size"
+                    android:layout_height="@dimen/movie_log_detail_star_size"
+                    android:layout_margin="@dimen/movie_log_detail_star_margin"
+                    android:contentDescription="@string/movie_log_rating"
+                    android:src="@drawable/ic_star_outline" />
+
+                <ImageView
+                    android:id="@+id/star_2"
+                    android:layout_width="@dimen/movie_log_detail_star_size"
+                    android:layout_height="@dimen/movie_log_detail_star_size"
+                    android:layout_margin="@dimen/movie_log_detail_star_margin"
+                    android:contentDescription="@string/movie_log_rating"
+                    android:src="@drawable/ic_star_outline" />
+
+                <ImageView
+                    android:id="@+id/star_3"
+                    android:layout_width="@dimen/movie_log_detail_star_size"
+                    android:layout_height="@dimen/movie_log_detail_star_size"
+                    android:layout_margin="@dimen/movie_log_detail_star_margin"
+                    android:contentDescription="@string/movie_log_rating"
+                    android:src="@drawable/ic_star_outline" />
+
+                <ImageView
+                    android:id="@+id/star_4"
+                    android:layout_width="@dimen/movie_log_detail_star_size"
+                    android:layout_height="@dimen/movie_log_detail_star_size"
+                    android:layout_margin="@dimen/movie_log_detail_star_margin"
+                    android:contentDescription="@string/movie_log_rating"
+                    android:src="@drawable/ic_star_outline" />
+
+                <ImageView
+                    android:id="@+id/star_5"
+                    android:layout_width="@dimen/movie_log_detail_star_size"
+                    android:layout_height="@dimen/movie_log_detail_star_size"
+                    android:layout_margin="@dimen/movie_log_detail_star_margin"
+                    android:contentDescription="@string/movie_log_rating"
+                    android:src="@drawable/ic_star_outline" />
+
+            </LinearLayout>
+
+            <!-- Movie Title -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_section_margin_top"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_movie_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="@string/movie_log_hint_movie"
+                    android:inputType="text"
+                    android:textSize="@dimen/sp_16" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Year -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_margin"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="@string/movie_log_hint_year"
+                    android:inputType="number"
+                    android:textSize="@dimen/sp_16" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Date Watched -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_margin"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_date_watched"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="@string/movie_log_hint_date_watched"
+                    android:inputType="text"
+                    android:textSize="@dimen/sp_16" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Directed By -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_margin"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_directed_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="@string/movie_log_hint_directed_by"
+                    android:inputType="text"
+                    android:textSize="@dimen/sp_16" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Starring -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_margin"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_starring"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="@string/movie_log_hint_starring"
+                    android:inputType="text"
+                    android:textSize="@dimen/sp_16" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Where Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_section_margin_top"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/movie_log_where"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/movie_log_detail_section_title_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_in_theater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/movie_log_in_theater"
+                    android:textSize="@dimen/sp_14" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_at_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/movie_log_detail_margin"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/movie_log_at_home"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+            <!-- Watch Type Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_section_margin_top"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/movie_log_watch_type"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/movie_log_detail_section_title_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_first_watch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/movie_log_first_watch"
+                    android:textSize="@dimen/sp_14" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_rewatch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/movie_log_detail_margin"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/movie_log_rewatch"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+            <!-- Who Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_section_margin_top"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/movie_log_who"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/movie_log_detail_section_title_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_alone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/movie_log_alone"
+                    android:textSize="@dimen/sp_14" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_with_someone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/movie_log_detail_margin"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/movie_log_with"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+            <!-- Notes Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_section_margin_top"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/movie_log_notes_section"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/movie_log_detail_section_title_size" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_margin"
+                app:counterEnabled="true"
+                app:counterMaxLength="140"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="top|start"
+                    android:hint="@string/movie_log_hint_notes"
+                    android:inputType="textMultiLine"
+                    android:maxLength="140"
+                    android:minLines="3"
+                    android:textSize="@dimen/sp_16" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Save Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_log_detail_section_margin_top"
+                android:layout_marginBottom="@dimen/movie_log_detail_section_margin_top"
+                android:backgroundTint="@color/iris"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/movie_log_save"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
