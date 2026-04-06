@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.movie_project.databinding.ActivityMainBinding
 import androidx.navigation.ui.setupWithNavController
 import com.example.movie_project.views.FavoritesFragment
-import com.example.movie_project.views.ForumFragment
 import com.example.movie_project.views.HomeFragment
 import com.example.movie_project.views.movielog.MovieLogFragment
 import com.example.movie_project.views.search.SearchFragment
