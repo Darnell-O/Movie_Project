@@ -37,4 +37,16 @@
         android:drawable="@drawable/icon"
         android:title="@string/favorite" />
 
+    <item
+        android:id="@+id/movieLogFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:icon="@drawable/book_5_24"
+        android:drawable="@drawable/icon"
+        android:title="@string/movie_log" />
+
 </menu>
