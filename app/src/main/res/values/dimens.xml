@@ -118,5 +118,27 @@
     <dimen name="location_image_margin_start">5dp</dimen>
     <dimen name="dp_150">150dp</dimen>
 
+    <!-- Movie Log Fragment dimens -->
+    <dimen name="movie_log_recyclerview_layout_width">0dp</dimen>
+    <dimen name="movie_log_recyclerview_layout_height">0dp</dimen>
+    <dimen name="movie_log_recyclerview_padding">8dp</dimen>
+    <dimen name="movie_log_recyclerview_margin_bottom">8dp</dimen>
+    <dimen name="movie_log_recyclerview_margin_top">8dp</dimen>
+    <dimen name="movie_log_title_text_size">32sp</dimen>
+    <dimen name="movie_log_fab_margin">16dp</dimen>
+
+    <!-- Movie Log Item dimens -->
+    <dimen name="movie_log_item_padding">16dp</dimen>
+    <dimen name="movie_log_item_margin">8dp</dimen>
+    <dimen name="movie_log_item_title_text_size">16sp</dimen>
+    <dimen name="movie_log_item_date_text_size">12sp</dimen>
+
+    <!-- Movie Log Detail dimens -->
+    <dimen name="movie_log_detail_padding">16dp</dimen>
+    <dimen name="movie_log_detail_margin">8dp</dimen>
+    <dimen name="movie_log_detail_star_size">36dp</dimen>
+    <dimen name="movie_log_detail_star_margin">4dp</dimen>
+    <dimen name="movie_log_detail_section_margin_top">16dp</dimen>
+    <dimen name="movie_log_detail_section_title_size">16sp</dimen>
 
 </resources>
