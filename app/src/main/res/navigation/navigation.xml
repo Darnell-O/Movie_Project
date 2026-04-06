@@ -16,9 +16,6 @@
 <!--        <action-->
 <!--            android:id="@+id/action_homeFragment_to_favoritesFragment"-->
 <!--            app:destination="@id/favoritesFragment" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_homeFragment_to_forumFragment"-->
-<!--            app:destination="@id/forumFragment" />-->
     </fragment>
 
 <!--    <fragment-->
@@ -31,9 +28,4 @@
 <!--        android:name="com.example.movie_project.views.FavoritesFragment"-->
 <!--        android:label="fragment_favorites"-->
 <!--        tools:layout="@layout/fragment_favorites" />-->
-<!--    <fragment-->
-<!--        android:id="@+id/forumFragment"-->
-<!--        android:name="com.example.movie_project.views.ForumFragment"-->
-<!--        android:label="fragment_forum"-->
-<!--        tools:layout="@layout/fragment_forum" />-->
 </navigation>
