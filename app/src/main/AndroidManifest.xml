@@ -25,6 +25,9 @@
             android:name=".views.DetailActivity"
             android:exported="false" />
         <activity
+            android:name=".views.movielog.MovieLogDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="true" />
 <!--        <activity-->

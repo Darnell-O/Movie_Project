@@ -26,4 +26,27 @@
     <string name="info_email_com">info@Email.com</string>
     <string name="email_item">Email</string>
     <string name="begin_movie_search">Begin Movie Search.</string>
+
+    <!-- Movie Log -->
+    <string name="movie_log">Movie Log</string>
+    <string name="movie_log_title">Movie</string>
+    <string name="movie_log_hint_movie">Movie</string>
+    <string name="movie_log_hint_year">Year</string>
+    <string name="movie_log_hint_date_watched">Date Watched</string>
+    <string name="movie_log_hint_directed_by">Directed By</string>
+    <string name="movie_log_hint_starring">Starring</string>
+    <string name="movie_log_hint_notes">Notes</string>
+    <string name="movie_log_in_theater">In Theater</string>
+    <string name="movie_log_at_home">At Home</string>
+    <string name="movie_log_first_watch">First Watch</string>
+    <string name="movie_log_rewatch">Rewatch</string>
+    <string name="movie_log_alone">Alone</string>
+    <string name="movie_log_with">With</string>
+    <string name="movie_log_save">Save</string>
+    <string name="movie_log_rating">Rating</string>
+    <string name="movie_log_where">Where</string>
+    <string name="movie_log_watch_type">Watch Type</string>
+    <string name="movie_log_who">Who</string>
+    <string name="movie_log_notes_section">Notes</string>
+    <string name="movie_log_empty">No movies logged yet. Tap + to add one!</string>
 </resources>
