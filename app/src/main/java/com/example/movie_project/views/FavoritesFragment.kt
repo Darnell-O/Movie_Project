@@ -50,6 +50,7 @@ class FavoritesFragment : Fragment(), MovieClickListener {
         Toast.makeText(context, "${movie?.title}", Toast.LENGTH_SHORT).show()
         val intent = Intent(activity, DetailActivity::class.java)
         val bundle = Bundle()
+        movie.id.let { bundle.putInt("itemId", it) }
         movie?.title?.let { bundle.putString("itemTitle", it) }
         movie?.poster?.let { bundle.putString("itemPoster", it) }
         movie?.poster_path?.let { bundle.putString("itemPosterPath", it) }
