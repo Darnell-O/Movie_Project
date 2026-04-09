@@ -14,31 +14,66 @@ import com.google.firebase.database.ValueEventListener
 class FavoritesViewModel : ViewModel() {
     private val _favorites = MutableLiveData<List<MovieModel>>()
     val favorites: MutableLiveData<List<MovieModel>> = _favorites
-    val userId = FirebaseAuth.getInstance().currentUser?.uid
-    private var favDatabaseReference: DatabaseReference =
-        FirebaseDatabase.getInstance().reference.child("favorites").child(userId.toString())
+    
+    // Store reference to database and listener for proper cleanup
+    private var favDatabaseReference: DatabaseReference? = null
+    private var valueEventListener: ValueEventListener? = null
 
 
      fun fetchFavorites() {
-        val favoriteMoviesList = mutableListOf<MovieModel>()
-        favDatabaseReference.addValueEventListener(object : ValueEventListener {
+        // Get current user ID and check if user is authenticated
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        
+        if (currentUserId == null) {
+            Log.e("FavoritesViewModel", "User not authenticated")
+            _favorites.postValue(emptyList())
+            return
+        }
+        
+        // Remove any existing listener to avoid duplicates
+        removeListener()
+        
+        // Lazy initialization of database reference with authenticated user ID
+        favDatabaseReference = FirebaseDatabase.getInstance()
+            .reference
+            .child("favorites")
+            .child(currentUserId)
+        
+        // Create and store the listener for later removal
+        valueEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.getValue()
+                val favoriteMoviesList = mutableListOf<MovieModel>()
+                
                 if (snapshot.exists()) {
-                    val itemList = snapshot.children.toList()
-                    if (itemList != null) {
-                        for (movie in itemList) {
-                            val movieItem = movie.getValue(MovieModel::class.java)
-                            movieItem?.let { favoriteMoviesList.add(it) }
-                        }
-                        _favorites.postValue(favoriteMoviesList)
+                    for (movie in snapshot.children) {
+                        val movieItem = movie.getValue(MovieModel::class.java)
+                        movieItem?.let { favoriteMoviesList.add(it) }
                     }
                 }
+                
+                _favorites.postValue(favoriteMoviesList)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e("FavoritesViewModel", "Error: ${error.message}")
+                _favorites.postValue(emptyList())
             }
-        })
+        }
+        
+        // Add the listener for real-time updates
+        favDatabaseReference?.addValueEventListener(valueEventListener!!)
+    }
+    
+    private fun removeListener() {
+        valueEventListener?.let { listener ->
+            favDatabaseReference?.removeEventListener(listener)
+        }
+        valueEventListener = null
+    }
+    
+    override fun onCleared() {
+        super.onCleared()
+        // Clean up listener when ViewModel is destroyed to prevent memory leaks
+        removeListener()
     }
 }
