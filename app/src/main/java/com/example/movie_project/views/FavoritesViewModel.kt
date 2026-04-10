@@ -1,6 +1,7 @@
 package com.example.movie_project.views
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movie_project.models.MovieModel
@@ -14,6 +15,12 @@ import com.google.firebase.database.ValueEventListener
 class FavoritesViewModel : ViewModel() {
     private val _favorites = MutableLiveData<List<MovieModel>>()
     val favorites: MutableLiveData<List<MovieModel>> = _favorites
+
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
     
     // Store reference to database and listener for proper cleanup
     private var favDatabaseReference: DatabaseReference? = null
@@ -21,11 +28,16 @@ class FavoritesViewModel : ViewModel() {
 
 
      fun fetchFavorites() {
+        _errorMessage.postValue(null)
+        _isLoading.postValue(true)
+
         // Get current user ID and check if user is authenticated
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         
         if (currentUserId == null) {
             Log.e("FavoritesViewModel", "User not authenticated")
+            _errorMessage.postValue("Please sign in to view favorites")
+            _isLoading.postValue(false)
             _favorites.postValue(emptyList())
             return
         }
@@ -52,10 +64,13 @@ class FavoritesViewModel : ViewModel() {
                 }
                 
                 _favorites.postValue(favoriteMoviesList)
+                _isLoading.postValue(false)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e("FavoritesViewModel", "Error: ${error.message}")
+                _errorMessage.postValue(error.message)
+                _isLoading.postValue(false)
                 _favorites.postValue(emptyList())
             }
         }

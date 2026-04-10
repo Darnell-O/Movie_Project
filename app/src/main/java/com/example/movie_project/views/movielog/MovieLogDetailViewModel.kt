@@ -1,8 +1,10 @@
 package com.example.movie_project.views.movielog
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.movie_project.data.local.MovieLogDatabase
 import com.example.movie_project.data.local.MovieLogEntry
@@ -16,6 +18,9 @@ import kotlinx.coroutines.launch
 class MovieLogDetailViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: MovieLogRepository
+
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
 
     init {
         val dao = MovieLogDatabase.getDatabase(application).movieLogDao()
@@ -36,8 +41,13 @@ class MovieLogDetailViewModel(application: Application) : AndroidViewModel(appli
      */
     fun insertEntry(entry: MovieLogEntry, onComplete: () -> Unit) {
         viewModelScope.launch {
-            repository.insertEntry(entry)
-            onComplete()
+            try {
+                repository.insertEntry(entry)
+                onComplete()
+            } catch (e: Exception) {
+                Log.e("MovieLogDetailVM", "Insert failed: ${e.message}")
+                _errorMessage.postValue(e.localizedMessage ?: "Failed to save movie log entry")
+            }
         }
     }
 
@@ -48,8 +58,13 @@ class MovieLogDetailViewModel(application: Application) : AndroidViewModel(appli
      */
     fun updateEntry(entry: MovieLogEntry, onComplete: () -> Unit) {
         viewModelScope.launch {
-            repository.updateEntry(entry)
-            onComplete()
+            try {
+                repository.updateEntry(entry)
+                onComplete()
+            } catch (e: Exception) {
+                Log.e("MovieLogDetailVM", "Update failed: ${e.message}")
+                _errorMessage.postValue(e.localizedMessage ?: "Failed to update movie log entry")
+            }
         }
     }
 }
