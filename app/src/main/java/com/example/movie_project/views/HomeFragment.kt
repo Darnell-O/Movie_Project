@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.movie_project.ProfileActivity
@@ -44,6 +45,16 @@ class HomeFragment : Fragment(), MovieClickListener {
             movies?.let {
                 movieListAdapter.updateMovieList(it)
             }
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.homeProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
         return binding.root

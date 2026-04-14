@@ -37,6 +37,16 @@ class FavoritesFragment : Fragment(), MovieClickListener {
             favMovieListAdapter.updateMovieList(favorites)
         }
 
+        favViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        favViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.favoritesProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
         return binding.root
     }
 
