@@ -36,6 +36,12 @@ class MovieLogDetailActivity : AppCompatActivity() {
         setupStarRating()
         setupSaveButton()
 
+        viewModel.errorMessage.observe(this) { error ->
+            error?.let {
+                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+            }
+        }
+
         // Check if editing an existing entry
         editEntryId = intent.getLongExtra(EXTRA_ENTRY_ID, -1L)
         if (editEntryId != -1L) {
