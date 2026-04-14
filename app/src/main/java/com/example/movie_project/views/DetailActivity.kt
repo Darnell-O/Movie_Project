@@ -13,6 +13,7 @@ import com.example.movie_project.models.MovieModel
 import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -23,13 +24,20 @@ class DetailActivity : AppCompatActivity() {
     private var isFavorite = false
     private lateinit var sharedPreferences: SharedPreferences
     private val BUTTON_STATE_KEY_PREFIX = "button_state_"
-    private val userId = FirebaseAuth.getInstance().currentUser?.uid
-    private val databaseReference =
-        FirebaseDatabase.getInstance().getReference("favorites").child(userId.toString())
+    private var userId: String? = null
+    private lateinit var databaseReference: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Toast.makeText(this, "Please sign in to manage favorites", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+        databaseReference = FirebaseDatabase.getInstance().getReference("favorites").child(userId!!)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -80,7 +80,7 @@ class SignUpActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(
                                     this,
-                                    "Password Error + ${it.exception.toString()}",
+                                    it.exception?.localizedMessage ?: "Sign up failed. Please try again.",
                                     Toast.LENGTH_SHORT
                                 )
                                     .show()
@@ -113,7 +113,7 @@ class SignUpActivity : AppCompatActivity() {
                 updateUI(account)
             }
         } else {
-            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, task.exception?.localizedMessage ?: "Google sign-in failed. Please try again.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -131,7 +131,7 @@ class SignUpActivity : AppCompatActivity() {
                 intent.putExtra("name", account.displayName)
                 startActivity(intent)
             } else {
-                Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, task.exception?.localizedMessage ?: "Authentication failed. Please try again.", Toast.LENGTH_SHORT).show()
             }
         }
     }

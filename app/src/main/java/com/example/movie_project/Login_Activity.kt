@@ -43,7 +43,7 @@ class Login_Activity : AppCompatActivity() {
                             Toast.makeText(this, "Welcome back $loginUserName", Toast.LENGTH_LONG)
                                 .show()
                         } else {
-                            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG)
+                            Toast.makeText(this, task.exception?.localizedMessage ?: "Login failed. Please try again.", Toast.LENGTH_LONG)
                                 .show()
                         }
                     }
