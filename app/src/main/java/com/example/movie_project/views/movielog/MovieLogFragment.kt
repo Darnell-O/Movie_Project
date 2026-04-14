@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.movie_project.data.local.MovieLogEntry
@@ -41,6 +42,12 @@ class MovieLogFragment : Fragment(), MovieLogClickListener {
                 binding.tvEmptyState.visibility = View.GONE
                 binding.movieLogRecyclerView.visibility = View.VISIBLE
                 movieLogAdapter.updateEntries(entries)
+            }
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
