@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.databinding.ItemMovieCardBinding
 import com.example.movie_project.models.MovieModel
+import com.example.movie_project.util.HapticUtil
 
 
 class FavoritesAdapter(
@@ -38,12 +39,13 @@ class FavoritesAdapter(
 
     override fun onBindViewHolder(holder: FavoritesHolder, position: Int) {
         val movie = movieList[position]
-        movie?.let {
+        movie.let {
             holder.view.movie = it
         }
 
 
-        holder.view.cardView.setOnClickListener {
+        holder.view.cardView.setOnClickListener { cardView ->
+            HapticUtil.performClickFeedback(cardView)
             clickListener?.onMovieClicked(movie)
 
         }
