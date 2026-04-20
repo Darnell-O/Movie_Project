@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ItemMovieCardBinding
 import com.example.movie_project.models.MovieModel
+import com.example.movie_project.util.HapticUtil
 import com.example.movie_project.views.MovieClickListener
 
 class SearchAdapter(
@@ -28,7 +29,8 @@ class SearchAdapter(
         )
         val holder = SearchViewHolder(view)
 
-        view.cardView.setOnClickListener {
+        view.cardView.setOnClickListener { cardView ->
+            HapticUtil.performClickFeedback(cardView)
             val position = holder.adapterPosition
             if (position != androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
                 clickListener?.onMovieClicked(getItem(position))
