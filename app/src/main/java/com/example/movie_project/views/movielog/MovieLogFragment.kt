@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.FragmentMovieLogBinding
+import com.example.movie_project.util.HapticUtil
 
 /**
  * Fragment displaying the Movie Log list.
@@ -53,6 +54,7 @@ class MovieLogFragment : Fragment(), MovieLogClickListener {
 
         // FAB click — navigate to detail screen for adding a new entry
         binding.fabAddMovieLog.setOnClickListener {
+            HapticUtil.performClickFeedback(it)
             val intent = Intent(activity, MovieLogDetailActivity::class.java)
             startActivity(intent)
         }
