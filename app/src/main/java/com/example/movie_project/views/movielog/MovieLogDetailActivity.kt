@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.movie_project.R
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.ActivityMovieLogDetailBinding
+import com.example.movie_project.util.HapticUtil
 
 /**
  * Activity for creating or editing a movie log entry.
@@ -74,6 +75,7 @@ class MovieLogDetailActivity : AppCompatActivity() {
 
         starViews.forEachIndexed { index, imageView ->
             imageView.setOnClickListener {
+                HapticUtil.performClickFeedback(it)
                 currentRating = index + 1
                 updateStarDisplay(currentRating)
             }
@@ -99,6 +101,7 @@ class MovieLogDetailActivity : AppCompatActivity() {
      */
     private fun setupSaveButton() {
         binding.btnSave.setOnClickListener {
+            HapticUtil.performClickFeedback(it)
             val movieTitle = binding.etMovieTitle.text.toString().trim()
 
             if (movieTitle.isEmpty()) {
