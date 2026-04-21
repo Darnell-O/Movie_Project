@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Locale
+import androidx.core.content.edit
 
 class DetailActivity : AppCompatActivity() {
 
@@ -101,7 +102,7 @@ class DetailActivity : AppCompatActivity() {
             isFavorite = !isFavorite
             binding.heartButton.isSelected = isFavorite
             HapticUtil.performClickFeedback(it)
-            sharedPreferences.edit().putBoolean(movieSpecificKey, isFavorite).apply()
+            sharedPreferences.edit { putBoolean(movieSpecificKey, isFavorite) }
 
             if (isFavorite) {
                 binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
