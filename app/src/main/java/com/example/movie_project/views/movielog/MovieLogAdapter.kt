@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.R
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.ItemMovieLogBinding
+import com.example.movie_project.util.HapticUtil
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -44,7 +45,8 @@ class MovieLogAdapter(
     override fun onBindViewHolder(holder: MovieLogViewHolder, position: Int) {
         val entry = entries[position]
         holder.bind(entry)
-        holder.binding.cardMovieLogItem.setOnClickListener {
+        holder.binding.cardMovieLogItem.setOnClickListener { cardView ->
+            HapticUtil.performClickFeedback(cardView)
             clickListener?.onMovieLogClicked(entry)
         }
     }
