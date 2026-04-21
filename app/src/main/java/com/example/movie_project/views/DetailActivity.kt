@@ -10,6 +10,7 @@ import com.example.movie_project.ProfileActivity
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityDetailBinding
 import com.example.movie_project.models.MovieModel
+import com.example.movie_project.util.HapticUtil
 import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage
 import com.google.firebase.auth.FirebaseAuth
@@ -99,6 +100,7 @@ class DetailActivity : AppCompatActivity() {
         binding.heartButton.setOnClickListener {
             isFavorite = !isFavorite
             binding.heartButton.isSelected = isFavorite
+            HapticUtil.performClickFeedback(it)
             sharedPreferences.edit().putBoolean(movieSpecificKey, isFavorite).apply()
 
             if (isFavorite) {
