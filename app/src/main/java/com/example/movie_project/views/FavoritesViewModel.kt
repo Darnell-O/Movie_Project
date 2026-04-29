@@ -1,94 +1,71 @@
 package com.example.movie_project.views
 
-import android.util.Log
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Observer
+import com.example.movie_project.MovieMagicApp
+import com.example.movie_project.data.repository.FavoritesRepository
 import com.example.movie_project.models.MovieModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
-class FavoritesViewModel : ViewModel() {
-    private val _favorites = MutableLiveData<List<MovieModel>>()
-    val favorites: MutableLiveData<List<MovieModel>> = _favorites
+/**
+ * ViewModel for the Favorites screen.
+ *
+ * Reads come from the local Room cache (offline-safe). The repository's
+ * Firebase listener mirrors remote updates into Room when online.
+ */
+class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository: FavoritesRepository =
+        MovieMagicApp.from(application).favoritesRepository
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-    
-    // Store reference to database and listener for proper cleanup
-    private var favDatabaseReference: DatabaseReference? = null
-    private var valueEventListener: ValueEventListener? = null
 
+    /**
+     * Favorites list driven by Room — always available, online or offline.
+     */
+    private val _favorites = MediatorLiveData<List<MovieModel>>()
+    val favorites: LiveData<List<MovieModel>> = _favorites
 
-     fun fetchFavorites() {
-        _errorMessage.postValue(null)
-        _isLoading.postValue(true)
+    private val repoErrorObserver = Observer<String?> { msg ->
+        if (!msg.isNullOrEmpty()) _errorMessage.postValue(msg)
+    }
 
-        // Get current user ID and check if user is authenticated
+    init {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-        
-        if (currentUserId == null) {
-            Log.e("FavoritesViewModel", "User not authenticated")
+
+        if (currentUserId != null) {
+            _isLoading.postValue(true)
+
+            // Mirror Room → favorites LiveData
+            _favorites.addSource(repository.observeFavorites(currentUserId)) { list ->
+                _isLoading.postValue(false)
+                _favorites.value = list
+            }
+
+            // Start real-time Firebase listener so Room stays fresh while online
+            repository.startFirebaseListener(currentUserId)
+        } else {
+            _favorites.value = emptyList()
             _errorMessage.postValue("Please sign in to view favorites")
             _isLoading.postValue(false)
-            _favorites.postValue(emptyList())
-            return
         }
-        
-        // Remove any existing listener to avoid duplicates
-        removeListener()
-        
-        // Lazy initialization of database reference with authenticated user ID
-        favDatabaseReference = FirebaseDatabase.getInstance()
-            .reference
-            .child("favorites")
-            .child(currentUserId)
-        
-        // Create and store the listener for later removal
-        valueEventListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val favoriteMoviesList = mutableListOf<MovieModel>()
-                
-                if (snapshot.exists()) {
-                    for (movie in snapshot.children) {
-                        val movieItem = movie.getValue(MovieModel::class.java)
-                        movieItem?.let { favoriteMoviesList.add(it) }
-                    }
-                }
-                
-                _favorites.postValue(favoriteMoviesList)
-                _isLoading.postValue(false)
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("FavoritesViewModel", "Error: ${error.message}")
-                _errorMessage.postValue(error.message)
-                _isLoading.postValue(false)
-                _favorites.postValue(emptyList())
-            }
-        }
-        
-        // Add the listener for real-time updates
-        favDatabaseReference?.addValueEventListener(valueEventListener!!)
+        // Forward repository errors to the UI
+        repository.errorMessage.observeForever(repoErrorObserver)
     }
-    
-    private fun removeListener() {
-        valueEventListener?.let { listener ->
-            favDatabaseReference?.removeEventListener(listener)
-        }
-        valueEventListener = null
-    }
-    
+
     override fun onCleared() {
         super.onCleared()
-        // Clean up listener when ViewModel is destroyed to prevent memory leaks
-        removeListener()
+        repository.errorMessage.removeObserver(repoErrorObserver)
+        // Listener is app-scoped via the repository singleton — keep it running so
+        // Room stays fresh as the user navigates. It is stopped explicitly on sign-out.
     }
 }
