@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.movie_project.data.local.MovieLogDatabase
+import com.example.movie_project.data.local.AppDatabase
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.data.repository.MovieLogRepository
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class MovieLogDetailViewModel(application: Application) : AndroidViewModel(appli
     val errorMessage: LiveData<String?> = _errorMessage
 
     init {
-        val dao = MovieLogDatabase.getDatabase(application).movieLogDao()
+        val dao = AppDatabase.getDatabase(application).movieLogDao()
         repository = MovieLogRepository(dao)
     }
 
