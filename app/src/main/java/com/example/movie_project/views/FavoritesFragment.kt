@@ -52,7 +52,7 @@ class FavoritesFragment : Fragment(), MovieClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        favViewModel.fetchFavorites()
+        // No fetch needed — ViewModel observes Room directly (offline-safe).
     }
 
 
