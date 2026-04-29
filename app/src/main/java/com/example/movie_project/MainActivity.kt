@@ -15,8 +15,6 @@ import com.example.movie_project.views.HomeFragment
 import com.example.movie_project.views.movielog.MovieLogFragment
 import com.example.movie_project.views.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.FirebaseApp
-import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,9 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Firestore
-        FirebaseApp.initializeApp(this)
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        // Firebase initialization + persistence are configured in MovieMagicApp.onCreate
+        // BEFORE any FirebaseDatabase.getInstance() call so the instance is not frozen.
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

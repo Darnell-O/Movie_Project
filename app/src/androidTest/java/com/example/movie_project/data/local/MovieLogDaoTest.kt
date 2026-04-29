@@ -26,14 +26,14 @@ class MovieLogDaoTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database: MovieLogDatabase
+    private lateinit var database: AppDatabase
     private lateinit var dao: MovieLogDao
 
     @Before
     fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            MovieLogDatabase::class.java
+            AppDatabase::class.java
         ).allowMainThreadQueries().build()
 
         dao = database.movieLogDao()

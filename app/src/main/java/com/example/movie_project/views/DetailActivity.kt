@@ -1,11 +1,12 @@
 package com.example.movie_project.views
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.example.movie_project.MovieMagicApp
 import com.example.movie_project.ProfileActivity
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityDetailBinding
@@ -14,21 +15,22 @@ import com.example.movie_project.util.HapticUtil
 import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
-import androidx.core.content.edit
 
+/**
+ * DetailActivity now persists favorites through [FavoritesRepository], which writes
+ * to Room first (offline-safe) and pushes to Firebase when online. Heart-button
+ * state is driven by the live [isFavorite] LiveData from Room — accurate across
+ * devices and offline.
+ */
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private var isFavorite = false
-    private lateinit var sharedPreferences: SharedPreferences
-    private val BUTTON_STATE_KEY_PREFIX = "button_state_"
     private var userId: String? = null
-    private lateinit var databaseReference: DatabaseReference
-
+    private val repository by lazy { MovieMagicApp.from(this).favoritesRepository }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,15 +41,13 @@ class DetailActivity : AppCompatActivity() {
             finish()
             return
         }
-        databaseReference = FirebaseDatabase.getInstance().getReference("favorites").child(userId!!)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbarDetailActivity.setNavigationOnClickListener { finish() }
         binding.toolbarDetailActivity.title = "Movie Details"
         binding.toolbarProfileImage.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
 
         // Support receiving movie as Serializable (preferred) or via individual extras (legacy)
@@ -65,12 +65,11 @@ class DetailActivity : AppCompatActivity() {
             release_date = intent.getStringExtra("itemReleaseDate")
         )
 
-        val movieKey = movie.id.toString()
-
         binding.toolbarDetailActivity.title = movie.title
         binding.detailImageView.loadImage(movie.poster_path, getProgressDrawable(this))
         binding.tvOverviewDetailActivity.text = movie.overview
         binding.tvTitleDetailActivity.text = movie.title
+
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val outputFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
         val formattedDate = try {
@@ -81,72 +80,33 @@ class DetailActivity : AppCompatActivity() {
         }
         binding.tvReleaseDateDetailActivity.text = formattedDate
 
-        favClickListener(movie.title, movieKey, movie)
-
+        setupFavoriteButton(movie)
     }
 
-    private fun favClickListener(movieTitle: String?, movieKey: String?, movie: MovieModel){
-        sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
-        val movieSpecificKey = BUTTON_STATE_KEY_PREFIX + movieTitle
+    private fun setupFavoriteButton(movie: MovieModel) {
+        val uid = userId ?: return
 
-        isFavorite = sharedPreferences.getBoolean(movieSpecificKey, false)
-        binding.heartButton.isSelected = isFavorite
-
-        if (isFavorite) {
-            binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
-        } else {
-            binding.heartButton.setImageResource(R.drawable.heart_button)
+        // Observe the live "is this a favorite?" state from Room.
+        repository.isFavorite(uid, movie.id).observe(this) { fav ->
+            isFavorite = fav
+            binding.heartButton.isSelected = fav
+            binding.heartButton.setImageResource(
+                if (fav) R.drawable.baseline_favorite_24 else R.drawable.heart_button
+            )
         }
 
-        binding.heartButton.setOnClickListener {
-            isFavorite = !isFavorite
-            binding.heartButton.isSelected = isFavorite
-            HapticUtil.performClickFeedback(it)
-            sharedPreferences.edit { putBoolean(movieSpecificKey, isFavorite) }
-
-            if (isFavorite) {
-                binding.heartButton.setImageResource(R.drawable.baseline_favorite_24)
-                saveFavToFirebase(movieKey, movie)
-            } else {
-                binding.heartButton.setImageResource(R.drawable.heart_button)
-                removeFavFromFirebase(movieKey)
+        binding.heartButton.setOnClickListener { view ->
+            HapticUtil.performClickFeedback(view)
+            // Toggle through repository — handles online/offline + queue.
+            lifecycleScope.launch {
+                if (isFavorite) {
+                    repository.removeFavorite(uid, movie.id)
+                    Toast.makeText(this@DetailActivity, "Removed from Favorites", Toast.LENGTH_SHORT).show()
+                } else {
+                    repository.addFavorite(uid, movie)
+                    Toast.makeText(this@DetailActivity, "Added to Favorites", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
-    private fun saveFavToFirebase(movieKey: String?, movie: MovieModel) {
-        if (userId != null && movieKey != null) {
-            databaseReference.child(movieKey).setValue(movie)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "Failed to add to Favorites",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                }
-
-        }
-    }
-
-    private fun removeFavFromFirebase(movieKey: String?) {
-        if (userId != null && movieKey != null) {
-            databaseReference.child(movieKey).removeValue()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(this, "Failed to remove from Favorites", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-        }
-    }
-
-
 }
