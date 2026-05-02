@@ -9,7 +9,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:drawable="@drawable/icon"
-        android:icon="@drawable/outline_home"
+        android:icon="@drawable/selector_home"
         android:title="@string/home" />
 
 
@@ -22,7 +22,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:drawable="@drawable/icon"
-        android:icon="@drawable/outline_search"
+        android:icon="@drawable/selector_search"
         android:title="@string/search" />
 
     <item
@@ -33,7 +33,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:icon="@drawable/favorite_border"
+        android:icon="@drawable/selector_favorite"
         android:drawable="@drawable/icon"
         android:title="@string/favorite" />
 
@@ -45,7 +45,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:icon="@drawable/book_5_24"
+        android:icon="@drawable/selector_book"
         android:drawable="@drawable/icon"
         android:title="@string/movie_log" />
 
