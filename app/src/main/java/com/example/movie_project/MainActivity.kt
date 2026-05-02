@@ -14,6 +14,7 @@ import com.example.movie_project.views.FavoritesFragment
 import com.example.movie_project.views.HomeFragment
 import com.example.movie_project.views.movielog.MovieLogFragment
 import com.example.movie_project.views.search.SearchFragment
+import com.example.movie_project.util.HapticUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigation() {
         binding.bottomNavigation.setOnItemSelectedListener {
+            HapticUtil.performClickFeedback(binding.bottomNavigation)
             when (it.title) {
                 getString(R.string.home) -> replaceFragment(HomeFragment())
                 getString(R.string.search) -> replaceFragment(SearchFragment())
