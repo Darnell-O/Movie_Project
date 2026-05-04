@@ -29,7 +29,7 @@
 
     <!-- Movie Log -->
     <string name="movie_log">Movie Log</string>
-    <string name="movie_log_title">Movie</string>
+    <string name="movie_log_title">My Movies</string>
     <string name="movie_log_hint_movie">Movie</string>
     <string name="movie_log_hint_year">Year</string>
     <string name="movie_log_hint_date_watched">Date Watched</string>

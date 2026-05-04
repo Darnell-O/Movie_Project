@@ -76,6 +76,7 @@
                 android:layout_marginBottom="@dimen/search_recyclerview_margin_bottom"
                 android:clipToPadding="false"
                 android:padding="@dimen/search_recyclerview_padding"
+                android:paddingBottom="80dp"
                 android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
