@@ -2,6 +2,10 @@ package com.example.movie_project
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -32,11 +36,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        applyFloatingNavInsets()
         navigation()
 
 
 
 
+    }
+
+    /**
+     * Ensures the floating bottom navigation bar sits above the system gesture /
+     * navigation bar on edge-to-edge devices by adding the system bar inset to
+     * the view's bottom margin (on top of the design-time 16dp margin).
+     */
+    private fun applyFloatingNavInsets() {
+        val baseMarginPx = binding.bottomNavigation.let {
+            (it.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = baseMarginPx + systemBars.bottom
+            }
+            insets
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {

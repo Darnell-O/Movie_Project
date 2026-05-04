@@ -54,8 +54,8 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/activity_profile_image_layout_margin_top"
-        android:layout_marginLeft="@dimen/activity_profile_material_button_layout_marginRight"
+        android:layout_marginEnd="@dimen/activity_profile_image_layout_margin_top"
+        android:layout_marginStart="@dimen/activity_profile_material_button_layout_marginRight"
         layout="@layout/item_image"
         />
 
@@ -74,13 +74,13 @@
                 android:id="@+id/logoutButton"
                 android:layout_width="371dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_profile_material_button_layout_marginLeft"
-                android:layout_marginRight="@dimen/activity_profile_material_button_layout_marginRight"
+                android:layout_marginStart="@dimen/activity_profile_material_button_layout_marginLeft"
+                android:layout_marginEnd="@dimen/activity_profile_material_button_layout_marginRight"
                 android:layout_marginBottom="@dimen/activity_profile_material_button_layout_marginBottom"
                 android:backgroundTint="@color/iris"
                 android:fontFamily="@font/montserrat_bold"
-                android:paddingLeft="@dimen/activity_profile_material_button_layout_paddingLeft"
-                android:paddingRight="@dimen/activity_profile_material_button_layout_paddingRight"
+                android:paddingStart="@dimen/activity_profile_material_button_layout_paddingLeft"
+                android:paddingEnd="@dimen/activity_profile_material_button_layout_paddingRight"
                 android:text="@string/logout" />
 
         </LinearLayout>
