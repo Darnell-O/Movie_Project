@@ -9,6 +9,7 @@ import com.example.movie_project.R
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.ActivityMovieLogDetailBinding
 import com.example.movie_project.util.HapticUtil
+import java.util.UUID
 
 /**
  * Activity for creating or editing a movie log entry.
@@ -24,7 +25,7 @@ class MovieLogDetailActivity : AppCompatActivity() {
     private val viewModel: MovieLogDetailViewModel by viewModels()
 
     private var currentRating = 0
-    private var editEntryId: Long = -1L
+    private var editEntryId: String? = null
     private var editEntryDateAdded: Long = System.currentTimeMillis()
     private lateinit var starViews: List<ImageView>
 
@@ -43,11 +44,9 @@ class MovieLogDetailActivity : AppCompatActivity() {
             }
         }
 
-        // Check if editing an existing entry
-        editEntryId = intent.getLongExtra(EXTRA_ENTRY_ID, -1L)
-        if (editEntryId != -1L) {
-            loadExistingEntry(editEntryId)
-        }
+        // Check if editing an existing entry (entryId is now a String UUID)
+        editEntryId = intent.getStringExtra(EXTRA_ENTRY_ID)
+        editEntryId?.let { loadExistingEntry(it) }
     }
 
     /**
@@ -109,8 +108,10 @@ class MovieLogDetailActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Build entry with userId placeholder (repository will set the real userId)
             val entry = MovieLogEntry(
-                id = if (editEntryId != -1L) editEntryId else 0,
+                userId = "",  // Will be set by repository
+                entryId = editEntryId ?: UUID.randomUUID().toString(),
                 movieTitle = movieTitle,
                 year = binding.etYear.text.toString().trim(),
                 dateWatched = binding.etDateWatched.text.toString().trim(),
@@ -124,10 +125,10 @@ class MovieLogDetailActivity : AppCompatActivity() {
                 alone = binding.cbAlone.isChecked,
                 withSomeone = binding.cbWithSomeone.isChecked,
                 notes = binding.etNotes.text.toString().trim(),
-                dateAdded = if (editEntryId != -1L) editEntryDateAdded else System.currentTimeMillis()
+                dateAdded = if (editEntryId != null) editEntryDateAdded else System.currentTimeMillis()
             )
 
-            if (editEntryId != -1L) {
+            if (editEntryId != null) {
                 viewModel.updateEntry(entry) {
                     runOnUiThread {
                         Toast.makeText(this, "Movie updated!", Toast.LENGTH_SHORT).show()
@@ -148,8 +149,8 @@ class MovieLogDetailActivity : AppCompatActivity() {
     /**
      * Loads an existing entry for editing and populates the form fields.
      */
-    private fun loadExistingEntry(id: Long) {
-        viewModel.getEntryById(id).observe(this) { entry ->
+    private fun loadExistingEntry(entryId: String) {
+        viewModel.getEntryById(entryId).observe(this) { entry ->
             entry?.let {
                 editEntryDateAdded = it.dateAdded
                 binding.etMovieTitle.setText(it.movieTitle)
