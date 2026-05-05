@@ -64,28 +64,50 @@ interface FavoriteDao {
     suspend fun clearForUser(userId: String)
 
     /**
+     * Returns snapshot of all favorites for a user (used in conflict resolution).
+     */
+    @Query("SELECT * FROM favorites WHERE userId = :userId AND pendingDeletion = 0")
+    suspend fun getFavoritesSnapshot(userId: String): List<FavoriteEntry>
+
+    /**
      * Replaces the entire local cache for a user with a fresh set from Firebase.
-     * Preserves any pending operations by merging them back in after the replace.
+     * Preserves any pending operations by merging them back with timestamp-based conflict resolution.
      */
     @Transaction
     suspend fun replaceAllForUser(userId: String, entries: List<FavoriteEntry>) {
         // Save pending operations before clearing
         val pendingOps = getPendingSyncForUser(userId)
         clearForUser(userId)
+
         // Insert fresh data from Firebase
         entries.forEach { upsert(it) }
-        // Re-apply any pending operations that weren't in the Firebase data
+
+        // Re-apply pending operations with timestamp-based conflict resolution
         pendingOps.forEach { pending ->
-            val existsInFresh = entries.any { it.movieId == pending.movieId }
+            val firebaseEntry = entries.find { it.movieId == pending.movieId }
+
             if (pending.pendingDeletion) {
-                // If it was pending deletion and Firebase still has it, re-mark for deletion
-                if (existsInFresh) {
-                    markPendingDeletion(userId, pending.movieId)
+                // If marked for deletion locally, check timestamp
+                if (firebaseEntry != null) {
+                    if (pending.updatedAt > firebaseEntry.updatedAt) {
+                        // Local deletion is newer - keep the deletion
+                        markPendingDeletion(userId, pending.movieId)
+                    }
+                    // else: Firebase version is newer, deletion is obsolete
                 }
-                // If Firebase doesn't have it, the deletion already happened — skip
-            } else if (pending.pendingSync && !existsInFresh) {
-                // Offline add that Firebase doesn't know about yet — re-insert
-                upsert(pending)
+            } else if (pending.pendingSync) {
+                // Local edit/add pending
+                if (firebaseEntry != null) {
+                    // Conflict: compare timestamps
+                    if (pending.updatedAt > firebaseEntry.updatedAt) {
+                        // Local version is newer - keep it
+                        upsert(pending)
+                    }
+                    // else: Firebase version is newer, already inserted above
+                } else {
+                    // New local favorite not in Firebase yet
+                    upsert(pending)
+                }
             }
         }
     }
