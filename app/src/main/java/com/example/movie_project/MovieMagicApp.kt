@@ -4,7 +4,9 @@ import android.app.Application
 import android.util.Log
 import com.example.movie_project.data.local.AppDatabase
 import com.example.movie_project.data.repository.FavoritesRepository
+import com.example.movie_project.data.repository.MovieLogRepository
 import com.example.movie_project.data.sync.FavoritesSyncManager
+import com.example.movie_project.data.sync.MovieLogSyncManager
 import com.example.movie_project.util.NetworkMonitor
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
@@ -15,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase
  * - NetworkMonitor (connectivity)
  * - FavoritesRepository (single source of truth)
  * - FavoritesSyncManager (online-trigger sync)
+ * - MovieLogRepository (single source of truth for Movie Log)
+ * - MovieLogSyncManager (online-trigger sync for Movie Log)
  *
  * Use [MovieMagicApp.from] from any Context to access these.
  */
@@ -27,6 +31,12 @@ class MovieMagicApp : Application() {
         private set
 
     lateinit var favoritesSyncManager: FavoritesSyncManager
+        private set
+
+    lateinit var movieLogRepository: MovieLogRepository
+        private set
+
+    lateinit var movieLogSyncManager: MovieLogSyncManager
         private set
 
     override fun onCreate() {
@@ -45,6 +55,7 @@ class MovieMagicApp : Application() {
 
         val db = AppDatabase.getDatabase(this)
         networkMonitor = NetworkMonitor(this)
+        
         favoritesRepository = FavoritesRepository(
             favoriteDao = db.favoriteDao(),
             networkMonitor = networkMonitor
@@ -54,9 +65,19 @@ class MovieMagicApp : Application() {
             networkMonitor = networkMonitor
         )
 
+        movieLogRepository = MovieLogRepository(
+            movieLogDao = db.movieLogDao(),
+            networkMonitor = networkMonitor
+        )
+        movieLogSyncManager = MovieLogSyncManager(
+            repository = movieLogRepository,
+            networkMonitor = networkMonitor
+        )
+
         // Begin observing connectivity and trigger sync on reconnect
         networkMonitor.startMonitoring()
         favoritesSyncManager.start()
+        movieLogSyncManager.start()
     }
 
     companion object {

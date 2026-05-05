@@ -64,11 +64,11 @@ class MovieLogFragment : Fragment(), MovieLogClickListener {
 
     /**
      * Called when a movie log item is clicked.
-     * Navigates to the detail screen for editing.
+     * Navigates to the detail screen for editing using the UUID-based entryId.
      */
     override fun onMovieLogClicked(entry: MovieLogEntry) {
         val intent = Intent(activity, MovieLogDetailActivity::class.java)
-        intent.putExtra(MovieLogDetailActivity.EXTRA_ENTRY_ID, entry.id)
+        intent.putExtra(MovieLogDetailActivity.EXTRA_ENTRY_ID, entry.entryId)
         startActivity(intent)
     }
 }
