@@ -1,0 +1,234 @@
+%% Movie_Project — System Design (Mermaid flowchart)
+%% Paste this entire file into Excalidraw:
+%%   excalidraw.com → hamburger menu → "Generate diagram" (Mermaid to Excalidraw)
+%% Every node and arrow becomes an editable Excalidraw shape.
+
+flowchart TB
+    %% ============================================================
+    %% External services (cloud)
+    %% ============================================================
+    subgraph EXT["☁️ External Services"]
+        TMDB["TMDB Movie API"]
+        FBAUTH["Firebase Auth"]
+        FSTORE["Firebase Firestore"]
+        GSI["Google Sign-In"]
+    end
+
+    %% ============================================================
+    %% Application bootstrap
+    %% ============================================================
+    subgraph APP["Application"]
+        APPCLASS["MovieMagicApp\n(Application class)"]
+    end
+
+    %% ============================================================
+    %% Auth & entry activities
+    %% ============================================================
+    subgraph AUTH["Auth & Entry Activities"]
+        SPLASH_A["Splash_Activity"]
+        LOGIN["Login_Activity"]
+        SIGNUP["SignUpActivity"]
+    end
+
+    %% ============================================================
+    %% Main UI activities
+    %% ============================================================
+    subgraph ACTS["Main UI Activities"]
+        MAIN["MainActivity"]
+        PROFILE["ProfileActivity"]
+        USERS_A["UsersActivity"]
+        DETAIL["DetailActivity"]
+        MLDETAIL["MovieLogDetailActivity"]
+    end
+
+    %% ============================================================
+    %% Fragments & Compose screens
+    %% ============================================================
+    subgraph FRAGS["Fragments / Compose Screens"]
+        HOME_F["HomeFragment"]
+        FAV_F["FavoritesFragment"]
+        SEARCH_F["SearchFragment"]
+        SEARCH_S["SearchScreen (Compose)"]
+        MLOG_F["MovieLogFragment"]
+        SPLASH_S["SplashScreen (Compose)"]
+    end
+
+    %% ============================================================
+    %% ViewModels
+    %% ============================================================
+    subgraph VMS["ViewModels"]
+        HVM["HomeViewModel"]
+        FVM["FavoritesViewModel"]
+        SVM["SearchViewModel"]
+        MLVM["MovieLogViewModel"]
+        MLDVM["MovieLogDetailViewModel"]
+    end
+
+    %% ============================================================
+    %% Repositories
+    %% ============================================================
+    subgraph REPOS["Repositories"]
+        MREPO["MovieRepository"]
+        FREPO["FavoritesRepository"]
+        MLREPO["MovieLogRepository"]
+    end
+
+    %% ============================================================
+    %% Networking
+    %% ============================================================
+    subgraph NET["Networking"]
+        MSVC["MovieService (Retrofit)"]
+        RETRY["RetryInterceptor"]
+        APIUTIL["ApiUtil"]
+        APIKEY["ApiKeyProvider"]
+    end
+
+    %% ============================================================
+    %% Local DB (Room)
+    %% ============================================================
+    subgraph DB["Local DB (Room)"]
+        APPDB["AppDatabase"]
+        FDAO["FavoriteDao"]
+        MLDAO["MovieLogDao"]
+        FENT["FavoriteEntry"]
+        MLENT["MovieLogEntry"]
+        MAP["Mappers"]
+        MIG["Migrations"]
+    end
+
+    %% ============================================================
+    %% Sync managers
+    %% ============================================================
+    subgraph SYNC["Sync"]
+        FSYNC["FavoritesSyncManager"]
+        MLSYNC["MovieLogSyncManager"]
+    end
+
+    %% ============================================================
+    %% Utilities
+    %% ============================================================
+    subgraph UTIL["Utilities"]
+        NETMON["NetworkMonitor"]
+        HAPTIC["HapticUtil"]
+        UTILS["Util"]
+    end
+
+    %% ============================================================
+    %% Navigation: Splash → Auth → Main
+    %% ============================================================
+    SPLASH_A --> SPLASH_S
+    SPLASH_A --> LOGIN
+    LOGIN --> SIGNUP
+    LOGIN --> MAIN
+    SIGNUP --> MAIN
+    MAIN --> PROFILE
+    MAIN --> USERS_A
+    MAIN --> DETAIL
+    MAIN --> MLDETAIL
+
+    %% ============================================================
+    %% Activity hosts fragments
+    %% ============================================================
+    MAIN --> HOME_F
+    MAIN --> FAV_F
+    MAIN --> SEARCH_F
+    MAIN --> MLOG_F
+    SEARCH_F --> SEARCH_S
+
+    %% ============================================================
+    %% Fragments observe ViewModels
+    %% ============================================================
+    HOME_F --> HVM
+    FAV_F --> FVM
+    SEARCH_S --> SVM
+    MLOG_F --> MLVM
+    MLDETAIL --> MLDVM
+
+    %% ============================================================
+    %% ViewModels call Repositories
+    %% ============================================================
+    HVM --> MREPO
+    SVM --> MREPO
+    FVM --> FREPO
+    MLVM --> MLREPO
+    MLDVM --> MLREPO
+
+    %% ============================================================
+    %% Repositories → data sources
+    %% ============================================================
+    MREPO --> MSVC
+    FREPO --> FDAO
+    FREPO --> FSYNC
+    MLREPO --> MLDAO
+    MLREPO --> MLSYNC
+
+    %% ============================================================
+    %% Networking pipeline
+    %% ============================================================
+    MSVC --> RETRY
+    MSVC --> APIUTIL
+    APIUTIL --> APIKEY
+    RETRY --> TMDB
+
+    %% ============================================================
+    %% Room internals
+    %% ============================================================
+    FDAO --> APPDB
+    MLDAO --> APPDB
+    FDAO --> FENT
+    MLDAO --> MLENT
+    APPDB --> MIG
+    FREPO --> MAP
+    MLREPO --> MAP
+
+    %% ============================================================
+    %% Sync to Firestore
+    %% ============================================================
+    FSYNC --> FSTORE
+    MLSYNC --> FSTORE
+
+    %% ============================================================
+    %% Auth flow
+    %% ============================================================
+    LOGIN --> FBAUTH
+    SIGNUP --> FBAUTH
+    LOGIN --> GSI
+    PROFILE --> FBAUTH
+
+    %% ============================================================
+    %% Network monitor triggers re-sync
+    %% ============================================================
+    NETMON --> FSYNC
+    NETMON --> MLSYNC
+
+    %% ============================================================
+    %% App bootstrap wires the world
+    %% ============================================================
+    APPCLASS --> APPDB
+    APPCLASS --> MSVC
+    APPCLASS --> FSYNC
+    APPCLASS --> MLSYNC
+    APPCLASS --> NETMON
+
+    %% ============================================================
+    %% Styling (color by layer)
+    %% ============================================================
+    classDef ext       fill:#E5E7EB,stroke:#374151,color:#111827;
+    classDef ui        fill:#DBEAFE,stroke:#1D4ED8,color:#0B2A5B;
+    classDef vm        fill:#EDE9FE,stroke:#6D28D9,color:#2E1065;
+    classDef repo      fill:#DCFCE7,stroke:#15803D,color:#052E16;
+    classDef net       fill:#FEE2E2,stroke:#B91C1C,color:#450A0A;
+    classDef db        fill:#FFEDD5,stroke:#C2410C,color:#431407;
+    classDef sync      fill:#FEF9C3,stroke:#A16207,color:#422006;
+    classDef util      fill:#F3F4F6,stroke:#4B5563,color:#111827;
+    classDef appcls    fill:#FCE7F3,stroke:#BE185D,color:#500724;
+
+    class TMDB,FBAUTH,FSTORE,GSI ext;
+    class SPLASH_A,LOGIN,SIGNUP,MAIN,PROFILE,USERS_A,DETAIL,MLDETAIL,HOME_F,FAV_F,SEARCH_F,SEARCH_S,MLOG_F,SPLASH_S ui;
+    class HVM,FVM,SVM,MLVM,MLDVM vm;
+    class MREPO,FREPO,MLREPO repo;
+    class MSVC,RETRY,APIUTIL,APIKEY net;
+    class APPDB,FDAO,MLDAO,FENT,MLENT,MAP,MIG db;
+    class FSYNC,MLSYNC sync;
+    class NETMON,HAPTIC,UTILS util;
+    class APPCLASS appcls;
