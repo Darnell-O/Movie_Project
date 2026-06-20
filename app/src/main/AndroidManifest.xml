@@ -17,10 +17,10 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".Login_Activity"
+            android:name=".views.auth.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".UsersActivity"
+            android:name=".views.users.UsersActivity"
             android:exported="false" />
 <activity
             android:name=".views.DetailActivity"
@@ -29,16 +29,16 @@
             android:name=".views.movielog.MovieLogDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".views.profile.ProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".views.main.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".views.auth.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".Splash_Activity"
+            android:name=".views.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
             <intent-filter>
