@@ -1,4 +1,4 @@
-package com.example.movie_project
+package com.example.movie_project.views.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityMainBinding
 import androidx.navigation.ui.setupWithNavController
 import com.example.movie_project.views.FavoritesFragment

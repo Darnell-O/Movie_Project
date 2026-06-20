@@ -1,4 +1,4 @@
-package com.example.movie_project
+package com.example.movie_project.views.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import com.example.movie_project.databinding.ActivityLogin1Binding
+import com.example.movie_project.views.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
-class Login_Activity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLogin1Binding
     private lateinit var firebaseAuth: FirebaseAuth
@@ -114,7 +115,3 @@ class Login_Activity : AppCompatActivity() {
         }
     }
 }
-
-
-
-

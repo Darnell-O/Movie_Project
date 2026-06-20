@@ -1,11 +1,13 @@
-package com.example.movie_project
+package com.example.movie_project.views.profile
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.example.movie_project.MovieMagicApp
 import com.example.movie_project.databinding.ActivityProfileBinding
+import com.example.movie_project.views.auth.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -50,7 +52,7 @@ class ProfileActivity : AppCompatActivity() {
             } finally {
                 firebaseAuth.signOut()
                 Toast.makeText(this@ProfileActivity, "Good bye!!", Toast.LENGTH_LONG).show()
-                val intent = Intent(this@ProfileActivity, Login_Activity::class.java)
+                val intent = Intent(this@ProfileActivity, LoginActivity::class.java)
                 finish()
                 startActivity(intent)
             }

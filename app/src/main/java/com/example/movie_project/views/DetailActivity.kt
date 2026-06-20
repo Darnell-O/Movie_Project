@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.movie_project.MovieMagicApp
-import com.example.movie_project.ProfileActivity
+import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityDetailBinding
 import com.example.movie_project.models.MovieModel

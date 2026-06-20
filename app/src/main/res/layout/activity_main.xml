@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_white"
-    tools:context=".MainActivity">
+    tools:context=".views.main.MainActivity">
 
 
     <androidx.fragment.app.FragmentContainerView

@@ -1,4 +1,4 @@
-package com.example.movie_project
+package com.example.movie_project.views.users
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityUsersBinding
 import com.example.movie_project.models.UsersModel
 import com.example.movie_project.views.UserClickListener
 import com.example.movie_project.views.UsersAdapter
+import com.example.movie_project.views.profile.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

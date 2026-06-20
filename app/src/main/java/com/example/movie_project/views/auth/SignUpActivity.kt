@@ -1,4 +1,4 @@
-package com.example.movie_project
+package com.example.movie_project.views.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivitySignUpBinding
 import com.example.movie_project.models.UsersModel
+import com.example.movie_project.views.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -50,7 +52,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.textButton.setOnClickListener {
-            val intent = Intent(this, Login_Activity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
@@ -70,7 +72,7 @@ class SignUpActivity : AppCompatActivity() {
                         .addOnCompleteListener { it ->
                             if (it.isSuccessful) {
                                 addUserToDatabase(userName, firebaseAuth.uid.toString())
-                                val intent = Intent(this, Login_Activity::class.java)
+                                val intent = Intent(this, LoginActivity::class.java)
 //                                startActivity(intent)
                                 intent.putExtra("userName", userName)
                                 intent.putExtra("password", password)
