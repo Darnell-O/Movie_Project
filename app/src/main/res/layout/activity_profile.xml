@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:background="@color/very_light_purple"
-    tools:context=".ProfileActivity">
+    tools:context=".views.profile.ProfileActivity">
 
     <LinearLayout
         android:orientation="vertical"
