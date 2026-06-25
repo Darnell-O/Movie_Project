@@ -8,7 +8,7 @@ import com.example.movie_project.data.local.FavoriteDao
 import com.example.movie_project.data.local.FavoriteEntry
 import com.example.movie_project.data.local.toFavoriteEntry
 import com.example.movie_project.data.local.toMovieModel
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.util.NetworkMonitor
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

@@ -1,6 +1,7 @@
 package com.example.movie_project.data.repository
 
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
+import com.example.movie_project.models.dto.toMovieModels
 import com.example.movie_project.networking.ApiUtil
 import com.example.movie_project.networking.MovieService
 import com.example.movie_project.util.ApiKeyProvider
@@ -31,7 +32,7 @@ class MovieRepository(
             runCatching {
                 val response = movieService.searchMovies(apiKeyProvider(), query)
                 if (response.isSuccessful) {
-                    response.body()?.results ?: emptyList()
+                    response.body()?.results?.toMovieModels() ?: emptyList()
                 } else {
                     throw IllegalStateException("Search failed: ${response.code()}")
                 }
@@ -46,7 +47,7 @@ class MovieRepository(
             runCatching {
                 val response = movieService.getPopularMovies(apiKeyProvider())
                 if (response.isSuccessful) {
-                    response.body()?.results ?: emptyList()
+                    response.body()?.results?.toMovieModels() ?: emptyList()
                 } else {
                     throw IllegalStateException("Failed to load movies: ${response.code()}")
                 }
