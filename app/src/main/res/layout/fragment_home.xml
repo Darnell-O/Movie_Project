@@ -7,7 +7,7 @@
 
         <variable
             name="response"
-            type="com.example.movie_project.models.MovieResponse" />
+            type="com.example.movie_project.models.dto.MovieResponse" />
     </data>
 
 

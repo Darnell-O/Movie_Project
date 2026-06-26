@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.movie_project.views.profile.ProfileActivity
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.views.DetailActivity
 import com.example.movie_project.views.theme.MovieMagicTheme
 

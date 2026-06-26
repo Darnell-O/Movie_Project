@@ -7,7 +7,7 @@
 
         <variable
             name="movie"
-            type="com.example.movie_project.models.MovieModel" />
+            type="com.example.movie_project.models.domain.MovieModel" />
 
         <variable
             name="clickListener"

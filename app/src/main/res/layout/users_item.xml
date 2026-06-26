@@ -5,7 +5,7 @@
     <data>
         <variable
             name="users"
-            type="com.example.movie_project.models.UsersModel" />
+            type="com.example.movie_project.models.domain.UsersModel" />
         <variable
             name="clickListener"
             type="com.example.movie_project.views.MovieClickListener" />

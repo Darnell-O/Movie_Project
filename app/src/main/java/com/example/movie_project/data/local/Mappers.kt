@@ -1,6 +1,6 @@
 package com.example.movie_project.data.local
 
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 
 /**
  * Extension functions to convert between MovieModel and FavoriteEntry.
