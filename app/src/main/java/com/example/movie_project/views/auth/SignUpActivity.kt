@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivitySignUpBinding
-import com.example.movie_project.models.UsersModel
+import com.example.movie_project.models.domain.UsersModel
 import com.example.movie_project.views.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

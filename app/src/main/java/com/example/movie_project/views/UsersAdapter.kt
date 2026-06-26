@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.databinding.UsersItemBinding
-import com.example.movie_project.models.UsersModel
+import com.example.movie_project.models.domain.UsersModel
 
 class UsersAdapter(
     private val userList: ArrayList<UsersModel>,

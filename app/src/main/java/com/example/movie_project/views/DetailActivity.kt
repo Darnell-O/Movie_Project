@@ -10,7 +10,7 @@ import com.example.movie_project.MovieMagicApp
 import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityDetailBinding
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.util.HapticUtil
 import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage

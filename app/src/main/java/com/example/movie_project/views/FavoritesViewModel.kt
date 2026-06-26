@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.movie_project.MovieMagicApp
 import com.example.movie_project.data.repository.FavoritesRepository
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 import com.google.firebase.auth.FirebaseAuth
 
 /**

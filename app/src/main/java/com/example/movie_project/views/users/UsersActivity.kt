@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityUsersBinding
-import com.example.movie_project.models.UsersModel
+import com.example.movie_project.models.domain.UsersModel
 import com.example.movie_project.views.UserClickListener
 import com.example.movie_project.views.UsersAdapter
 import com.example.movie_project.views.profile.ProfileActivity

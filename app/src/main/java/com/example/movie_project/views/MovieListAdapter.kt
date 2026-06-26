@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_project.databinding.ItemMovieCardBinding
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.util.HapticUtil
 
 

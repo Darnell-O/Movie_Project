@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.databinding.FragmentHomeBinding
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 
 
 class HomeFragment : Fragment(), MovieClickListener {

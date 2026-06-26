@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
+import com.example.movie_project.models.dto.toMovieModels
 import com.example.movie_project.networking.ApiUtil
 import com.example.movie_project.networking.MovieService
 import com.example.movie_project.util.ApiKeyProvider
@@ -36,7 +37,7 @@ class HomeViewModel : ViewModel() {
             try {
                 val response = apiService.getPopularMovies(ApiKeyProvider.getApiKey())
                 if (response.isSuccessful) {
-                    _movies.postValue(response.body()?.results)
+                    _movies.postValue(response.body()?.results?.toMovieModels())
                     Log.i("HomeViewModel", "Success: ${response.body()?.results}")
                 } else {
                     _errorMessage.postValue("Failed to load movies")

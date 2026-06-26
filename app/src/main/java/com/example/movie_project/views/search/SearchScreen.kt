@@ -48,7 +48,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movie_project.R
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.util.HapticUtil
 import com.example.movie_project.views.theme.DarkGrey
 import com.example.movie_project.views.theme.Iris

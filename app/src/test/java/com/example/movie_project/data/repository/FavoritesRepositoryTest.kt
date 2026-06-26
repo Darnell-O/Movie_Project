@@ -3,7 +3,7 @@ package com.example.movie_project.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.movie_project.data.local.FavoriteDao
 import com.example.movie_project.data.local.FavoriteEntry
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.util.NetworkMonitor
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.test.runTest
