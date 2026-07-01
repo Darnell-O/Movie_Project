@@ -1,6 +1,6 @@
 package com.example.movie_project.views.search
 
-import com.example.movie_project.models.MovieModel
+import com.example.movie_project.models.domain.MovieModel
 
 /**
  * Immutable UI state for the Search screen.
