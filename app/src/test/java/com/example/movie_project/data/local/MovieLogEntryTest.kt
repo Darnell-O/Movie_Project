@@ -15,7 +15,9 @@ class MovieLogEntryTest {
     fun `default values are correct when no arguments provided`() {
         val entry = MovieLogEntry()
 
-        assertEquals(0L, entry.id)
+        assertEquals("", entry.userId)
+        // entryId defaults to a randomly generated UUID string
+        assertTrue(entry.entryId.isNotBlank())
         assertEquals("", entry.movieTitle)
         assertEquals("", entry.year)
         assertEquals("", entry.dateWatched)
@@ -31,12 +33,16 @@ class MovieLogEntryTest {
         assertEquals("", entry.notes)
         // dateAdded should be a positive timestamp (not 0)
         assertTrue(entry.dateAdded > 0)
+        assertFalse(entry.pendingSync)
+        assertFalse(entry.pendingDeletion)
+        assertTrue(entry.updatedAt > 0)
     }
 
     @Test
     fun `custom values are retained when provided`() {
         val entry = MovieLogEntry(
-            id = 42L,
+            userId = "user-1",
+            entryId = "entry-42",
             movieTitle = "Inception",
             year = "2010",
             dateWatched = "July 16, 2010",
@@ -50,10 +56,14 @@ class MovieLogEntryTest {
             alone = false,
             withSomeone = true,
             notes = "Mind-bending masterpiece",
-            dateAdded = 1234567890L
+            dateAdded = 1234567890L,
+            pendingSync = true,
+            pendingDeletion = false,
+            updatedAt = 987654321L
         )
 
-        assertEquals(42L, entry.id)
+        assertEquals("user-1", entry.userId)
+        assertEquals("entry-42", entry.entryId)
         assertEquals("Inception", entry.movieTitle)
         assertEquals("2010", entry.year)
         assertEquals("July 16, 2010", entry.dateWatched)
@@ -68,5 +78,8 @@ class MovieLogEntryTest {
         assertTrue(entry.withSomeone)
         assertEquals("Mind-bending masterpiece", entry.notes)
         assertEquals(1234567890L, entry.dateAdded)
+        assertTrue(entry.pendingSync)
+        assertFalse(entry.pendingDeletion)
+        assertEquals(987654321L, entry.updatedAt)
     }
 }
