@@ -1,82 +1,126 @@
 package com.example.movie_project.data.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.movie_project.data.local.MovieLogDao
 import com.example.movie_project.data.local.MovieLogEntry
+import com.example.movie_project.util.NetworkMonitor
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertSame
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 /**
- * Unit tests for [MovieLogRepository].
- * Uses Mockito to mock [MovieLogDao] and verify correct delegation.
+ * Unit tests for [MovieLogRepository] focused on the offline-first contract:
+ *  - Offline writes go to Room only; Firebase is NOT called.
+ *  - Offline removals soft-delete (markPendingDeletion) without hardDelete.
+ *  - pushPendingToFirebase is a no-op when offline.
+ *
+ * Online Firebase paths are integration concerns and are exercised in
+ * instrumented / manual testing.
  */
 class MovieLogRepositoryTest {
 
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private lateinit var dao: MovieLogDao
+    private lateinit var networkMonitor: NetworkMonitor
+    private lateinit var firebase: FirebaseDatabase
     private lateinit var repository: MovieLogRepository
+
+    private val userId = "uid-1"
+    private val entry = MovieLogEntry(
+        entryId = "entry-1",
+        movieTitle = "Inception",
+        year = "2010",
+        directedBy = "Christopher Nolan",
+        starring = "Leonardo DiCaprio",
+        rating = 5,
+        inTheater = true
+    )
 
     @Before
     fun setup() {
-        dao = mock(MovieLogDao::class.java)
-
-        // Stub getAllEntries() before constructing Repository (it's called in the property initializer)
-        val fakeLiveData: LiveData<List<MovieLogEntry>> = MutableLiveData(emptyList())
-        whenever(dao.getAllEntries()).thenReturn(fakeLiveData)
-
-        repository = MovieLogRepository(dao)
+        dao = mock()
+        networkMonitor = mock()
+        firebase = mock()
+        repository = MovieLogRepository(dao, networkMonitor, firebase)
     }
 
     @Test
-    fun `allEntries returns LiveData from dao`() {
-        // The repository's allEntries should be the same LiveData object returned by the DAO
-        val result = repository.allEntries
-        assertSame(dao.getAllEntries(), result)
+    fun addEntry_offline_queuesInRoomAndDoesNotClearPending() = runTest {
+        whenever(networkMonitor.isCurrentlyOnline()).thenReturn(false)
+
+        repository.addEntry(userId, entry)
+
+        // Room is updated (with pendingSync = true under the hood)
+        verify(dao).upsert(any<MovieLogEntry>())
+        // Offline path must NOT clear pendingSync (Firebase wasn't reached)
+        verify(dao, never()).clearPendingSync(any(), any())
     }
 
     @Test
-    fun `getEntryById delegates to dao`() {
-        val fakeEntry = MutableLiveData(MovieLogEntry(id = 1, movieTitle = "Test"))
-        whenever(dao.getEntryById(1L)).thenReturn(fakeEntry)
+    fun updateEntry_offline_queuesInRoomAndDoesNotClearPending() = runTest {
+        whenever(networkMonitor.isCurrentlyOnline()).thenReturn(false)
 
-        val result = repository.getEntryById(1L)
+        repository.updateEntry(userId, entry)
 
-        verify(dao).getEntryById(1L)
-        assertSame(fakeEntry, result)
+        verify(dao).upsert(any<MovieLogEntry>())
+        verify(dao, never()).clearPendingSync(any(), any())
     }
 
     @Test
-    fun `insertEntry delegates to dao and returns id`() = runTest {
-        val entry = MovieLogEntry(movieTitle = "Inception")
-        whenever(dao.insertEntry(entry)).thenReturn(42L)
+    fun deleteEntry_offline_marksPendingDeletionAndDoesNotHardDelete() = runTest {
+        whenever(networkMonitor.isCurrentlyOnline()).thenReturn(false)
 
-        val resultId = repository.insertEntry(entry)
+        repository.deleteEntry(userId, entry.entryId)
 
-        verify(dao).insertEntry(entry)
-        assertEquals(42L, resultId)
+        verify(dao).markPendingDeletion(userId, entry.entryId)
+        verify(dao, never()).hardDelete(any(), any())
     }
 
     @Test
-    fun `updateEntry delegates to dao`() = runTest {
-        val entry = MovieLogEntry(id = 1, movieTitle = "Updated Title")
+    fun pushPendingToFirebase_offline_isNoOp() = runTest {
+        whenever(networkMonitor.isCurrentlyOnline()).thenReturn(false)
 
-        repository.updateEntry(entry)
+        repository.pushPendingToFirebase(userId)
 
-        verify(dao).updateEntry(entry)
+        // No queue read, no DAO mutations
+        verify(dao, never()).getPendingSyncForUser(any())
+        verify(dao, never()).clearPendingSync(any(), any())
+        verify(dao, never()).hardDelete(any(), any())
     }
 
     @Test
-    fun `deleteEntry delegates to dao`() = runTest {
-        val entry = MovieLogEntry(id = 1, movieTitle = "To Delete")
+    fun pullFromFirebase_offline_isNoOp() = runTest {
+        whenever(networkMonitor.isCurrentlyOnline()).thenReturn(false)
 
-        repository.deleteEntry(entry)
+        repository.pullFromFirebase(userId)
 
-        verify(dao).deleteEntry(entry)
+        verify(dao, never()).replaceAllForUser(any(), any())
+    }
+
+    @Test
+    fun observeEntries_delegatesToDao() {
+        whenever(dao.getEntriesForUser(userId)).thenReturn(mock())
+
+        val result = repository.observeEntries(userId)
+
+        verify(dao).getEntriesForUser(userId)
+    }
+
+    @Test
+    fun getEntryById_delegatesToDao() {
+        whenever(dao.getEntryById(userId, entry.entryId)).thenReturn(mock())
+
+        repository.getEntryById(userId, entry.entryId)
+
+        verify(dao).getEntryById(userId, entry.entryId)
     }
 }
