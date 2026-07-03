@@ -8,8 +8,11 @@ import android.widget.Toast
 import com.example.movie_project.databinding.ActivityLogin1Binding
 import com.example.movie_project.views.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
+
 
     private lateinit var binding: ActivityLogin1Binding
     private lateinit var firebaseAuth: FirebaseAuth
