@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Repository acting as the single source of truth for Movie Log.
@@ -30,11 +32,13 @@ import kotlin.coroutines.resumeWithException
  * Firebase = source of truth on conflict (timestamp-based).
  * Room    = local cache + offline write queue.
  */
-class MovieLogRepository(
+@Singleton
+class MovieLogRepository @Inject constructor(
     private val movieLogDao: MovieLogDao,
     private val networkMonitor: NetworkMonitor,
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val database: FirebaseDatabase
 ) {
+
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 

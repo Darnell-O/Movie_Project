@@ -21,8 +21,11 @@ import com.example.movie_project.views.movielog.MovieLogFragment
 import com.example.movie_project.views.search.SearchFragment
 import com.example.movie_project.util.HapticUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
 
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView

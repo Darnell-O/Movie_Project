@@ -1,15 +1,15 @@
 package com.example.movie_project.views
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.example.movie_project.MovieMagicApp
+import androidx.lifecycle.ViewModel
 import com.example.movie_project.data.repository.FavoritesRepository
 import com.example.movie_project.models.domain.MovieModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * ViewModel for the Favorites screen.
@@ -17,10 +17,10 @@ import com.google.firebase.auth.FirebaseAuth
  * Reads come from the local Room cache (offline-safe). The repository's
  * Firebase listener mirrors remote updates into Room when online.
  */
-class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: FavoritesRepository =
-        MovieMagicApp.from(application).favoritesRepository
+@HiltViewModel
+class FavoritesViewModel @Inject constructor(
+    private val repository: FavoritesRepository
+) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage

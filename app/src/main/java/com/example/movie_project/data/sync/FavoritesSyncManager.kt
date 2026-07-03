@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Coordinates connectivity-driven sync between Room and Firebase.
@@ -19,11 +21,13 @@ import kotlinx.coroutines.launch
  *
  * Lives at application scope.
  */
-class FavoritesSyncManager(
+@Singleton
+class FavoritesSyncManager @Inject constructor(
     private val repository: FavoritesRepository,
     private val networkMonitor: NetworkMonitor,
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val auth: FirebaseAuth
 ) {
+
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 

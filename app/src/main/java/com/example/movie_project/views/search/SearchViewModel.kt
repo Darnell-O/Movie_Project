@@ -1,25 +1,28 @@
 package com.example.movie_project.views.search
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.movie_project.data.repository.MovieRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * ViewModel for the Search screen.
  *
- * - Depends on [MovieRepository] (constructor-injected) rather than Retrofit
- *   directly, keeping the data source swappable and the VM unit-testable.
+ * - Depends on [MovieRepository] (constructor-injected via Hilt) rather than
+ *   Retrofit directly, keeping the data source swappable and the VM
+ *   unit-testable.
  * - Exposes a single [SearchUiState] via [StateFlow] for the Compose UI to
  *   collect.
  */
-class SearchViewModel(
-    private val movieRepository: MovieRepository = MovieRepository(),
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val movieRepository: MovieRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SearchUiState())
@@ -57,21 +60,5 @@ class SearchViewModel(
     /** Clear a consumed error message so it isn't shown again on recomposition. */
     fun onErrorShown() {
         _uiState.update { it.copy(errorMessage = null) }
-    }
-
-    /**
-     * Factory enabling constructor injection of [MovieRepository] while still
-     * working with the standard `by viewModels()` delegate.
-     */
-    class Factory(
-        private val movieRepository: MovieRepository = MovieRepository(),
-    ) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            require(modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-                "Unknown ViewModel class: ${modelClass.name}"
-            }
-            return SearchViewModel(movieRepository) as T
-        }
     }
 }
