@@ -13,9 +13,12 @@ import androidx.fragment.app.viewModels
 import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.databinding.FragmentHomeBinding
 import com.example.movie_project.models.domain.MovieModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class HomeFragment : Fragment(), MovieClickListener {
+
 
     private val viewModel: HomeViewModel by viewModels()
     private val movieListAdapter = MovieListAdapter(arrayListOf())

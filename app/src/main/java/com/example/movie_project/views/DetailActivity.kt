@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.example.movie_project.MovieMagicApp
+import com.example.movie_project.data.repository.FavoritesRepository
 import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.R
 import com.example.movie_project.databinding.ActivityDetailBinding
@@ -15,9 +15,11 @@ import com.example.movie_project.util.HapticUtil
 import com.example.movie_project.util.getProgressDrawable
 import com.example.movie_project.util.loadImage
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 /**
  * DetailActivity now persists favorites through [FavoritesRepository], which writes
@@ -25,12 +27,15 @@ import java.util.Locale
  * state is driven by the live [isFavorite] LiveData from Room — accurate across
  * devices and offline.
  */
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
+
+    @Inject lateinit var repository: FavoritesRepository
 
     private lateinit var binding: ActivityDetailBinding
     private var isFavorite = false
     private var userId: String? = null
-    private val repository by lazy { MovieMagicApp.from(this).favoritesRepository }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

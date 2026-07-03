@@ -7,13 +7,18 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Observes device connectivity state using ConnectivityManager.NetworkCallback.
  * Exposes [isOnline] as LiveData so the repository and sync layers can react
  * intelligently to connectivity changes.
  */
-class NetworkMonitor(context: Context) {
+@Singleton
+class NetworkMonitor @Inject constructor(@ApplicationContext context: Context) {
+
 
     private val connectivityManager =
         context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

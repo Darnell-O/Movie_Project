@@ -1,20 +1,19 @@
 package com.example.movie_project.views
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie_project.data.repository.MovieRepository
 import com.example.movie_project.models.domain.MovieModel
-import com.example.movie_project.models.dto.toMovieModels
-import com.example.movie_project.networking.ApiUtil
-import com.example.movie_project.networking.MovieService
-import com.example.movie_project.util.ApiKeyProvider
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val movieRepository: MovieRepository
+) : ViewModel() {
     private val _movies = MutableLiveData<List<MovieModel>>()
     val movies: LiveData<List<MovieModel>> = _movies
 
@@ -24,37 +23,24 @@ class HomeViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val apiService = ApiUtil.apiService
-
     init {
         fetchMovies()
     }
 
     fun fetchMovies() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _errorMessage.postValue(null)
-            _isLoading.postValue(true)
-            try {
-                val response = apiService.getPopularMovies(ApiKeyProvider.getApiKey())
-                if (response.isSuccessful) {
-                    _movies.postValue(response.body()?.results?.toMovieModels())
-                    Log.i("HomeViewModel", "Success: ${response.body()?.results}")
-                } else {
-                    _errorMessage.postValue("Failed to load movies")
-                    Log.e("HomeViewModel", "Unsuccessful response: ${response.code()}")
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+
+            val result = movieRepository.getPopularMovies()
+            result.fold(
+                onSuccess = { movies -> _movies.value = movies },
+                onFailure = { error ->
+                    _errorMessage.value = error.message ?: "Failed to load movies"
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _errorMessage.postValue(e.localizedMessage ?: "An unexpected error occurred")
-                Log.e("HomeViewModel", "Error: ${e.message}")
-            } finally {
-                _isLoading.postValue(false)
-            }
+            )
+
+            _isLoading.value = false
         }
     }
-
-    private fun retrievedMovies(movieList: List<MovieModel>) {
-        _movies.value = movieList
-    }
 }
-

@@ -11,8 +11,11 @@ import androidx.fragment.app.viewModels
 import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.databinding.FragmentFavoritesBinding
 import com.example.movie_project.models.domain.MovieModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment(), MovieClickListener {
+
 
     private val favViewModel: FavoritesViewModel by viewModels()
     private val favMovieListAdapter = FavoritesAdapter(arrayListOf())

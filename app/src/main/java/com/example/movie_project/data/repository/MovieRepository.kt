@@ -2,11 +2,12 @@ package com.example.movie_project.data.repository
 
 import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.models.dto.toMovieModels
-import com.example.movie_project.networking.ApiUtil
 import com.example.movie_project.networking.MovieService
 import com.example.movie_project.util.ApiKeyProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Repository acting as the single source of truth for remote movie data (TMDB).
@@ -16,10 +17,12 @@ import kotlinx.coroutines.withContext
  * local data. ViewModels depend on this abstraction, not on Retrofit directly,
  * which keeps them testable (the repository can be faked/mocked).
  */
-class MovieRepository(
-    private val movieService: MovieService = ApiUtil.apiService,
-    private val apiKeyProvider: () -> String = { ApiKeyProvider.getApiKey() },
+@Singleton
+class MovieRepository @Inject constructor(
+    private val movieService: MovieService,
 ) {
+    private val apiKeyProvider: () -> String = { ApiKeyProvider.getApiKey() }
+
 
     /**
      * Search movies by query. Network call runs on the IO dispatcher.
