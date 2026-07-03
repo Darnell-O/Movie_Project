@@ -1,15 +1,15 @@
 package com.example.movie_project.views.movielog
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.example.movie_project.MovieMagicApp
+import androidx.lifecycle.ViewModel
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.data.repository.MovieLogRepository
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * ViewModel for MovieLogFragment.
@@ -17,10 +17,10 @@ import com.google.firebase.auth.FirebaseAuth
  * Reads come from the local Room cache (offline-safe). The repository's
  * Firebase listener mirrors remote updates into Room when online.
  */
-class MovieLogViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: MovieLogRepository =
-        MovieMagicApp.from(application).movieLogRepository
+@HiltViewModel
+class MovieLogViewModel @Inject constructor(
+    private val repository: MovieLogRepository
+) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage

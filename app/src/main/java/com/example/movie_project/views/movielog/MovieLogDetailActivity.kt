@@ -9,13 +9,16 @@ import com.example.movie_project.R
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.ActivityMovieLogDetailBinding
 import com.example.movie_project.util.HapticUtil
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 
 /**
  * Activity for creating or editing a movie log entry.
  * Displays a form with text fields, star rating, checkboxes, and notes.
  */
+@AndroidEntryPoint
 class MovieLogDetailActivity : AppCompatActivity() {
+
 
     companion object {
         const val EXTRA_ENTRY_ID = "extra_entry_id"

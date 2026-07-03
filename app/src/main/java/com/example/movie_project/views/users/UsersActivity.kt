@@ -18,8 +18,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UsersActivity : AppCompatActivity(), UserClickListener {
+
     private lateinit var binding: ActivityUsersBinding
     private lateinit var usersList: ArrayList<UsersModel>
     private lateinit var usersAdapter: UsersAdapter

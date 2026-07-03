@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.example.movie_project.MovieMagicApp
+import com.example.movie_project.data.repository.FavoritesRepository
 import com.example.movie_project.databinding.ActivityProfileBinding
 import com.example.movie_project.views.auth.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
+
+    @Inject lateinit var favoritesRepository: FavoritesRepository
 
     private lateinit var binding: ActivityProfileBinding
     private lateinit var firebaseAuth: FirebaseAuth
@@ -38,16 +43,15 @@ class ProfileActivity : AppCompatActivity() {
      *  4) Sign out of Firebase Auth and navigate to login.
      */
     private fun performSignOut() {
-        val app = MovieMagicApp.from(this)
         val uid = firebaseAuth.currentUser?.uid
 
         lifecycleScope.launch {
             try {
                 if (uid != null) {
                     // Best-effort flush of any queued offline writes
-                    app.favoritesRepository.pushPendingToFirebase(uid)
-                    app.favoritesRepository.stopFirebaseListener()
-                    app.favoritesRepository.clearLocalForUser(uid)
+                    favoritesRepository.pushPendingToFirebase(uid)
+                    favoritesRepository.stopFirebaseListener()
+                    favoritesRepository.clearLocalForUser(uid)
                 }
             } finally {
                 firebaseAuth.signOut()

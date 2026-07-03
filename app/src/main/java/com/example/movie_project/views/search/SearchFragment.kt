@@ -13,19 +13,21 @@ import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.views.DetailActivity
 import com.example.movie_project.views.theme.MovieMagicTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Hosts the Compose-based Search UI.
  *
  * The Fragment is intentionally thin: it only wires navigation (to Detail /
- * Profile) and supplies the [SearchViewModel] (built via [SearchViewModel.Factory]
- * so the repository dependency is injected). All UI lives in [SearchRoute].
+ * Profile) and supplies the [SearchViewModel] via Hilt's `by viewModels()`
+ * (the repository dependency is injected automatically). All UI lives in
+ * [SearchRoute].
  */
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val searchViewModel: SearchViewModel by viewModels {
-        SearchViewModel.Factory()
-    }
+    private val searchViewModel: SearchViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

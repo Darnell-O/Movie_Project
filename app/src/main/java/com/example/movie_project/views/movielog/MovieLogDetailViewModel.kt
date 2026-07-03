@@ -1,26 +1,26 @@
 package com.example.movie_project.views.movielog
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_project.MovieMagicApp
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.data.repository.MovieLogRepository
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * ViewModel for MovieLogDetailActivity.
  * Handles loading, saving, updating, and deleting movie log entries via the repository.
  * Uses Firebase Auth userId for all operations.
  */
-class MovieLogDetailViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: MovieLogRepository =
-        MovieMagicApp.from(application).movieLogRepository
+@HiltViewModel
+class MovieLogDetailViewModel @Inject constructor(
+    private val repository: MovieLogRepository
+) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage

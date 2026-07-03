@@ -11,12 +11,15 @@ import androidx.fragment.app.viewModels
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.FragmentMovieLogBinding
 import com.example.movie_project.util.HapticUtil
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Fragment displaying the Movie Log list.
  * Shows all logged movies in a RecyclerView with a FAB to add new entries.
  */
+@AndroidEntryPoint
 class MovieLogFragment : Fragment(), MovieLogClickListener {
+
 
     private val viewModel: MovieLogViewModel by viewModels()
     private lateinit var movieLogAdapter: MovieLogAdapter
