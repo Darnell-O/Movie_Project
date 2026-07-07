@@ -2,7 +2,6 @@ package com.example.movie_project.util
 
 import android.content.Context
 import android.widget.ImageView
-import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -31,7 +30,6 @@ fun ImageView.loadImage(url: String?, progressDrawable: CircularProgressDrawable
 
 }
 
-@BindingAdapter("android:imageUrl")
 fun loadImage(view: ImageView, url: String?) {
     view.loadImage(url, getProgressDrawable(view.context))
 }

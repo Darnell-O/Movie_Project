@@ -17,25 +17,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".views.auth.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".views.users.UsersActivity"
-            android:exported="false" />
-<activity
-            android:name=".views.DetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".views.movielog.MovieLogDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".views.profile.ProfileActivity"
-            android:exported="true" />
-        <activity
             android:name=".views.main.MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".views.auth.SignUpActivity"
             android:exported="true" />
         <activity
             android:name=".views.splash.SplashActivity"
