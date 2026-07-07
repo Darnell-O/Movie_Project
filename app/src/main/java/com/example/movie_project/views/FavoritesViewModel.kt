@@ -1,7 +1,6 @@
 package com.example.movie_project.views
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.movie_project.data.repository.AuthRepository
 import com.example.movie_project.data.repository.FavoritesRepository
@@ -54,8 +53,8 @@ class FavoritesViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            repository.errorMessage.asFlow().collect { msg ->
-                if (!msg.isNullOrEmpty()) _uiState.update { it.copy(errorMessage = msg) }
+            repository.errorMessage.collect { msg ->
+                if (msg.isNotEmpty()) _uiState.update { it.copy(errorMessage = msg) }
             }
         }
     }

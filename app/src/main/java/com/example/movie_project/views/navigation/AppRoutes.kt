@@ -29,9 +29,9 @@ object Route {
         "detail" +
         "?movieId=${movie.id}" +
         "&title=${Uri.encode(movie.title ?: "")}" +
-        "&posterPath=${Uri.encode(movie.poster_path ?: "")}" +
+        "&posterPath=${Uri.encode(movie.posterPath ?: "")}" +
         "&overview=${Uri.encode(movie.overview ?: "")}" +
-        "&releaseDate=${Uri.encode(movie.release_date ?: "")}" +
+        "&releaseDate=${Uri.encode(movie.releaseDate ?: "")}" +
         "&voteAverage=${movie.voteAverage ?: 0f}"
 
     fun movieLogDetail(entryId: String? = null) =

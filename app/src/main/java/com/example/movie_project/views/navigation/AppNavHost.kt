@@ -140,9 +140,9 @@ fun AppNavHost() {
                 val movie = MovieModel(
                     id = args?.getInt("movieId") ?: 0,
                     title = args?.getString("title"),
-                    poster_path = args?.getString("posterPath"),
+                    posterPath = args?.getString("posterPath"),
                     overview = args?.getString("overview"),
-                    release_date = args?.getString("releaseDate"),
+                    releaseDate = args?.getString("releaseDate"),
                     voteAverage = args?.getFloat("voteAverage")
                 )
                 DetailRoute(

@@ -214,7 +214,7 @@ private fun MovieCard(
 ) {
     val view = LocalView.current
     val context = LocalContext.current
-    val posterUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
+    val posterUrl = movie.posterUrl
 
     Card(
         modifier = Modifier

@@ -1,7 +1,6 @@
 package com.example.movie_project.views.movielog
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.data.repository.AuthRepository
@@ -39,8 +38,8 @@ class MovieLogViewModel @Inject constructor(
                 }
             }
             viewModelScope.launch {
-                repository.errorMessage.asFlow().collect { msg ->
-                    if (!msg.isNullOrEmpty()) _uiState.update { it.copy(errorMessage = msg) }
+                repository.errorMessage.collect { msg ->
+                    if (msg.isNotEmpty()) _uiState.update { it.copy(errorMessage = msg) }
                 }
             }
             repository.startFirebaseListener(currentUserId)

@@ -112,9 +112,9 @@ private fun FavoritesScreenPreview() {
     MovieMagicTheme {
         FavoritesScreen(
             favorites = listOf(
-                MovieModel(id = 1, title = "Movie 1", poster_path = "/sample.jpg"),
-                MovieModel(id = 2, title = "Movie 2", poster_path = "/sample.jpg"),
-                MovieModel(id = 3, title = "Movie 3", poster_path = "/sample.jpg"),
+                MovieModel(id = 1, title = "Movie 1", posterPath = "/sample.jpg"),
+                MovieModel(id = 2, title = "Movie 2", posterPath = "/sample.jpg"),
+                MovieModel(id = 3, title = "Movie 3", posterPath = "/sample.jpg"),
             ),
             isLoading = false,
             onMovieClick = {},
