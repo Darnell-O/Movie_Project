@@ -1,11 +1,11 @@
 package com.example.movie_project.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Data Access Object for the favorites table.
@@ -18,7 +18,7 @@ interface FavoriteDao {
      * Returns all non-deleted favorites for a given user, ordered by most recently updated.
      */
     @Query("SELECT * FROM favorites WHERE userId = :userId AND pendingDeletion = 0 ORDER BY updatedAt DESC")
-    fun getFavoritesForUser(userId: String): LiveData<List<FavoriteEntry>>
+    fun getFavoritesForUser(userId: String): Flow<List<FavoriteEntry>>
 
     /**
      * Returns all entries that need to be synced to Firebase (added or deleted offline).
@@ -30,7 +30,7 @@ interface FavoriteDao {
      * Observes whether a specific movie is in the user's favorites (not pending deletion).
      */
     @Query("SELECT EXISTS(SELECT 1 FROM favorites WHERE userId = :userId AND movieId = :movieId AND pendingDeletion = 0)")
-    fun isFavorite(userId: String, movieId: Int): LiveData<Boolean>
+    fun isFavorite(userId: String, movieId: Int): Flow<Boolean>
 
     /**
      * Insert or replace a favorite entry.

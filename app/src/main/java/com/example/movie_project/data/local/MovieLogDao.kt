@@ -1,11 +1,11 @@
 package com.example.movie_project.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Data Access Object for the movie_log table.
@@ -19,13 +19,13 @@ interface MovieLogDao {
      * Returns all non-deleted entries for a given user, ordered by most recently added.
      */
     @Query("SELECT * FROM movie_log WHERE userId = :userId AND pendingDeletion = 0 ORDER BY dateAdded DESC")
-    fun getEntriesForUser(userId: String): LiveData<List<MovieLogEntry>>
+    fun getEntriesForUser(userId: String): Flow<List<MovieLogEntry>>
 
     /**
      * Returns a single entry by userId and entryId (not pending deletion).
      */
     @Query("SELECT * FROM movie_log WHERE userId = :userId AND entryId = :entryId AND pendingDeletion = 0")
-    fun getEntryById(userId: String, entryId: String): LiveData<MovieLogEntry?>
+    fun getEntryById(userId: String, entryId: String): Flow<MovieLogEntry?>
 
     /**
      * Returns all entries that need to be synced to Firebase (added/updated or deleted offline).

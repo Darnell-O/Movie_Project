@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.movie_project.data.local.MovieLogDao
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.util.NetworkMonitor
+import kotlinx.coroutines.flow.Flow
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -54,14 +55,14 @@ class MovieLogRepository @Inject constructor(
     /**
      * Observe movie log entries for a user from Room (offline-safe).
      */
-    fun observeEntries(userId: String): LiveData<List<MovieLogEntry>> {
+    fun observeEntries(userId: String): Flow<List<MovieLogEntry>> {
         return movieLogDao.getEntriesForUser(userId)
     }
 
     /**
      * Observe a single movie log entry by ID.
      */
-    fun getEntryById(userId: String, entryId: String): LiveData<MovieLogEntry?> {
+    fun getEntryById(userId: String, entryId: String): Flow<MovieLogEntry?> {
         return movieLogDao.getEntryById(userId, entryId)
     }
 
