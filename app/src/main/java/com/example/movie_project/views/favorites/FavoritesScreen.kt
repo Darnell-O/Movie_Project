@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.movie_project.R
 import com.example.movie_project.models.domain.MovieModel
-import com.example.movie_project.views.FavoritesViewModel
 import com.example.movie_project.views.components.MovieCard
 import com.example.movie_project.views.theme.Iris
 import com.example.movie_project.views.theme.MovieMagicTheme
