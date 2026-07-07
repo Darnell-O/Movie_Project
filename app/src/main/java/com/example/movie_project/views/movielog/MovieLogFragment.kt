@@ -8,18 +8,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.FragmentMovieLogBinding
 import com.example.movie_project.util.HapticUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-/**
- * Fragment displaying the Movie Log list.
- * Shows all logged movies in a RecyclerView with a FAB to add new entries.
- */
 @AndroidEntryPoint
 class MovieLogFragment : Fragment(), MovieLogClickListener {
-
 
     private val viewModel: MovieLogViewModel by viewModels()
     private lateinit var movieLogAdapter: MovieLogAdapter
@@ -32,43 +31,32 @@ class MovieLogFragment : Fragment(), MovieLogClickListener {
         val binding = FragmentMovieLogBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        // Setup RecyclerView adapter
         movieLogAdapter = MovieLogAdapter(arrayListOf())
         movieLogAdapter.setClickListener(this)
         binding.movieLogRecyclerView.adapter = movieLogAdapter
 
-        // Observe movie log entries
-        viewModel.allEntries.observe(viewLifecycleOwner) { entries ->
-            if (entries.isNullOrEmpty()) {
-                binding.tvEmptyState.visibility = View.VISIBLE
-                binding.movieLogRecyclerView.visibility = View.GONE
-            } else {
-                binding.tvEmptyState.visibility = View.GONE
-                binding.movieLogRecyclerView.visibility = View.VISIBLE
-                movieLogAdapter.updateEntries(entries)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    val isEmpty = state.entries.isEmpty()
+                    binding.tvEmptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                    binding.movieLogRecyclerView.visibility = if (isEmpty) View.GONE else View.VISIBLE
+                    if (!isEmpty) movieLogAdapter.updateEntries(state.entries)
+                    state.errorMessage?.let {
+                        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
 
-        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
-            error?.let {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-            }
-        }
-
-        // FAB click — navigate to detail screen for adding a new entry
         binding.fabAddMovieLog.setOnClickListener {
             HapticUtil.performClickFeedback(it)
-            val intent = Intent(activity, MovieLogDetailActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(activity, MovieLogDetailActivity::class.java))
         }
 
         return binding.root
     }
 
-    /**
-     * Called when a movie log item is clicked.
-     * Navigates to the detail screen for editing using the UUID-based entryId.
-     */
     override fun onMovieLogClicked(entry: MovieLogEntry) {
         val intent = Intent(activity, MovieLogDetailActivity::class.java)
         intent.putExtra(MovieLogDetailActivity.EXTRA_ENTRY_ID, entry.entryId)
