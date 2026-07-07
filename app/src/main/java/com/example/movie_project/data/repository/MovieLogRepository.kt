@@ -189,6 +189,16 @@ class MovieLogRepository @Inject constructor(
 
         stopFirebaseListener()
         listeningForUserId = userId
+
+        // Adopt any entries left under the "unknown" sentinel by an offline MIGRATION_2_3.
+        scope.launch {
+            try {
+                movieLogDao.reassignOrphanedEntries(userId)
+            } catch (e: Exception) {
+                Log.w(TAG, "reassignOrphanedEntries failed", e)
+            }
+        }
+
         firebaseRef = database.reference.child("movieLog").child(userId)
 
         firebaseListener = object : ValueEventListener {

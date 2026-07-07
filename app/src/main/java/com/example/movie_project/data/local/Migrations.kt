@@ -42,15 +42,11 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
  */
 val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // Get current user ID from Firebase Auth
-        // Note: During migration, if no user is logged in, entries will be assigned to "unknown"
-        // and can be reassigned later when user logs in
-        val currentUserId = try {
-            com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
-        } catch (e: Exception) {
-            "unknown"
-        }
-        
+        // A schema migration has no auth context, so existing entries are stamped with a
+        // sentinel userId and reassigned to the real user after they next log in
+        // (see MovieLogDao.reassignOrphanedEntries, called from MovieLogRepository).
+        val currentUserId = "unknown"
+
         // Create new table with updated schema
         db.execSQL(
             """

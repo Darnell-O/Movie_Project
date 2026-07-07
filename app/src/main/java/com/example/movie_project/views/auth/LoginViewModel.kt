@@ -1,12 +1,14 @@
 package com.example.movie_project.views.auth
 
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.viewModelScope
+import com.example.movie_project.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class LoginUiState(
@@ -18,12 +20,12 @@ data class LoginUiState(
 )
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
-
-    private val auth = FirebaseAuth.getInstance()
 
     fun onEmailChange(email: String) = _uiState.update { it.copy(email = email) }
     fun onPasswordChange(password: String) = _uiState.update { it.copy(password = password) }
@@ -35,19 +37,18 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             return
         }
         _uiState.update { it.copy(isLoading = true, error = null) }
-        auth.signInWithEmailAndPassword(state.email, state.password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    _uiState.update { it.copy(isLoading = false, navigateToMain = true) }
-                } else {
+        viewModelScope.launch {
+            authRepository.login(state.email, state.password)
+                .onSuccess { _uiState.update { it.copy(isLoading = false, navigateToMain = true) } }
+                .onFailure { e ->
                     _uiState.update {
-                        it.copy(isLoading = false, error = task.exception?.localizedMessage ?: "Login failed. Please try again.")
+                        it.copy(isLoading = false, error = e.localizedMessage ?: "Login failed. Please try again.")
                     }
                 }
-            }
+        }
     }
 
     fun onNavigatedToMain() = _uiState.update { it.copy(navigateToMain = false) }
 
-    fun isAlreadySignedIn(): Boolean = auth.currentUser != null
+    fun isAlreadySignedIn(): Boolean = authRepository.isSignedIn
 }

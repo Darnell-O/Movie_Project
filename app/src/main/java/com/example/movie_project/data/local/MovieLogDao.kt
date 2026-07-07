@@ -65,6 +65,13 @@ interface MovieLogDao {
     suspend fun clearForUser(userId: String)
 
     /**
+     * Reassigns entries stranded under the "unknown" sentinel (from an offline
+     * MIGRATION_2_3) to the now-known user. Idempotent; a no-op once adopted.
+     */
+    @Query("UPDATE movie_log SET userId = :userId WHERE userId = 'unknown'")
+    suspend fun reassignOrphanedEntries(userId: String)
+
+    /**
      * Returns snapshot of all entries for a user (used in conflict resolution).
      */
     @Query("SELECT * FROM movie_log WHERE userId = :userId AND pendingDeletion = 0")

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.example.movie_project.data.local.MovieLogEntry
+import com.example.movie_project.data.repository.AuthRepository
 import com.example.movie_project.data.repository.MovieLogRepository
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,14 +22,15 @@ data class MovieLogUiState(
 
 @HiltViewModel
 class MovieLogViewModel @Inject constructor(
-    private val repository: MovieLogRepository
+    private val repository: MovieLogRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MovieLogUiState(isLoading = true))
     val uiState: StateFlow<MovieLogUiState> = _uiState.asStateFlow()
 
     init {
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        val currentUserId = authRepository.currentUserId
 
         if (currentUserId != null) {
             viewModelScope.launch {

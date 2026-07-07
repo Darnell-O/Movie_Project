@@ -1,15 +1,14 @@
 package com.example.movie_project.views.auth
 
 import androidx.lifecycle.ViewModel
-import com.example.movie_project.models.domain.UsersModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.FirebaseDatabase
+import androidx.lifecycle.viewModelScope
+import com.example.movie_project.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class SignUpUiState(
@@ -22,12 +21,12 @@ data class SignUpUiState(
 )
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() : ViewModel() {
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
-
-    private val auth = FirebaseAuth.getInstance()
 
     fun onEmailChange(email: String) = _uiState.update { it.copy(email = email) }
     fun onPasswordChange(password: String) = _uiState.update { it.copy(password = password) }
@@ -44,34 +43,28 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
             return
         }
         _uiState.update { it.copy(isLoading = true, error = null) }
-        auth.createUserWithEmailAndPassword(state.email, state.password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val uid = auth.uid ?: ""
-                    FirebaseDatabase.getInstance().getReference("users")
-                        .child("user").child(uid).setValue(UsersModel(state.email, uid))
-                    _uiState.update { it.copy(isLoading = false, navigateToMain = true) }
-                } else {
+        viewModelScope.launch {
+            authRepository.signUp(state.email, state.password)
+                .onSuccess { _uiState.update { it.copy(isLoading = false, navigateToMain = true) } }
+                .onFailure { e ->
                     _uiState.update {
-                        it.copy(isLoading = false, error = task.exception?.localizedMessage ?: "Sign up failed. Please try again.")
+                        it.copy(isLoading = false, error = e.localizedMessage ?: "Sign up failed. Please try again.")
                     }
                 }
-            }
+        }
     }
 
     fun signInWithGoogle(idToken: String) {
         _uiState.update { it.copy(isLoading = true, error = null) }
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    _uiState.update { it.copy(isLoading = false, navigateToMain = true) }
-                } else {
+        viewModelScope.launch {
+            authRepository.signInWithGoogle(idToken)
+                .onSuccess { _uiState.update { it.copy(isLoading = false, navigateToMain = true) } }
+                .onFailure { e ->
                     _uiState.update {
-                        it.copy(isLoading = false, error = task.exception?.localizedMessage ?: "Google sign-in failed. Please try again.")
+                        it.copy(isLoading = false, error = e.localizedMessage ?: "Google sign-in failed. Please try again.")
                     }
                 }
-            }
+        }
     }
 
     fun onNavigatedToMain() = _uiState.update { it.copy(navigateToMain = false) }
