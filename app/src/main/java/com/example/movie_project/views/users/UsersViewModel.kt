@@ -2,9 +2,9 @@ package com.example.movie_project.views.users
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie_project.data.repository.AuthRepository
 import com.example.movie_project.data.repository.UsersRepository
 import com.example.movie_project.models.domain.UsersModel
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,12 +21,13 @@ data class UsersUiState(
 
 @HiltViewModel
 class UsersViewModel @Inject constructor(
-    private val repository: UsersRepository
+    private val repository: UsersRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     val uiState: StateFlow<UsersUiState> = repository.observeUsers()
         .map { allUsers ->
-            val currentUid = FirebaseAuth.getInstance().currentUser?.uid
+            val currentUid = authRepository.currentUserId
             UsersUiState(
                 users = allUsers.filter { it.uid != currentUid },
                 isLoading = false

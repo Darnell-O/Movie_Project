@@ -16,7 +16,7 @@ class UsersRepository @Inject constructor(
     private val database: FirebaseDatabase
 ) {
     fun observeUsers(): Flow<List<UsersModel>> = callbackFlow {
-        val ref = database.reference.child("users")
+        val ref = database.reference.child("users").child("user")
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = mutableListOf<UsersModel>()

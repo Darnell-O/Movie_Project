@@ -92,6 +92,8 @@ dependencies {
 
     // Google Sign In SDK
     implementation("com.google.android.gms:play-services-auth:21.5.1")
+    // Coroutines interop for Play Services / Firebase Tasks (Task.await())
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     // Firebase SDK
     implementation(platform("com.google.firebase:firebase-bom:34.12.0"))

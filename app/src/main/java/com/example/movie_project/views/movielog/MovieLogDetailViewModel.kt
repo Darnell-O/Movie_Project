@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_project.data.local.MovieLogEntry
+import com.example.movie_project.data.repository.AuthRepository
 import com.example.movie_project.data.repository.MovieLogRepository
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +30,8 @@ sealed interface MovieLogDetailEvent {
 
 @HiltViewModel
 class MovieLogDetailViewModel @Inject constructor(
-    private val repository: MovieLogRepository
+    private val repository: MovieLogRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MovieLogDetailUiState())
@@ -40,7 +41,7 @@ class MovieLogDetailViewModel @Inject constructor(
     val events: SharedFlow<MovieLogDetailEvent> = _events.asSharedFlow()
 
     private val userId: String?
-        get() = FirebaseAuth.getInstance().currentUser?.uid
+        get() = authRepository.currentUserId
 
     fun loadEntry(entryId: String) {
         val uid = userId ?: run {
