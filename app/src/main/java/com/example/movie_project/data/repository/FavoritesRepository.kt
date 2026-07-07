@@ -3,7 +3,6 @@ package com.example.movie_project.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.example.movie_project.data.local.FavoriteDao
 import com.example.movie_project.data.local.FavoriteEntry
 import com.example.movie_project.data.local.toFavoriteEntry
@@ -20,6 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import javax.inject.Inject
@@ -58,7 +59,7 @@ class FavoritesRepository @Inject constructor(
     /**
      * Observe favorites for a user from Room (offline-safe).
      */
-    fun observeFavorites(userId: String): LiveData<List<MovieModel>> {
+    fun observeFavorites(userId: String): Flow<List<MovieModel>> {
         return favoriteDao.getFavoritesForUser(userId).map { entries ->
             entries.map { it.toMovieModel() }
         }
@@ -67,7 +68,7 @@ class FavoritesRepository @Inject constructor(
     /**
      * Observe whether a single movie is in the user's favorites.
      */
-    fun isFavorite(userId: String, movieId: Int): LiveData<Boolean> {
+    fun isFavorite(userId: String, movieId: Int): Flow<Boolean> {
         return favoriteDao.isFavorite(userId, movieId)
     }
 

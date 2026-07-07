@@ -5,7 +5,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movie_project.data.repository.FavoritesRepository
 import com.example.movie_project.views.profile.ProfileActivity
 import com.example.movie_project.R
@@ -91,13 +93,17 @@ class DetailActivity : AppCompatActivity() {
     private fun setupFavoriteButton(movie: MovieModel) {
         val uid = userId ?: return
 
-        // Observe the live "is this a favorite?" state from Room.
-        repository.isFavorite(uid, movie.id).observe(this) { fav ->
-            isFavorite = fav
-            binding.heartButton.isSelected = fav
-            binding.heartButton.setImageResource(
-                if (fav) R.drawable.baseline_favorite_24 else R.drawable.heart_button
-            )
+        // Collect the live "is this a favorite?" state from Room.
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                repository.isFavorite(uid, movie.id).collect { fav ->
+                    isFavorite = fav
+                    binding.heartButton.isSelected = fav
+                    binding.heartButton.setImageResource(
+                        if (fav) R.drawable.baseline_favorite_24 else R.drawable.heart_button
+                    )
+                }
+            }
         }
 
         binding.heartButton.setOnClickListener { view ->

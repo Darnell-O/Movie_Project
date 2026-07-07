@@ -5,20 +5,19 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.movie_project.R
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.databinding.ActivityMovieLogDetailBinding
 import com.example.movie_project.util.HapticUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.UUID
 
-/**
- * Activity for creating or editing a movie log entry.
- * Displays a form with text fields, star rating, checkboxes, and notes.
- */
 @AndroidEntryPoint
 class MovieLogDetailActivity : AppCompatActivity() {
-
 
     companion object {
         const val EXTRA_ENTRY_ID = "extra_entry_id"
@@ -40,32 +39,69 @@ class MovieLogDetailActivity : AppCompatActivity() {
         setupToolbar()
         setupStarRating()
         setupSaveButton()
+        observeState()
+        observeEvents()
 
-        viewModel.errorMessage.observe(this) { error ->
-            error?.let {
-                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        editEntryId = intent.getStringExtra(EXTRA_ENTRY_ID)
+        editEntryId?.let { viewModel.loadEntry(it) }
+    }
+
+    private fun observeState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    state.errorMessage?.let {
+                        Toast.makeText(this@MovieLogDetailActivity, it, Toast.LENGTH_LONG).show()
+                    }
+                    state.entry?.let { entry ->
+                        if (editEntryId != null) populateForm(entry)
+                    }
+                }
             }
         }
-
-        // Check if editing an existing entry (entryId is now a String UUID)
-        editEntryId = intent.getStringExtra(EXTRA_ENTRY_ID)
-        editEntryId?.let { loadExistingEntry(it) }
     }
 
-    /**
-     * Sets up the toolbar with back navigation.
-     */
-    private fun setupToolbar() {
-        binding.toolbarMovieLogDetail.setNavigationOnClickListener {
-            finish()
+    private fun observeEvents() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.events.collect { event ->
+                    when (event) {
+                        is MovieLogDetailEvent.Saved -> {
+                            Toast.makeText(this@MovieLogDetailActivity, "Movie saved!", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                        is MovieLogDetailEvent.Deleted -> {
+                            Toast.makeText(this@MovieLogDetailActivity, "Entry deleted!", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    }
+                }
+            }
         }
     }
 
-    /**
-     * Sets up the 5-star rating system.
-     * Clicking a star fills it and all stars to its left in yellow;
-     * stars to the right show a yellow outline.
-     */
+    private fun populateForm(entry: MovieLogEntry) {
+        editEntryDateAdded = entry.dateAdded
+        binding.etMovieTitle.setText(entry.movieTitle)
+        binding.etYear.setText(entry.year)
+        binding.etDateWatched.setText(entry.dateWatched)
+        binding.etDirectedBy.setText(entry.directedBy)
+        binding.etStarring.setText(entry.starring)
+        currentRating = entry.rating
+        updateStarDisplay(currentRating)
+        binding.cbInTheater.isChecked = entry.inTheater
+        binding.cbAtHome.isChecked = entry.atHome
+        binding.cbFirstWatch.isChecked = entry.firstWatch
+        binding.cbRewatch.isChecked = entry.rewatch
+        binding.cbAlone.isChecked = entry.alone
+        binding.cbWithSomeone.isChecked = entry.withSomeone
+        binding.etNotes.setText(entry.notes)
+    }
+
+    private fun setupToolbar() {
+        binding.toolbarMovieLogDetail.setNavigationOnClickListener { finish() }
+    }
+
     private fun setupStarRating() {
         starViews = listOf(
             binding.star1,
@@ -74,7 +110,6 @@ class MovieLogDetailActivity : AppCompatActivity() {
             binding.star4,
             binding.star5
         )
-
         starViews.forEachIndexed { index, imageView ->
             imageView.setOnClickListener {
                 HapticUtil.performClickFeedback(it)
@@ -84,23 +119,14 @@ class MovieLogDetailActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Updates the star display based on the current rating.
-     * Filled stars (yellow) up to the rating; outlined stars after.
-     */
     private fun updateStarDisplay(rating: Int) {
         starViews.forEachIndexed { index, imageView ->
-            if (index < rating) {
-                imageView.setImageResource(R.drawable.ic_star_filled)
-            } else {
-                imageView.setImageResource(R.drawable.ic_star_outline)
-            }
+            imageView.setImageResource(
+                if (index < rating) R.drawable.ic_star_filled else R.drawable.ic_star_outline
+            )
         }
     }
 
-    /**
-     * Sets up the save button to create or update a movie log entry.
-     */
     private fun setupSaveButton() {
         binding.btnSave.setOnClickListener {
             HapticUtil.performClickFeedback(it)
@@ -111,9 +137,8 @@ class MovieLogDetailActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Build entry with userId placeholder (repository will set the real userId)
             val entry = MovieLogEntry(
-                userId = "",  // Will be set by repository
+                userId = "",
                 entryId = editEntryId ?: UUID.randomUUID().toString(),
                 movieTitle = movieTitle,
                 year = binding.etYear.text.toString().trim(),
@@ -132,44 +157,9 @@ class MovieLogDetailActivity : AppCompatActivity() {
             )
 
             if (editEntryId != null) {
-                viewModel.updateEntry(entry) {
-                    runOnUiThread {
-                        Toast.makeText(this, "Movie updated!", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                }
+                viewModel.updateEntry(entry)
             } else {
-                viewModel.insertEntry(entry) {
-                    runOnUiThread {
-                        Toast.makeText(this, "Movie saved!", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Loads an existing entry for editing and populates the form fields.
-     */
-    private fun loadExistingEntry(entryId: String) {
-        viewModel.getEntryById(entryId).observe(this) { entry ->
-            entry?.let {
-                editEntryDateAdded = it.dateAdded
-                binding.etMovieTitle.setText(it.movieTitle)
-                binding.etYear.setText(it.year)
-                binding.etDateWatched.setText(it.dateWatched)
-                binding.etDirectedBy.setText(it.directedBy)
-                binding.etStarring.setText(it.starring)
-                currentRating = it.rating
-                updateStarDisplay(currentRating)
-                binding.cbInTheater.isChecked = it.inTheater
-                binding.cbAtHome.isChecked = it.atHome
-                binding.cbFirstWatch.isChecked = it.firstWatch
-                binding.cbRewatch.isChecked = it.rewatch
-                binding.cbAlone.isChecked = it.alone
-                binding.cbWithSomeone.isChecked = it.withSomeone
-                binding.etNotes.setText(it.notes)
+                viewModel.insertEntry(entry)
             }
         }
     }
