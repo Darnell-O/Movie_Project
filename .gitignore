@@ -20,3 +20,6 @@ kotlin-profile/
 /native/
 /jdks/
 /workers/
+
+# Stray empty jar emitted by tooling; unreferenced by any build config
+/android/
