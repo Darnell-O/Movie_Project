@@ -33,6 +33,13 @@ interface FavoriteDao {
     fun isFavorite(userId: String, movieId: Int): Flow<Boolean>
 
     /**
+     * Returns a single cached favorite (not pending deletion), or null — used as an
+     * offline fallback for the detail screen.
+     */
+    @Query("SELECT * FROM favorites WHERE userId = :userId AND movieId = :movieId AND pendingDeletion = 0")
+    suspend fun getFavorite(userId: String, movieId: Int): FavoriteEntry?
+
+    /**
      * Insert or replace a favorite entry.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)

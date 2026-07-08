@@ -1,7 +1,10 @@
 package com.example.movie_project.views.detail
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,16 +16,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,24 +52,66 @@ import java.util.Locale
 
 @Composable
 fun DetailRoute(
-    movie: MovieModel,
     onNavigateBack: () -> Unit,
     onProfileClick: () -> Unit,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(movie) {
-        viewModel.loadMovie(movie)
-    }
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val movie = uiState.movie
 
-    DetailScreen(
-        movie = movie,
-        isFavorite = uiState.isFavorite,
-        onNavigateBack = onNavigateBack,
-        onProfileClick = onProfileClick,
-        onFavoriteToggle = viewModel::toggleFavorite
-    )
+    when {
+        movie != null -> DetailScreen(
+            movie = movie,
+            isFavorite = uiState.isFavorite,
+            onNavigateBack = onNavigateBack,
+            onProfileClick = onProfileClick,
+            onFavoriteToggle = viewModel::toggleFavorite
+        )
+        uiState.error != null -> DetailErrorState(
+            message = uiState.error!!,
+            onRetry = viewModel::load,
+            onNavigateBack = onNavigateBack
+        )
+        else -> DetailLoadingState()
+    }
+}
+
+@Composable
+private fun DetailLoadingState() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = Iris)
+    }
+}
+
+@Composable
+private fun DetailErrorState(
+    message: String,
+    onRetry: () -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = message, color = DarkGrey)
+        Spacer(modifier = Modifier.size(16.dp))
+        Button(
+            onClick = onRetry,
+            colors = ButtonDefaults.buttonColors(containerColor = Iris)
+        ) {
+            Text("Retry")
+        }
+        Spacer(modifier = Modifier.size(8.dp))
+        TextButton(onClick = onNavigateBack) {
+            Text("Go back", color = Iris)
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -71,6 +71,10 @@ class FavoritesRepository @Inject constructor(
     fun isFavorite(userId: String, movieId: Int): Flow<Boolean> =
         favoriteDao.isFavorite(userId, movieId)
 
+    /** Cached favorite as a domain model, or null — offline fallback for detail. */
+    suspend fun getFavorite(userId: String, movieId: Int): MovieModel? =
+        favoriteDao.getFavorite(userId, movieId)?.toMovieModel()
+
     // ----- Writes -----
 
     suspend fun addFavorite(userId: String, movie: MovieModel) =
