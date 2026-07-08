@@ -1,5 +1,6 @@
 package com.example.movie_project.networking
 
+import com.example.movie_project.models.dto.MovieDto
 import com.example.movie_project.models.dto.MovieResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -10,6 +11,12 @@ interface MovieService {
 
     @GET("movie/popular")
     suspend fun getPopularMovies(@Query("api_key") apiKey: String?): Response<MovieResponse>
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetails(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String?
+    ): Response<MovieDto>
 
     @GET("search/movie")
     suspend fun searchMovies(

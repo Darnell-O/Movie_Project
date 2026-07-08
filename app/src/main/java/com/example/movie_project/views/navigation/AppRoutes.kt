@@ -1,40 +1,29 @@
 package com.example.movie_project.views.navigation
 
-import android.net.Uri
-import com.example.movie_project.models.domain.MovieModel
+import kotlinx.serialization.Serializable
 
-object Route {
-    // Auth
-    const val LOGIN = "login"
-    const val SIGN_UP = "sign_up"
+/**
+ * Type-safe navigation routes. Each destination is a [Serializable] type consumed
+ * by the Navigation-Compose type-safe API (composable<Route.X> / navigate(Route.X)).
+ */
+sealed interface Route {
 
-    // Bottom nav tabs
-    const val HOME = "home"
-    const val FAVORITES = "favorites"
-    const val SEARCH = "search"
-    const val MOVIE_LOG = "movie_log"
+    @Serializable data object Login : Route
+    @Serializable data object SignUp : Route
 
-    // Detail — individual fields encoded as query params
-    const val DETAIL = "detail?movieId={movieId}&title={title}&posterPath={posterPath}&overview={overview}&releaseDate={releaseDate}&voteAverage={voteAverage}"
+    @Serializable data object Home : Route
+    @Serializable data object Favorites : Route
+    @Serializable data object Search : Route
+    @Serializable data object MovieLog : Route
 
-    // MovieLogDetail — entryId is optional (null = new entry)
-    const val MOVIE_LOG_DETAIL = "movie_log_detail?entryId={entryId}"
+    @Serializable data object Profile : Route
+    @Serializable data object Users : Route
 
-    // Top-level screens
-    const val PROFILE = "profile"
-    const val USERS = "users"
+    /** Movie detail. Carries only the id; DetailViewModel loads the rest. */
+    @Serializable
+    data class Detail(val movieId: Int) : Route
 
-    // Builder helpers
-    fun detail(movie: MovieModel) =
-        "detail" +
-        "?movieId=${movie.id}" +
-        "&title=${Uri.encode(movie.title ?: "")}" +
-        "&posterPath=${Uri.encode(movie.posterPath ?: "")}" +
-        "&overview=${Uri.encode(movie.overview ?: "")}" +
-        "&releaseDate=${Uri.encode(movie.releaseDate ?: "")}" +
-        "&voteAverage=${movie.voteAverage ?: 0f}"
-
-    fun movieLogDetail(entryId: String? = null) =
-        if (entryId != null) "movie_log_detail?entryId=$entryId"
-        else "movie_log_detail"
+    /** Movie log entry (null entryId = new entry). */
+    @Serializable
+    data class MovieLogDetail(val entryId: String? = null) : Route
 }

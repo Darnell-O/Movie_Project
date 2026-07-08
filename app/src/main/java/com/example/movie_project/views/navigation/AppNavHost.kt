@@ -13,14 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavType
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.example.movie_project.R
-import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.views.auth.LoginRoute
 import com.example.movie_project.views.auth.SignUpRoute
 import com.example.movie_project.views.detail.DetailRoute
@@ -34,59 +35,59 @@ import com.example.movie_project.views.search.SearchViewModel
 import com.example.movie_project.views.theme.Iris
 import com.example.movie_project.views.users.UsersRoute
 
-private val bottomNavRoutes = setOf(
-    Route.HOME, Route.FAVORITES, Route.SEARCH, Route.MOVIE_LOG
-)
-
 private data class BottomNavItem(
-    val route: String,
+    val route: Route,
     val label: String,
     val selectedIcon: Int,
     val unselectedIcon: Int
 )
 
 private val bottomNavItems = listOf(
-    BottomNavItem(Route.HOME, "Home", R.drawable.filled_home_24, R.drawable.outline_home),
-    BottomNavItem(Route.FAVORITES, "Favorites", R.drawable.baseline_favorite_24, R.drawable.round_favorite_border_24),
-    BottomNavItem(Route.SEARCH, "Search", R.drawable.filled_search_24, R.drawable.outline_search),
-    BottomNavItem(Route.MOVIE_LOG, "Log", R.drawable.filled_book_24, R.drawable.book_24)
+    BottomNavItem(Route.Home, "Home", R.drawable.filled_home_24, R.drawable.outline_home),
+    BottomNavItem(Route.Favorites, "Favorites", R.drawable.baseline_favorite_24, R.drawable.round_favorite_border_24),
+    BottomNavItem(Route.Search, "Search", R.drawable.filled_search_24, R.drawable.outline_search),
+    BottomNavItem(Route.MovieLog, "Log", R.drawable.filled_book_24, R.drawable.book_24)
 )
 
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route
+    val currentDestination = backStackEntry?.destination
+
+    val showBottomBar = bottomNavItems.any { item ->
+        currentDestination?.hierarchy?.any { it.hasRoute(item.route::class) } == true
+    }
 
     Scaffold(
         bottomBar = {
-            if (currentRoute in bottomNavRoutes) {
-                AppBottomBar(navController = navController, currentRoute = currentRoute)
+            if (showBottomBar) {
+                AppBottomBar(navController = navController, currentDestination = currentDestination)
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Route.LOGIN,
+            startDestination = Route.Login,
             modifier = Modifier.padding(innerPadding)
         ) {
             // Auth
-            composable(Route.LOGIN) {
+            composable<Route.Login> {
                 LoginRoute(
                     onNavigateToMain = {
-                        navController.navigate(Route.HOME) {
-                            popUpTo(Route.LOGIN) { inclusive = true }
+                        navController.navigate(Route.Home) {
+                            popUpTo(Route.Login) { inclusive = true }
                         }
                     },
-                    onNavigateToSignUp = { navController.navigate(Route.SIGN_UP) }
+                    onNavigateToSignUp = { navController.navigate(Route.SignUp) }
                 )
             }
 
-            composable(Route.SIGN_UP) {
+            composable<Route.SignUp> {
                 SignUpRoute(
                     onNavigateToMain = {
-                        navController.navigate(Route.HOME) {
-                            popUpTo(Route.LOGIN) { inclusive = true }
+                        navController.navigate(Route.Home) {
+                            popUpTo(Route.Login) { inclusive = true }
                         }
                     },
                     onNavigateToLogin = { navController.popBackStack() }
@@ -94,87 +95,59 @@ fun AppNavHost() {
             }
 
             // Bottom nav tabs
-            composable(Route.HOME) {
+            composable<Route.Home> {
                 HomeRoute(
-                    onMovieClick = { movie -> navController.navigate(Route.detail(movie)) },
-                    onProfileClick = { navController.navigate(Route.PROFILE) }
+                    onMovieClick = { movie -> navController.navigate(Route.Detail(movie.id)) },
+                    onProfileClick = { navController.navigate(Route.Profile) }
                 )
             }
 
-            composable(Route.FAVORITES) {
+            composable<Route.Favorites> {
                 FavoritesRoute(
-                    onMovieClick = { movie -> navController.navigate(Route.detail(movie)) },
-                    onProfileClick = { navController.navigate(Route.PROFILE) }
+                    onMovieClick = { movie -> navController.navigate(Route.Detail(movie.id)) },
+                    onProfileClick = { navController.navigate(Route.Profile) }
                 )
             }
 
-            composable(Route.SEARCH) {
+            composable<Route.Search> {
                 val searchViewModel = hiltViewModel<SearchViewModel>()
                 SearchRoute(
                     viewModel = searchViewModel,
-                    onMovieClicked = { movie -> navController.navigate(Route.detail(movie)) },
-                    onProfileClicked = { navController.navigate(Route.PROFILE) }
+                    onMovieClicked = { movie -> navController.navigate(Route.Detail(movie.id)) },
+                    onProfileClicked = { navController.navigate(Route.Profile) }
                 )
             }
 
-            composable(Route.MOVIE_LOG) {
+            composable<Route.MovieLog> {
                 MovieLogRoute(
-                    onAddEntry = { navController.navigate(Route.movieLogDetail()) },
-                    onEntryClick = { entry -> navController.navigate(Route.movieLogDetail(entry.entryId)) }
+                    onAddEntry = { navController.navigate(Route.MovieLogDetail()) },
+                    onEntryClick = { entry -> navController.navigate(Route.MovieLogDetail(entry.entryId)) }
                 )
             }
 
             // Detail screen
-            composable(
-                route = Route.DETAIL,
-                arguments = listOf(
-                    navArgument("movieId") { type = NavType.IntType; defaultValue = 0 },
-                    navArgument("title") { type = NavType.StringType; defaultValue = "" },
-                    navArgument("posterPath") { type = NavType.StringType; defaultValue = "" },
-                    navArgument("overview") { type = NavType.StringType; defaultValue = "" },
-                    navArgument("releaseDate") { type = NavType.StringType; defaultValue = "" },
-                    navArgument("voteAverage") { type = NavType.FloatType; defaultValue = 0f }
-                )
-            ) { backStackEntry ->
-                val args = backStackEntry.arguments
-                val movie = MovieModel(
-                    id = args?.getInt("movieId") ?: 0,
-                    title = args?.getString("title"),
-                    posterPath = args?.getString("posterPath"),
-                    overview = args?.getString("overview"),
-                    releaseDate = args?.getString("releaseDate"),
-                    voteAverage = args?.getFloat("voteAverage")
-                )
+            composable<Route.Detail> {
                 DetailRoute(
-                    movie = movie,
                     onNavigateBack = { navController.popBackStack() },
-                    onProfileClick = { navController.navigate(Route.PROFILE) }
+                    onProfileClick = { navController.navigate(Route.Profile) }
                 )
             }
 
             // Movie Log Detail (add or edit)
-            composable(
-                route = Route.MOVIE_LOG_DETAIL,
-                arguments = listOf(
-                    navArgument("entryId") {
-                        type = NavType.StringType
-                        nullable = true
-                        defaultValue = null
-                    }
-                )
-            ) { backStackEntry ->
+            composable<Route.MovieLogDetail> { backStackEntry ->
+                val args = backStackEntry.toRoute<Route.MovieLogDetail>()
                 MovieLogDetailRoute(
-                    entryId = backStackEntry.arguments?.getString("entryId"),
+                    entryId = args.entryId,
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
 
             // Profile
-            composable(Route.PROFILE) {
+            composable<Route.Profile> {
                 ProfileRoute(
                     onNavigateBack = { navController.popBackStack() },
                     onSignedOut = {
-                        navController.navigate(Route.LOGIN) {
+                        navController.navigate(Route.Login) {
                             popUpTo(0) { inclusive = true }
                         }
                     }
@@ -182,10 +155,10 @@ fun AppNavHost() {
             }
 
             // Users
-            composable(Route.USERS) {
+            composable<Route.Users> {
                 UsersRoute(
                     onNavigateBack = { navController.popBackStack() },
-                    onProfileClick = { navController.navigate(Route.PROFILE) }
+                    onProfileClick = { navController.navigate(Route.Profile) }
                 )
             }
         }
@@ -193,15 +166,15 @@ fun AppNavHost() {
 }
 
 @Composable
-private fun AppBottomBar(navController: NavController, currentRoute: String?) {
+private fun AppBottomBar(navController: NavController, currentDestination: NavDestination?) {
     NavigationBar {
         bottomNavItems.forEach { item ->
-            val selected = currentRoute == item.route
+            val selected = currentDestination?.hierarchy?.any { it.hasRoute(item.route::class) } == true
             NavigationBarItem(
                 selected = selected,
                 onClick = {
                     navController.navigate(item.route) {
-                        popUpTo(Route.HOME) { saveState = true }
+                        popUpTo(Route.Home) { saveState = true }
                         launchSingleTop = true
                         restoreState = true
                     }

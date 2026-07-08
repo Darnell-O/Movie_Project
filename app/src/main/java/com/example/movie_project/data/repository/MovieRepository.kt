@@ -2,6 +2,7 @@ package com.example.movie_project.data.repository
 
 import com.example.movie_project.di.IoDispatcher
 import com.example.movie_project.models.domain.MovieModel
+import com.example.movie_project.models.dto.toMovieModel
 import com.example.movie_project.models.dto.toMovieModels
 import com.example.movie_project.networking.MovieService
 import com.example.movie_project.util.ApiKeyProvider
@@ -40,6 +41,22 @@ class MovieRepository @Inject constructor(
                     response.body()?.results?.toMovieModels() ?: emptyList()
                 } else {
                     throw IllegalStateException("Search failed: ${response.code()}")
+                }
+            }
+        }
+
+    /**
+     * Fetch full details for a single movie by id.
+     */
+    suspend fun getMovieDetails(movieId: Int): Result<MovieModel> =
+        withContext(ioDispatcher) {
+            runCatching {
+                val response = movieService.getMovieDetails(movieId, apiKeyProvider())
+                if (response.isSuccessful) {
+                    response.body()?.toMovieModel()
+                        ?: throw IllegalStateException("Empty movie details")
+                } else {
+                    throw IllegalStateException("Failed to load movie: ${response.code()}")
                 }
             }
         }
