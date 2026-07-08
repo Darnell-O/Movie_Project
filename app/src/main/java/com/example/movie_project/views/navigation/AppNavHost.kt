@@ -8,6 +8,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,6 +28,7 @@ import com.example.movie_project.views.auth.SignUpRoute
 import com.example.movie_project.views.detail.DetailRoute
 import com.example.movie_project.views.favorites.FavoritesRoute
 import com.example.movie_project.views.home.HomeRoute
+import com.example.movie_project.views.main.MainViewModel
 import com.example.movie_project.views.movielog.MovieLogDetailRoute
 import com.example.movie_project.views.movielog.MovieLogRoute
 import com.example.movie_project.views.profile.ProfileRoute
@@ -50,13 +52,24 @@ private val bottomNavItems = listOf(
 )
 
 @Composable
-fun AppNavHost() {
+fun AppNavHost(viewModel: MainViewModel = hiltViewModel()) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
 
     val showBottomBar = bottomNavItems.any { item ->
         currentDestination?.hierarchy?.any { it.hasRoute(item.route::class) } == true
+    }
+
+    // Redirect to Login whenever the user signs out from anywhere in the app.
+    LaunchedEffect(Unit) {
+        viewModel.authState.collect { uid ->
+            if (uid == null) {
+                navController.navigate(Route.Login) {
+                    popUpTo(0) { inclusive = true }
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -68,7 +81,7 @@ fun AppNavHost() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Route.Login,
+            startDestination = viewModel.startDestination,
             modifier = Modifier.padding(innerPadding)
         ) {
             // Auth
@@ -145,12 +158,7 @@ fun AppNavHost() {
             // Profile
             composable<Route.Profile> {
                 ProfileRoute(
-                    onNavigateBack = { navController.popBackStack() },
-                    onSignedOut = {
-                        navController.navigate(Route.Login) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    }
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
 

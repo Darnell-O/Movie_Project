@@ -15,8 +15,7 @@ import javax.inject.Inject
 data class ProfileUiState(
     val userEmail: String? = null,
     val isLoading: Boolean = false,
-    val error: String? = null,
-    val navigateToLogin: Boolean = false
+    val error: String? = null
 )
 
 @HiltViewModel
@@ -43,11 +42,11 @@ class ProfileViewModel @Inject constructor(
                     favoritesRepository.clearLocalForUser(uid)
                 }
             } finally {
+                // authRepository.signOut() flips authState → null, which the nav
+                // host observes to clear the back stack and route to Login.
                 authRepository.signOut()
-                _uiState.update { it.copy(isLoading = false, navigateToLogin = true) }
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
-
-    fun onNavigatedToLogin() = _uiState.update { it.copy(navigateToLogin = false) }
 }
