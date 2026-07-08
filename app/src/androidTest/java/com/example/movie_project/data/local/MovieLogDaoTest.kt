@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -76,8 +77,8 @@ class MovieLogDaoTest {
         dao.upsert(entry(userA, "a2", "A2"))
         dao.upsert(entry(userB, "b1", "B1"))
 
-        val aList = dao.getEntriesForUser(userA).getOrAwaitValue()
-        val bList = dao.getEntriesForUser(userB).getOrAwaitValue()
+        val aList = dao.getEntriesForUser(userA).first()
+        val bList = dao.getEntriesForUser(userB).first()
 
         assertEquals(2, aList.size)
         assertEquals(1, bList.size)
@@ -91,7 +92,7 @@ class MovieLogDaoTest {
         dao.upsert(entry(userA, "mid", "Middle", dateAdded = 2000L))
         dao.upsert(entry(userA, "new", "Newest", dateAdded = 3000L))
 
-        val entries = dao.getEntriesForUser(userA).getOrAwaitValue()
+        val entries = dao.getEntriesForUser(userA).first()
 
         assertEquals(3, entries.size)
         assertEquals("Newest", entries[0].movieTitle)
@@ -105,7 +106,7 @@ class MovieLogDaoTest {
         dao.upsert(entry(userA, "e2", "Movie B"))
         dao.upsert(entry(userA, "e3", "Movie C"))
 
-        val retrieved = dao.getEntryById(userA, "e2").getOrAwaitValue()
+        val retrieved = dao.getEntryById(userA, "e2").first()
         assertTrue(retrieved != null)
         assertEquals("Movie B", retrieved?.movieTitle)
     }
@@ -115,11 +116,11 @@ class MovieLogDaoTest {
         dao.upsert(entry(userA, "e1", "Original Title"))
         dao.upsert(entry(userA, "e1", "Updated Title"))
 
-        val retrieved = dao.getEntryById(userA, "e1").getOrAwaitValue()
+        val retrieved = dao.getEntryById(userA, "e1").first()
         assertEquals("Updated Title", retrieved?.movieTitle)
 
         // Still only one row for that user/entryId combo (REPLACE, not duplicate)
-        val all = dao.getEntriesForUser(userA).getOrAwaitValue()
+        val all = dao.getEntriesForUser(userA).first()
         assertEquals(1, all.size)
     }
 
@@ -129,11 +130,11 @@ class MovieLogDaoTest {
         dao.upsert(entry(userA, "hidden", "Hidden"))
         dao.markPendingDeletion(userA, "hidden")
 
-        val list = dao.getEntriesForUser(userA).getOrAwaitValue()
+        val list = dao.getEntriesForUser(userA).first()
         assertEquals(1, list.size)
         assertEquals("Visible", list[0].movieTitle)
 
-        val hidden = dao.getEntryById(userA, "hidden").getOrAwaitValue()
+        val hidden = dao.getEntryById(userA, "hidden").first()
         assertNull(hidden)
     }
 
@@ -142,7 +143,7 @@ class MovieLogDaoTest {
         dao.upsert(entry(userA, "e1", "To Delete"))
         dao.hardDelete(userA, "e1")
 
-        val allEntries = dao.getEntriesForUser(userA).getOrAwaitValue()
+        val allEntries = dao.getEntriesForUser(userA).first()
         assertTrue(allEntries.isEmpty())
     }
 
@@ -152,8 +153,8 @@ class MovieLogDaoTest {
         dao.upsert(entry(userB, "b1"))
         dao.clearForUser(userA)
 
-        assertTrue(dao.getEntriesForUser(userA).getOrAwaitValue().isEmpty())
-        assertEquals(1, dao.getEntriesForUser(userB).getOrAwaitValue().size)
+        assertTrue(dao.getEntriesForUser(userA).first().isEmpty())
+        assertEquals(1, dao.getEntriesForUser(userB).first().size)
     }
 
     @Test
@@ -175,7 +176,7 @@ class MovieLogDaoTest {
         dao.upsert(entry(userA, "e1", pendingSync = true))
         dao.clearPendingSync(userA, "e1")
 
-        val list = dao.getEntriesForUser(userA).getOrAwaitValue()
+        val list = dao.getEntriesForUser(userA).first()
         assertEquals(1, list.size)
         assertFalse(list[0].pendingSync)
     }
@@ -191,7 +192,7 @@ class MovieLogDaoTest {
         val fresh = listOf(entry(userA, "e1", "Old (server)"))
         dao.replaceAllForUser(userA, fresh)
 
-        val list = dao.getEntriesForUser(userA).getOrAwaitValue()
+        val list = dao.getEntriesForUser(userA).first()
         val ids = list.map { it.entryId }.toSet()
         assertTrue("Offline add should be preserved", ids.contains("offline"))
         assertTrue("Server data should be present", ids.contains("e1"))
@@ -207,7 +208,7 @@ class MovieLogDaoTest {
         dao.replaceAllForUser(userA, fresh)
 
         // Should be hidden (pendingDeletion still set)
-        val visible = dao.getEntriesForUser(userA).getOrAwaitValue()
+        val visible = dao.getEntriesForUser(userA).first()
         assertTrue("Pending delete should remain hidden", visible.isEmpty())
 
         val pending = dao.getPendingSyncForUser(userA)

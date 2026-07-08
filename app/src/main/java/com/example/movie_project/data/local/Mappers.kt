@@ -14,10 +14,10 @@ fun MovieModel.toFavoriteEntry(
     movieId = id,
     title = title,
     overview = overview,
-    posterPath = poster_path,
+    posterPath = posterPath,
     voteAverage = voteAverage,
-    releaseDate = release_date,
-    poster = poster,
+    releaseDate = releaseDate,
+    poster = posterUrl ?: "",
     pendingSync = pendingSync,
     pendingDeletion = pendingDeletion,
     updatedAt = System.currentTimeMillis()
@@ -27,8 +27,7 @@ fun FavoriteEntry.toMovieModel(): MovieModel = MovieModel(
     id = movieId,
     title = title,
     overview = overview,
-    poster_path = posterPath,
+    posterPath = posterPath,
     voteAverage = voteAverage,
-    release_date = releaseDate,
-    poster = poster
+    releaseDate = releaseDate,
 )

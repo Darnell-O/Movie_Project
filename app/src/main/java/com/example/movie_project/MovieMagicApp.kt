@@ -2,8 +2,7 @@ package com.example.movie_project
 
 import android.app.Application
 import android.util.Log
-import com.example.movie_project.data.sync.FavoritesSyncManager
-import com.example.movie_project.data.sync.MovieLogSyncManager
+import com.example.movie_project.data.sync.SyncManager
 import com.example.movie_project.util.NetworkMonitor
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
@@ -22,8 +21,7 @@ import javax.inject.Inject
 class MovieMagicApp : Application() {
 
     @Inject lateinit var networkMonitor: NetworkMonitor
-    @Inject lateinit var favoritesSyncManager: FavoritesSyncManager
-    @Inject lateinit var movieLogSyncManager: MovieLogSyncManager
+    @Inject lateinit var syncManager: SyncManager
 
     override fun onCreate() {
         // IMPORTANT: Firebase must be initialized and persistence configured BEFORE
@@ -42,8 +40,7 @@ class MovieMagicApp : Application() {
 
         // Begin observing connectivity and trigger sync on reconnect
         networkMonitor.startMonitoring()
-        favoritesSyncManager.start()
-        movieLogSyncManager.start()
+        syncManager.start()
     }
 
     companion object {

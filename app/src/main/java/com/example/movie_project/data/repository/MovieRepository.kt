@@ -1,10 +1,11 @@
 package com.example.movie_project.data.repository
 
+import com.example.movie_project.di.IoDispatcher
 import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.models.dto.toMovieModels
 import com.example.movie_project.networking.MovieService
 import com.example.movie_project.util.ApiKeyProvider
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,6 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class MovieRepository @Inject constructor(
     private val movieService: MovieService,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
     private val apiKeyProvider: () -> String = { ApiKeyProvider.getApiKey() }
 
@@ -31,7 +33,7 @@ class MovieRepository @Inject constructor(
      *         [Result.failure] carrying the thrown exception.
      */
     suspend fun searchMovies(query: String): Result<List<MovieModel>> =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             runCatching {
                 val response = movieService.searchMovies(apiKeyProvider(), query)
                 if (response.isSuccessful) {
@@ -46,7 +48,7 @@ class MovieRepository @Inject constructor(
      * Fetch the list of currently popular movies.
      */
     suspend fun getPopularMovies(): Result<List<MovieModel>> =
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             runCatching {
                 val response = movieService.getPopularMovies(apiKeyProvider())
                 if (response.isSuccessful) {

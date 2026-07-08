@@ -6,6 +6,8 @@ import com.example.movie_project.data.local.FavoriteEntry
 import com.example.movie_project.models.domain.MovieModel
 import com.example.movie_project.util.NetworkMonitor
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -40,9 +42,9 @@ class FavoritesRepositoryTest {
         id = 42,
         title = "Inception",
         overview = "A heist of dreams",
-        poster_path = "/poster.jpg",
+        posterPath = "/poster.jpg",
         voteAverage = 8.8f,
-        release_date = "2010-07-16"
+        releaseDate = "2010-07-16"
     )
 
     @Before
@@ -50,7 +52,9 @@ class FavoritesRepositoryTest {
         dao = mock()
         networkMonitor = mock()
         firebase = mock()
-        repository = FavoritesRepository(dao, networkMonitor, firebase)
+        repository = FavoritesRepository(
+            dao, networkMonitor, firebase, CoroutineScope(UnconfinedTestDispatcher())
+        )
     }
 
     @Test

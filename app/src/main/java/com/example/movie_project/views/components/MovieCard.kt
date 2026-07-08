@@ -35,7 +35,7 @@ fun MovieCard(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://image.tmdb.org/t/p/w500${movie.poster_path}")
+                .data(movie.posterUrl)
                 .crossfade(true)
                 .placeholder(R.drawable.placeholder2)
                 .error(R.drawable.placeholder2)
@@ -55,7 +55,7 @@ private fun MovieCardPreview() {
             movie = MovieModel(
                 id = 1,
                 title = "Sample Movie",
-                poster_path = "/sample.jpg"
+                posterPath = "/sample.jpg"
             ),
             onClick = {}
         )

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -72,8 +73,8 @@ class FavoriteDaoTest {
         dao.upsert(fav(userA, 2, "A2"))
         dao.upsert(fav(userB, 3, "B1"))
 
-        val aList = dao.getFavoritesForUser(userA).getOrAwaitValue()
-        val bList = dao.getFavoritesForUser(userB).getOrAwaitValue()
+        val aList = dao.getFavoritesForUser(userA).first()
+        val bList = dao.getFavoritesForUser(userB).first()
 
         assertEquals(2, aList.size)
         assertEquals(1, bList.size)
@@ -87,7 +88,7 @@ class FavoriteDaoTest {
         dao.upsert(fav(userA, 2, "Newest", updatedAt = 3000L))
         dao.upsert(fav(userA, 3, "Middle", updatedAt = 2000L))
 
-        val list = dao.getFavoritesForUser(userA).getOrAwaitValue()
+        val list = dao.getFavoritesForUser(userA).first()
         assertEquals(listOf("Newest", "Middle", "Old"), list.map { it.title })
     }
 
@@ -97,7 +98,7 @@ class FavoriteDaoTest {
         dao.upsert(fav(userA, 2, "Hidden"))
         dao.markPendingDeletion(userA, 2)
 
-        val list = dao.getFavoritesForUser(userA).getOrAwaitValue()
+        val list = dao.getFavoritesForUser(userA).first()
         assertEquals(1, list.size)
         assertEquals("Visible", list[0].title)
     }
@@ -105,11 +106,11 @@ class FavoriteDaoTest {
     @Test
     fun isFavorite_reflectsPresenceAndPendingDeletion() = runTest {
         dao.upsert(fav(userA, 1))
-        assertTrue(dao.isFavorite(userA, 1).getOrAwaitValue())
-        assertFalse(dao.isFavorite(userA, 999).getOrAwaitValue())
+        assertTrue(dao.isFavorite(userA, 1).first())
+        assertFalse(dao.isFavorite(userA, 999).first())
 
         dao.markPendingDeletion(userA, 1)
-        assertFalse(dao.isFavorite(userA, 1).getOrAwaitValue())
+        assertFalse(dao.isFavorite(userA, 1).first())
     }
 
     @Test
@@ -131,7 +132,7 @@ class FavoriteDaoTest {
         dao.upsert(fav(userA, 1, pendingSync = true))
         dao.clearPendingSync(userA, 1)
 
-        val list = dao.getFavoritesForUser(userA).getOrAwaitValue()
+        val list = dao.getFavoritesForUser(userA).first()
         assertEquals(1, list.size)
         assertFalse(list[0].pendingSync)
     }
@@ -140,7 +141,7 @@ class FavoriteDaoTest {
     fun hardDelete_removesEntry() = runTest {
         dao.upsert(fav(userA, 1))
         dao.hardDelete(userA, 1)
-        assertTrue(dao.getFavoritesForUser(userA).getOrAwaitValue().isEmpty())
+        assertTrue(dao.getFavoritesForUser(userA).first().isEmpty())
     }
 
     @Test
@@ -149,8 +150,8 @@ class FavoriteDaoTest {
         dao.upsert(fav(userB, 2))
         dao.clearForUser(userA)
 
-        assertTrue(dao.getFavoritesForUser(userA).getOrAwaitValue().isEmpty())
-        assertEquals(1, dao.getFavoritesForUser(userB).getOrAwaitValue().size)
+        assertTrue(dao.getFavoritesForUser(userA).first().isEmpty())
+        assertEquals(1, dao.getFavoritesForUser(userB).first().size)
     }
 
     @Test
@@ -164,7 +165,7 @@ class FavoriteDaoTest {
         val fresh = listOf(fav(userA, 1, "Old (server)"))
         dao.replaceAllForUser(userA, fresh)
 
-        val list = dao.getFavoritesForUser(userA).getOrAwaitValue()
+        val list = dao.getFavoritesForUser(userA).first()
         val ids = list.map { it.movieId }.toSet()
         assertTrue("Offline add should be preserved", ids.contains(99))
         assertTrue("Server data should be present", ids.contains(1))
@@ -180,7 +181,7 @@ class FavoriteDaoTest {
         dao.replaceAllForUser(userA, fresh)
 
         // Should be hidden (pendingDeletion still set)
-        val visible = dao.getFavoritesForUser(userA).getOrAwaitValue()
+        val visible = dao.getFavoritesForUser(userA).first()
         assertTrue("Pending delete should remain hidden", visible.isEmpty())
 
         val pending = dao.getPendingSyncForUser(userA)

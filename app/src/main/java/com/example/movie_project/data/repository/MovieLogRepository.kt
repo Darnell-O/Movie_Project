@@ -1,195 +1,92 @@
 package com.example.movie_project.data.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.movie_project.data.local.MovieLogDao
 import com.example.movie_project.data.local.MovieLogEntry
+import com.example.movie_project.data.sync.FirebaseSyncEngine
+import com.example.movie_project.data.sync.Syncable
+import com.example.movie_project.data.sync.SyncableStore
+import com.example.movie_project.di.ApplicationScope
 import com.example.movie_project.util.NetworkMonitor
-import kotlinx.coroutines.flow.Flow
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Repository acting as the single source of truth for Movie Log.
- *
- * Strategy:
- * - Reads always come from Room (offline-safe).
- * - Writes go to Room first, then attempt Firebase if online; otherwise queued via pendingSync.
- * - A real-time Firebase listener mirrors remote changes into Room when online.
- *
- * Firebase = source of truth on conflict (timestamp-based).
- * Room    = local cache + offline write queue.
+ * Single source of truth for the Movie Log. Reads come from Room; writes and
+ * Firebase sync are delegated to a shared [FirebaseSyncEngine]. The [SyncableStore]
+ * below supplies the movie-log-specific bits (node, key, encode/decode, DAO ops).
  */
 @Singleton
 class MovieLogRepository @Inject constructor(
     private val movieLogDao: MovieLogDao,
-    private val networkMonitor: NetworkMonitor,
-    private val database: FirebaseDatabase
-) {
+    networkMonitor: NetworkMonitor,
+    database: FirebaseDatabase,
+    @ApplicationScope private val scope: CoroutineScope
+) : Syncable {
 
+    private val store = object : SyncableStore<MovieLogEntry, String> {
+        override val firebaseNode = "movieLog"
+        override fun keyOf(entity: MovieLogEntry) = entity.entryId
+        override fun isPendingSync(entity: MovieLogEntry) = entity.pendingSync
+        override fun isPendingDeletion(entity: MovieLogEntry) = entity.pendingDeletion
+        override fun copyForSync(entity: MovieLogEntry, pendingSync: Boolean) =
+            entity.copy(pendingSync = pendingSync, pendingDeletion = false)
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+        override fun decode(snapshot: DataSnapshot, userId: String): MovieLogEntry? =
+            snapshot.getValue(MovieLogEntry::class.java)
+                ?.copy(userId = userId, pendingSync = false, pendingDeletion = false)
 
-    private val _errorMessage = MutableLiveData<String?>()
-    val errorMessage: LiveData<String?> = _errorMessage
+        override fun encodeForFirebase(entity: MovieLogEntry): Any = entity
 
-    private var firebaseRef: DatabaseReference? = null
-    private var firebaseListener: ValueEventListener? = null
-    private var listeningForUserId: String? = null
+        override suspend fun getPendingSync(userId: String) =
+            movieLogDao.getPendingSyncForUser(userId)
+        override suspend fun upsert(entity: MovieLogEntry) = movieLogDao.upsert(entity)
+        override suspend fun clearPendingSync(userId: String, key: String) =
+            movieLogDao.clearPendingSync(userId, key)
+        override suspend fun markPendingDeletion(userId: String, key: String) =
+            movieLogDao.markPendingDeletion(userId, key)
+        override suspend fun hardDelete(userId: String, key: String) =
+            movieLogDao.hardDelete(userId, key)
+        override suspend fun clearForUser(userId: String) = movieLogDao.clearForUser(userId)
+        override suspend fun replaceAllForUser(userId: String, entities: List<MovieLogEntry>) =
+            movieLogDao.replaceAllForUser(userId, entities)
+    }
+
+    private val engine = FirebaseSyncEngine(store, database, networkMonitor, scope)
+
+    val errorMessage: SharedFlow<String> = engine.errorMessage
 
     // ----- Reads -----
 
-    /**
-     * Observe movie log entries for a user from Room (offline-safe).
-     */
-    fun observeEntries(userId: String): Flow<List<MovieLogEntry>> {
-        return movieLogDao.getEntriesForUser(userId)
-    }
+    fun observeEntries(userId: String): Flow<List<MovieLogEntry>> =
+        movieLogDao.getEntriesForUser(userId)
 
-    /**
-     * Observe a single movie log entry by ID.
-     */
-    fun getEntryById(userId: String, entryId: String): Flow<MovieLogEntry?> {
-        return movieLogDao.getEntryById(userId, entryId)
-    }
+    fun getEntryById(userId: String, entryId: String): Flow<MovieLogEntry?> =
+        movieLogDao.getEntryById(userId, entryId)
 
     // ----- Writes -----
 
-    /**
-     * Add a movie log entry. Writes to Room immediately. If online, pushes to Firebase
-     * and clears the pendingSync flag. If offline, leaves it in the queue.
-     */
-    suspend fun addEntry(userId: String, entry: MovieLogEntry) {
-        val online = networkMonitor.isCurrentlyOnline()
-        val finalEntry = entry.copy(
-            userId = userId,
-            pendingSync = !online,
-            pendingDeletion = false,
-            updatedAt = System.currentTimeMillis()
-        )
-        movieLogDao.upsert(finalEntry)
+    suspend fun addEntry(userId: String, entry: MovieLogEntry) =
+        engine.upsertAndSync(userId, entry.copy(userId = userId, updatedAt = System.currentTimeMillis()))
 
-        if (online) {
-            try {
-                pushSingleToFirebase(userId, finalEntry)
-                movieLogDao.clearPendingSync(userId, finalEntry.entryId)
-            } catch (e: Exception) {
-                Log.w(TAG, "addEntry: Firebase push failed, queued for sync", e)
-                movieLogDao.upsert(finalEntry.copy(pendingSync = true))
-            }
-        }
-    }
+    suspend fun updateEntry(userId: String, entry: MovieLogEntry) =
+        engine.upsertAndSync(userId, entry.copy(userId = userId, updatedAt = System.currentTimeMillis()))
 
-    /**
-     * Update a movie log entry. Writes to Room immediately. If online, pushes to Firebase
-     * and clears the pendingSync flag. If offline, leaves it in the queue.
-     */
-    suspend fun updateEntry(userId: String, entry: MovieLogEntry) {
-        val online = networkMonitor.isCurrentlyOnline()
-        val finalEntry = entry.copy(
-            userId = userId,
-            pendingSync = !online,
-            updatedAt = System.currentTimeMillis()
-        )
-        movieLogDao.upsert(finalEntry)
-
-        if (online) {
-            try {
-                pushSingleToFirebase(userId, finalEntry)
-                movieLogDao.clearPendingSync(userId, finalEntry.entryId)
-            } catch (e: Exception) {
-                Log.w(TAG, "updateEntry: Firebase push failed, queued for sync", e)
-                movieLogDao.upsert(finalEntry.copy(pendingSync = true))
-            }
-        }
-    }
-
-    /**
-     * Delete a movie log entry. Soft-deletes in Room (UI hides it instantly). If online,
-     * deletes from Firebase and hard-deletes locally. If offline, leaves it queued.
-     */
-    suspend fun deleteEntry(userId: String, entryId: String) {
-        movieLogDao.markPendingDeletion(userId, entryId)
-
-        if (networkMonitor.isCurrentlyOnline()) {
-            try {
-                deleteSingleFromFirebase(userId, entryId)
-                movieLogDao.hardDelete(userId, entryId)
-            } catch (e: Exception) {
-                Log.w(TAG, "deleteEntry: Firebase delete failed, queued for sync", e)
-                // Leave it in pendingDeletion state for the SyncManager
-            }
-        }
-    }
+    suspend fun deleteEntry(userId: String, entryId: String) =
+        engine.deleteAndSync(userId, entryId)
 
     // ----- Sync operations -----
 
-    /**
-     * Push all locally-queued operations (adds/updates + deletes) to Firebase.
-     * Called by SyncManager when connectivity is restored.
-     */
-    suspend fun pushPendingToFirebase(userId: String) {
-        if (!networkMonitor.isCurrentlyOnline()) return
+    suspend fun pushPendingToFirebase(userId: String) = engine.pushPending(userId)
+    suspend fun pullFromFirebase(userId: String) = engine.pull(userId)
 
-        val pending = movieLogDao.getPendingSyncForUser(userId)
-        for (entry in pending) {
-            try {
-                if (entry.pendingDeletion) {
-                    deleteSingleFromFirebase(userId, entry.entryId)
-                    movieLogDao.hardDelete(userId, entry.entryId)
-                } else if (entry.pendingSync) {
-                    pushSingleToFirebase(userId, entry)
-                    movieLogDao.clearPendingSync(userId, entry.entryId)
-                }
-            } catch (e: Exception) {
-                Log.w(TAG, "pushPendingToFirebase: failed for ${entry.entryId}", e)
-                // Leave in queue; will retry on next sync trigger
-            }
-        }
-    }
-
-    /**
-     * Pull the full movie log snapshot from Firebase and replace the local cache.
-     * Pending local operations are preserved by [MovieLogDao.replaceAllForUser]
-     * with timestamp-based conflict resolution.
-     */
-    suspend fun pullFromFirebase(userId: String) {
-        if (!networkMonitor.isCurrentlyOnline()) return
-
-        try {
-            val snapshot = readFirebaseSnapshot(userId)
-            val entries = snapshotToEntries(userId, snapshot)
-            movieLogDao.replaceAllForUser(userId, entries)
-        } catch (e: Exception) {
-            Log.e(TAG, "pullFromFirebase failed", e)
-            _errorMessage.postValue(e.localizedMessage)
-        }
-    }
-
-    /**
-     * Start real-time Firebase listener for a user.
-     * Mirrors remote changes into Room while online.
-     */
     fun startFirebaseListener(userId: String) {
-        // Already listening for this user — skip
-        if (listeningForUserId == userId && firebaseListener != null) return
-
-        stopFirebaseListener()
-        listeningForUserId = userId
-
         // Adopt any entries left under the "unknown" sentinel by an offline MIGRATION_2_3.
         scope.launch {
             try {
@@ -198,95 +95,15 @@ class MovieLogRepository @Inject constructor(
                 Log.w(TAG, "reassignOrphanedEntries failed", e)
             }
         }
-
-        firebaseRef = database.reference.child("movieLog").child(userId)
-
-        firebaseListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                scope.launch {
-                    try {
-                        val entries = snapshotToEntries(userId, snapshot)
-                        movieLogDao.replaceAllForUser(userId, entries)
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Firebase listener: replaceAll failed", e)
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e(TAG, "Firebase listener cancelled: ${error.message}")
-                _errorMessage.postValue(error.message)
-            }
-        }
-
-        firebaseRef?.addValueEventListener(firebaseListener!!)
+        engine.startListener(userId)
     }
 
-    /**
-     * Stop the real-time Firebase listener (call on sign-out or VM cleared).
-     */
-    fun stopFirebaseListener() {
-        firebaseListener?.let { listener ->
-            firebaseRef?.removeEventListener(listener)
-        }
-        firebaseListener = null
-        firebaseRef = null
-        listeningForUserId = null
-    }
+    fun stopFirebaseListener() = engine.stopListener()
+    suspend fun clearLocalForUser(userId: String) = engine.clearLocal(userId)
 
-    /**
-     * Clear all locally-cached entries for a user (used on sign-out).
-     */
-    suspend fun clearLocalForUser(userId: String) {
-        movieLogDao.clearForUser(userId)
-    }
-
-    // ----- Firebase helpers -----
-
-    private suspend fun pushSingleToFirebase(userId: String, entry: MovieLogEntry) =
-        suspendCancellableCoroutine { cont ->
-            database.reference
-                .child("movieLog")
-                .child(userId)
-                .child(entry.entryId)
-                .setValue(entry)
-                .addOnSuccessListener { cont.resume(Unit) }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
-
-    private suspend fun deleteSingleFromFirebase(userId: String, entryId: String) =
-        suspendCancellableCoroutine { cont ->
-            database.reference
-                .child("movieLog")
-                .child(userId)
-                .child(entryId)
-                .removeValue()
-                .addOnSuccessListener { cont.resume(Unit) }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
-
-    private suspend fun readFirebaseSnapshot(userId: String): DataSnapshot =
-        suspendCancellableCoroutine { cont ->
-            database.reference
-                .child("movieLog")
-                .child(userId)
-                .get()
-                .addOnSuccessListener { cont.resume(it) }
-                .addOnFailureListener { cont.resumeWithException(it) }
-        }
-
-    private fun snapshotToEntries(userId: String, snapshot: DataSnapshot): List<MovieLogEntry> {
-        val list = mutableListOf<MovieLogEntry>()
-        if (!snapshot.exists()) return list
-        for (child in snapshot.children) {
-            val entry = child.getValue(MovieLogEntry::class.java) ?: continue
-            list.add(entry.copy(
-                userId = userId,
-                pendingSync = false,
-                pendingDeletion = false
-            ))
-        }
-        return list
+    override suspend fun sync(userId: String) {
+        pushPendingToFirebase(userId)
+        pullFromFirebase(userId)
     }
 
     companion object {

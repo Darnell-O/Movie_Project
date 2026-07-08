@@ -1,21 +1,27 @@
 package com.example.movie_project.models.domain
 
-import java.io.Serializable
-
 /**
  * Domain/UI model for a movie.
  *
- * This is the type used across ViewModels, repositories, adapters, Compose UI,
- * and is passed between screens as a [Serializable] intent extra. It is
- * deliberately free of any network (Gson) annotations — mapping from the
- * network layer happens via [com.example.movie_project.models.dto.MovieDto.toMovieModel].
+ * Used across ViewModels, repositories, and Compose UI. Deliberately free of any
+ * network (Gson) or Firebase annotations — mapping from the network layer happens
+ * via [com.example.movie_project.models.dto.MovieDto.toMovieModel], and the
+ * Firebase boundary uses its own DTO
+ * ([com.example.movie_project.data.repository.FavoriteRemoteDto]).
  */
 data class MovieModel(
     val id: Int = 0,
     val title: String? = "",
     val overview: String? = "",
-    val poster_path: String? = "",
+    val posterPath: String? = "",
     val voteAverage: Float? = 0.0f,
-    val release_date: String? = "",
-    var poster: String = "https://image.tmdb.org/t/p/w500$poster_path"
-) : Serializable
+    val releaseDate: String? = "",
+) {
+    /** Full TMDB poster URL, or null when there's no poster path. */
+    val posterUrl: String?
+        get() = posterPath?.takeIf { it.isNotBlank() }?.let { "$POSTER_BASE_URL$it" }
+
+    companion object {
+        const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500"
+    }
+}

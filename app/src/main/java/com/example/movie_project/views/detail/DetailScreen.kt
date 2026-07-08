@@ -78,9 +78,9 @@ private fun DetailScreen(
     val formattedDate = try {
         val input = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val output = SimpleDateFormat("MM-dd-yyyy", Locale.US)
-        output.format(input.parse(movie.release_date ?: "") ?: "")
+        output.format(input.parse(movie.releaseDate ?: "") ?: "")
     } catch (e: Exception) {
-        movie.release_date ?: "N/A"
+        movie.releaseDate ?: "N/A"
     }
 
     Scaffold(
@@ -126,7 +126,7 @@ private fun DetailScreen(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("https://image.tmdb.org/t/p/w500${movie.poster_path}")
+                        .data(movie.posterUrl)
                         .crossfade(true)
                         .placeholder(R.drawable.placeholder2)
                         .error(R.drawable.placeholder2)
@@ -196,8 +196,8 @@ private fun DetailScreenPreview() {
                 id = 1,
                 title = "Inception",
                 overview = "A thief who steals corporate secrets through dream-sharing technology.",
-                poster_path = "/sample.jpg",
-                release_date = "2010-07-16"
+                posterPath = "/sample.jpg",
+                releaseDate = "2010-07-16"
             ),
             isFavorite = false,
             onNavigateBack = {},

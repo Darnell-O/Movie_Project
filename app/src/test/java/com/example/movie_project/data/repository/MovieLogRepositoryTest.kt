@@ -5,6 +5,8 @@ import com.example.movie_project.data.local.MovieLogDao
 import com.example.movie_project.data.local.MovieLogEntry
 import com.example.movie_project.util.NetworkMonitor
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -50,7 +52,9 @@ class MovieLogRepositoryTest {
         dao = mock()
         networkMonitor = mock()
         firebase = mock()
-        repository = MovieLogRepository(dao, networkMonitor, firebase)
+        repository = MovieLogRepository(
+            dao, networkMonitor, firebase, CoroutineScope(UnconfinedTestDispatcher())
+        )
     }
 
     @Test
