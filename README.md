@@ -4,10 +4,13 @@ An offline-first Android movie app built with **Jetpack Compose**. Browse popula
 
 <!-- Add your screenshots to docs/screenshots/ and update the file names below -->
 <p align="center">
-  <img src="docs/screenshots/home.png" width="24%" alt="Home screen" />
-  <img src="docs/screenshots/detail.png" width="24%" alt="Movie detail" />
-  <img src="docs/screenshots/search.png" width="24%" alt="Search" />
-  <img src="docs/screenshots/movie-log.png" width="24%" alt="Movie log" />
+  <img width="24%" height="900" alt="LoginScreen" src="https://github.com/user-attachments/assets/c8fb882f-fdff-4473-89a1-78e63bfa63d8" />
+  <img width="24%" height="900" alt="SignUpScreen" src="https://github.com/user-attachments/assets/516b8e9d-645e-4fcb-ac87-bc2fce907cf9" />
+  <img width="24%" height="900" alt="Popular:HomeScreen" src="https://github.com/user-attachments/assets/d6ed6534-21e4-49b7-9960-4caf25f1f07d" />
+  <img width="24%" height="900" alt="Details" src="https://github.com/user-attachments/assets/1782e60b-698f-4ce6-bdfb-a8219394803a" />
+  <img width="24%" height="900" alt="Search" src="https://github.com/user-attachments/assets/888e0c44-3241-492b-b18d-44f21194561f" />.
+  <img width="24%" height="900" alt="MovieLog-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/4d22f56c-4fca-490f-94b0-ea1375f8cc36" />
+  <img width="24%" height="900" alt="ProfileScreen" src="https://github.com/user-attachments/assets/e654813b-ecc5-47ec-ac42-07aef889f7c5" />
 </p>
 
 ## Features
